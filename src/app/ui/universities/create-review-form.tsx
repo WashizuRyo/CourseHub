@@ -1,11 +1,12 @@
 'use client';
 
 import { createReview } from '@/app/lib/actions';
+import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 
 export default function CreateReviewForm({
   universityId,
@@ -28,19 +29,6 @@ export default function CreateReviewForm({
     createReviewWithUniversityId,
     initialState,
   );
-
-  function Submit() {
-    const status = useFormStatus();
-    return (
-      <button
-        type="submit"
-        disabled={status.pending}
-        className="rounded-xl bg-blue-600 p-3 text-white hover:bg-blue-500"
-      >
-        {status.pending ? '送信中...' : '送信'}
-      </button>
-    );
-  }
 
   const [rating, setRating] = useState(0);
 

@@ -110,6 +110,7 @@ export async function updateReview(
     star: formData.get('star'),
     evaluation: formData.get('evaluation'),
     who: formData.get('who'),
+    userId: formData.get('userId'),
   });
 
   if (!validatedFields.success) {
@@ -119,9 +120,9 @@ export async function updateReview(
     };
   }
 
-  const { className, evaluation, who, star, title } = validatedFields.data;
+  const { className, evaluation, who, star, title, userId } =
+    validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
-  const email = formData.get('email') as string;
   const newData = {
     date,
     className,
@@ -129,7 +130,7 @@ export async function updateReview(
     star,
     evaluation,
     universityId,
-    createdBy: email,
+    createdBy: userId,
     isAnonymous: who === 'anonymous',
   };
   try {

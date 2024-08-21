@@ -2,6 +2,7 @@
 
 import { updateReview } from '@/app/lib/actions';
 import type { Review } from '@/app/lib/definitions';
+import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -27,7 +28,7 @@ export default function UpdateReview({
     message: '',
   };
 
-  const [state, formAction, isPending] = useFormState(
+  const [state, formAction] = useFormState(
     createReviewWithUniversityId,
     initialState,
   );
@@ -176,9 +177,9 @@ export default function UpdateReview({
             </div>
             <input
               type="hidden"
-              value={session!.user!.email!}
-              name="email"
-              id="email"
+              value={session!.user!.id}
+              name="userId"
+              id="userId"
             />
 
             <div id="who-error" aria-live="polite" aria-atomic="true">
@@ -207,13 +208,7 @@ export default function UpdateReview({
         >
           キャンセル
         </Link>
-        <button
-          type="submit"
-          className="rounded-xl bg-blue-600 p-3 text-white hover:bg-blue-500"
-          disabled={isPending}
-        >
-          {isPending ? <p>送信中です</p> : '送信する'}
-        </button>
+        <Submit />
       </div>
     </form>
   );

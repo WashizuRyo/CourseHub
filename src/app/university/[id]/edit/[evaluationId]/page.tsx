@@ -16,7 +16,7 @@ export default async function Page({
     notFound();
   }
 
-  if (session?.user?.email !== review?.createdBy) {
+  if (session?.user?.id !== review?.createdBy) {
     return <NotAllowed />;
   }
 
