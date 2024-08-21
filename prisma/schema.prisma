@@ -1,13 +1,17 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-}
- 
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 generator client {
   provider = "prisma-client-js"
 }
- 
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -39,4 +43,24 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([provider, providerAccountId])
+}
+
+model University {
+  universityId   Int       @id @default(autoincrement())
+  universityname String    @unique
+  date           String    @db.VarChar(31)
+  reviews        Reviews[]
+}
+
+model Reviews {
+  id           Int        @id @default(autoincrement())
+  date         String     @db.VarChar(31)
+  className    String     @db.VarChar(31)
+  title        String     @db.VarChar(31)
+  star         Int
+  evaluation   String     @db.VarChar(511)
+  universityId Int
+  createdBy    String
+  isAnonymous  Boolean
+  university   University @relation(fields: [universityId], references: [universityId])
 }
