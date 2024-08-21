@@ -1,5 +1,5 @@
 import fetchReviewByEvaluationId from '@/app/lib/data';
-import ClassReviewList from '@/app/ui/universities/class-list';
+import ClassReviewList from '@/app/ui/universities/class-review-list';
 import DeleteReviewForm from '@/app/ui/universities/delete-review-form';
 import NotAllowed from '@/app/ui/universities/not-allowed';
 import { auth } from '@@/auth';
@@ -20,7 +20,7 @@ export default async function Page({
     notFound();
   }
 
-  if (session?.user?.email !== review?.createdBy) {
+  if (session?.user?.id !== review?.createdBy) {
     return <NotAllowed />;
   }
   return (

@@ -1,10 +1,7 @@
 import type { Review } from '@/app/lib/definitions';
+import Dialog from '@/app/ui/universities/delete-dialog';
 import { auth } from '@@/auth';
-import {
-  PencilSquareIcon,
-  TrashIcon,
-  UserIcon,
-} from '@heroicons/react/24/outline';
+import { PencilSquareIcon, UserIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -21,6 +18,7 @@ export default async function Reviews({
 }) {
   const session = await auth();
   const stars = [1, 2, 3, 4, 5];
+
   return (
     <div>
       {reviewsWithClass.length === 0 ? (
@@ -30,6 +28,7 @@ export default async function Reviews({
           <div className="m-auto rounded-md bg-gray-100 p-2">
             {reviewsWithClass.map((review) => (
               <div key={review.id} className="p-1">
+                {/* ユーザ画像表示 */}
                 <div className="rounded-md bg-white p-2">
                   <div className="flex">
                     {review.isAnonymous ? (
@@ -51,9 +50,9 @@ export default async function Reviews({
                         </span>
                       </>
                     )}
-
-                    <h2 className="flex items-center px-4 text-xl"></h2>
                   </div>
+
+                  {/* 星の数 */}
                   <div className="mb-2">
                     <div className="mt-2 flex">
                       {stars.map((element, value) => (
@@ -69,9 +68,15 @@ export default async function Reviews({
                         <p className="text-xl">{review.title}</p>
                       </div>
                     </div>
+
+                    {/* レビューした日 */}
                     <p className="text-gray-400">{review.date}にレビュー</p>
+
+                    {/* レビュー内容 */}
                     <p className="w-128">{review.evaluation}</p>
                   </div>
+
+                  {/* 編集と削除ページ */}
                   {session?.user?.id === review.createdBy && (
                     <div className="mt-2 flex justify-end gap-1">
                       <div>
@@ -82,13 +87,11 @@ export default async function Reviews({
                         </Link>
                       </div>
                       <div>
-                        <Link
-                          href={`/university/${id}/delete/${review.id}?query=${query}`}
-                        >
-                          <div className="rounded-md border p-2 shadow-sm hover:bg-gray-100">
-                            <TrashIcon className="size-5" />
-                          </div>
-                        </Link>
+                        <Dialog
+                          universityId={review.universityId}
+                          evaluationId={review.id}
+                          query={review.className}
+                        />
                       </div>
                     </div>
                   )}

@@ -14,8 +14,8 @@ export default async function University({ query }: { query: string }) {
               href={`/university/${university?.universityId}`}
               className="flex items-center"
             >
-              <BuildingLibraryIcon className="mr-2 size-12 text-slate-800" />
-              <p className="mt-1 text-2xl text-slate-800">
+              <BuildingLibraryIcon className="mr-2 size-12 text-white" />
+              <p className="mt-1 text-2xl text-white">
                 {university?.universityname}
               </p>
             </Link>

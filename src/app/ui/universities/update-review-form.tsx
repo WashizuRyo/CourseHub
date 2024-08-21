@@ -157,6 +157,7 @@ export default function UpdateReview({
                   type="radio"
                   name="who"
                   value="anonymous"
+                  defaultChecked
                 />
                 <label
                   htmlFor="anonymous"

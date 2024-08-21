@@ -22,7 +22,7 @@ export default async function ClassReviewList({
       <div className="flex flex-col">
         <div className="hidden sm:block">
           <div className="flex justify-end">
-            <div className="m-2 flex w-64 justify-center gap-3 rounded-2xl bg-blue-500 p-4 hover:bg-blue-400">
+            <div className="m-2 flex w-64 justify-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
               <Link href={`/university/${id}/create`}>
                 講義レビューを投稿する
               </Link>
