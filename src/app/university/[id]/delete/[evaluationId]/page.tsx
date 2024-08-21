@@ -1,5 +1,5 @@
 import fetchReviewByEvaluationId from '@/app/lib/data';
-import ClassList from '@/app/ui/universities/class-list';
+import ClassReviewList from '@/app/ui/universities/class-list';
 import DeleteReviewForm from '@/app/ui/universities/delete-review-form';
 import NotAllowed from '@/app/ui/universities/not-allowed';
 import { auth } from '@@/auth';
@@ -26,7 +26,7 @@ export default async function Page({
   return (
     <div className="relative">
       <div className="pointer-events-none relative">
-        <ClassList params={params} searchParams={formattedReview} />
+        <ClassReviewList params={params} searchParams={formattedReview} />
       </div>
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <DeleteReviewForm

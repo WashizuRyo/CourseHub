@@ -1,5 +1,5 @@
 import { fetchUniversityByUniversityId } from '@/app/lib/data';
-import ClassList from '@/app/ui/universities/class-list';
+import ClassReviewList from '@/app/ui/universities/class-review-list';
 import { notFound } from 'next/navigation';
 
 export default async function Reviews({
@@ -17,7 +17,7 @@ export default async function Reviews({
 
   return (
     <div>
-      <ClassList params={params} searchParams={searchParams} />
+      <ClassReviewList params={params} searchParams={searchParams} />
     </div>
   );
 }

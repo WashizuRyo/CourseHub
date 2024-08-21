@@ -52,14 +52,14 @@ export async function fetchReviewsByClass(className: string) {
   try {
     const data = await prisma.reviews.findMany({
       where: { className },
-      // include: {
-      //   user: {
-      //     select: {
-      //       username: true,
-      //       image: true,
-      //     },
-      //   },
-      // },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
     });
     return data;
   } catch (error) {
@@ -72,14 +72,14 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
   try {
     const data = await prisma.reviews.findUnique({
       where: { id: evaluationId },
-      // include: {
-      //   user: {
-      //     select: {
-      //       username: true,
-      //       image: true,
-      //     },
-      //   },
-      // },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
     });
     return data;
   } catch (error) {

@@ -1,4 +1,5 @@
 import '@/app/ui/global.css';
+import { auth } from '@@/auth';
 import {
   RocketLaunchIcon,
   SunIcon,
@@ -16,6 +17,9 @@ export default async function Page({
   };
 }) {
   const query = searchParams?.query || '';
+  const session = await auth();
+  console.log(session);
+
   const popularUniversity = [
     {
       name: 'RocketUniversity',

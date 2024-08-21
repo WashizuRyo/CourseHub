@@ -4,7 +4,7 @@ import { fetchReviewsByClass } from '../../lib/data';
 import SearchClass from './class';
 import Reviews from './search-reviews';
 
-export default async function ClassList({
+export default async function ClassReviewList({
   params,
   searchParams,
 }: {
@@ -16,6 +16,7 @@ export default async function ClassList({
   const query = searchParams?.query || '';
   const id = parseInt(params.id);
   const reviewsWithClass = await fetchReviewsByClass(query);
+
   return (
     <div>
       <div className="flex flex-col">

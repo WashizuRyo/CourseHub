@@ -2,26 +2,28 @@
 
 import { createReview } from '@/app/lib/actions';
 import { StarIcon } from '@heroicons/react/24/solid';
-import type { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
 export default function CreateReviewForm({
   universityId,
-  session,
 }: {
   universityId: string;
-  session: Session;
 }) {
+  const { data: session } = useSession();
+
   const createReviewWithUniversityId = createReview.bind(
     null,
     parseInt(universityId),
   );
+
   const initialState = {
     errors: {},
     message: '',
   };
+
   const [state, formAction] = useFormState(
     createReviewWithUniversityId,
     initialState,
@@ -173,15 +175,15 @@ export default function CreateReviewForm({
                   htmlFor="username"
                   className="ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white"
                 >
-                  {session.user!.name}で投稿
+                  {session!.user!.name}で投稿
                 </label>
               </div>
             </div>
             <input
               type="hidden"
-              value={session.user!.email!}
-              name="email"
-              id="email"
+              value={session!.user!.id}
+              name="userId"
+              id="userId"
             />
 
             <div id="who-error" aria-live="polite" aria-atomic="true">

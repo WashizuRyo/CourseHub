@@ -41,6 +41,7 @@ const FormSchema = z.object({
   who: z.enum(['username', 'anonymous'], {
     invalid_type_error: '投稿者名を選択してください。',
   }),
+  userId: z.string(),
 });
 
 const CreateAndUpdateReview = FormSchema.omit({
@@ -60,6 +61,7 @@ export async function createReview(
     star: formData.get('star'),
     evaluation: formData.get('evaluation'),
     who: formData.get('who'),
+    userId: formData.get('userId'),
   });
   if (!validatedFields.success) {
     return {
@@ -68,8 +70,8 @@ export async function createReview(
     };
   }
 
-  const { className, evaluation, title, star, who } = validatedFields.data;
-  const email = formData.get('email') as string;
+  const { className, evaluation, title, star, who, userId } =
+    validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   const data = {
     date,
@@ -78,7 +80,7 @@ export async function createReview(
     star,
     evaluation,
     universityId,
-    createdBy: email,
+    createdBy: userId,
     isAnonymous: who === 'anonymous',
   };
   try {

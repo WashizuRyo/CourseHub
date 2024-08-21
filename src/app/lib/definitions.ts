@@ -1,9 +1,4 @@
-export type UserType = {
-  username: string;
-  image: string;
-};
-
-export type ReviewType = {
+export type Review = {
   id: number;
   date: string;
   title: string;
@@ -13,10 +8,13 @@ export type ReviewType = {
   isAnonymous: boolean;
   evaluation: string;
   universityId: number;
-  user: UserType;
+  user: User;
 };
 
-export type ReviewsType = ReviewType[];
+export type User = {
+  name: string | null;
+  image: string | null;
+};
 
 export type University = {
   universityId: number;

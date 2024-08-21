@@ -1,7 +1,12 @@
-import type { ReviewsType } from '@/app/lib/definitions';
+import type { Review } from '@/app/lib/definitions';
 import { auth } from '@@/auth';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import {
+  PencilSquareIcon,
+  TrashIcon,
+  UserIcon,
+} from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
+import Image from 'next/image';
 import Link from 'next/link';
 import NotFound from './not-found';
 
@@ -11,42 +16,44 @@ export default async function Reviews({
   id,
 }: {
   query: string;
-  reviewsWithClass: ReviewsType;
+  reviewsWithClass: Review[];
   id: string;
 }) {
   const session = await auth();
   const stars = [1, 2, 3, 4, 5];
   return (
     <div>
-      {reviewsWithClass.length !== 0 ? (
+      {reviewsWithClass.length === 0 ? (
+        <NotFound query={query} />
+      ) : (
         <div className="m-4 h-screen p-2">
           <div className="m-auto rounded-md bg-gray-100 p-2">
             {reviewsWithClass.map((review) => (
               <div key={review.id} className="p-1">
                 <div className="rounded-md bg-white p-2">
-                  {/* <div className="flex">
+                  <div className="flex">
                     {review.isAnonymous ? (
                       <div className="flex">
                         <UserIcon className="size-[64px] rounded-full bg-gray-400 p-1 text-white" />
                         <p className="ml-2 flex items-center text-xl">匿名</p>
                       </div>
                     ) : (
-                      // <>
-                      //   <Image
-                      //     src={review.user.image}
-                      //     alt="user image"
-                      //     width={64}
-                      //     height={64}
-                      //     className="rounded-full"
-                      //   />
-                      //   <span className="ml-2 flex items-center text-xl">
-                      //     {review.user.username}
-                      //   </span>
-                      // </>
+                      <>
+                        <Image
+                          src={review.user.image!}
+                          alt="user image"
+                          width={64}
+                          height={64}
+                          className="rounded-full"
+                        />
+                        <span className="ml-2 flex items-center text-xl">
+                          {review.user.name!}
+                        </span>
+                      </>
                     )}
 
                     <h2 className="flex items-center px-4 text-xl"></h2>
-                  </div> */}
+                  </div>
                   <div className="mb-2">
                     <div className="mt-2 flex">
                       {stars.map((element, value) => (
@@ -65,7 +72,7 @@ export default async function Reviews({
                     <p className="text-gray-400">{review.date}にレビュー</p>
                     <p className="w-128">{review.evaluation}</p>
                   </div>
-                  {session?.user?.email === review.createdBy ? (
+                  {session?.user?.id === review.createdBy && (
                     <div className="mt-2 flex justify-end gap-1">
                       <div>
                         <Link href={`/university/${id}/edit/${review.id}`}>
@@ -84,16 +91,12 @@ export default async function Reviews({
                         </Link>
                       </div>
                     </div>
-                  ) : (
-                    ''
                   )}
                 </div>
               </div>
             ))}
           </div>
         </div>
-      ) : (
-        <NotFound query={query} />
       )}
     </div>
   );

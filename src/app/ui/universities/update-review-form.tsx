@@ -1,7 +1,7 @@
 'use client';
 
 import { updateReview } from '@/app/lib/actions';
-import type { ReviewType } from '@/app/lib/definitions';
+import type { Review } from '@/app/lib/definitions';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ export default function UpdateReview({
   review,
   universityId,
 }: {
-  review: ReviewType;
+  review: Review;
   universityId: string;
 }) {
   const { data: session } = useSession();
