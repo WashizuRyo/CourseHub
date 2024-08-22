@@ -1,5 +1,5 @@
 import type { Review } from '@/app/lib/definitions';
-import Dialog from '@/app/ui/universities/delete-dialog';
+import DeleteDialog from '@/app/ui/universities/delete-dialog';
 import { auth } from '@@/auth';
 import { PencilSquareIcon, UserIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -24,8 +24,8 @@ export default async function Reviews({
       {reviewsWithClass.length === 0 ? (
         <NotFound query={query} />
       ) : (
-        <div className="m-4 h-screen p-2">
-          <div className="m-auto rounded-md bg-gray-100 p-2">
+        <div className="m-4 h-screen p-2 md:m-auto md:w-7/12">
+          <div className="rounded-md bg-gray-100 p-2">
             {reviewsWithClass.map((review) => (
               <div key={review.id} className="p-1">
                 {/* ユーザ画像表示 */}
@@ -52,9 +52,14 @@ export default async function Reviews({
                     )}
                   </div>
 
+                  {/* スマホから閲覧した場合のレビュータイトル */}
+                  <div className="mb-1 mt-2 break-all md:hidden">
+                    <p className="text-xl">{review.title}</p>
+                  </div>
+
                   {/* 星の数 */}
                   <div className="mb-2">
-                    <div className="mt-2 flex">
+                    <div className="flex">
                       {stars.map((element, value) => (
                         <div key={value}>
                           {value >= review.star ? (
@@ -64,8 +69,10 @@ export default async function Reviews({
                           )}
                         </div>
                       ))}
-                      <div className="ml-2 flex items-center">
-                        <p className="text-xl">{review.title}</p>
+
+                      {/* パソコンから閲覧した場合のレビュータイトル */}
+                      <div className="hidden md:ml-2 md:flex md:items-center">
+                        <p className="text-2xl">{review.title}</p>
                       </div>
                     </div>
 
@@ -73,25 +80,27 @@ export default async function Reviews({
                     <p className="text-gray-400">{review.date}にレビュー</p>
 
                     {/* レビュー内容 */}
-                    <p className="w-128">{review.evaluation}</p>
+                    <p className="w-128 break-word">{review.evaluation}</p>
                   </div>
 
                   {/* 編集と削除ページ */}
                   {session?.user?.id === review.createdBy && (
                     <div className="mt-2 flex justify-end gap-1">
-                      <div>
+                      <div className="flex flex-col items-center">
                         <Link href={`/university/${id}/edit/${review.id}`}>
-                          <div className="rounded-md border p-2 shadow-sm hover:bg-gray-100">
-                            <PencilSquareIcon className="size-5" />
+                          <div className="rounded-md border border-green-400 p-2 shadow-sm hover:bg-gray-100">
+                            <PencilSquareIcon className="size-5 text-green-400" />
                           </div>
                         </Link>
+                        <p className="mt-1 text-sm">編集</p>
                       </div>
-                      <div>
-                        <Dialog
+                      <div className="flex flex-col items-center">
+                        <DeleteDialog
                           universityId={review.universityId}
                           evaluationId={review.id}
                           query={review.className}
                         />
+                        <p className="mt-1 text-sm">削除</p>
                       </div>
                     </div>
                   )}

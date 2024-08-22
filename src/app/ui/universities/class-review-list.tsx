@@ -21,7 +21,7 @@ export default async function ClassReviewList({
     <div>
       <div className="flex flex-col">
         <div className="hidden sm:block">
-          <div className="flex justify-end">
+          <div className="mt-2 flex justify-end">
             <div className="m-2 flex w-64 justify-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
               <Link href={`/university/${id}/create`}>
                 講義レビューを投稿する
@@ -39,22 +39,22 @@ export default async function ClassReviewList({
             </div>
           </div>
         </div>
-        <div className="mt-4 flex justify-center">
+        <div className="flex justify-center px-7 pt-2">
           <SearchClass placeholder="授業名を入力" />
         </div>
-        <div className="mt-6">
-          {query ? (
-            <Reviews
-              query={query}
-              reviewsWithClass={reviewsWithClass}
-              id={params.id}
-            />
-          ) : (
-            <p className="h-screen text-center text-xl">
-              授業名を入力してください
-            </p>
-          )}
-        </div>
+      </div>
+      <div className="mt-4">
+        {query ? (
+          <Reviews
+            query={query}
+            reviewsWithClass={reviewsWithClass}
+            id={params.id}
+          />
+        ) : (
+          <p className="h-screen text-center text-xl">
+            授業名を入力してください
+          </p>
+        )}
       </div>
     </div>
   );

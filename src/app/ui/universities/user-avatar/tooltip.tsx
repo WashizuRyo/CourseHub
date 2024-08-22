@@ -9,7 +9,6 @@ import SignIn from '../../signIn/signin-button';
 import SignOut from '../../signOut/signout-button';
 
 export default function Tooltip({ session }: { session: Session }) {
-  console.log(session);
   return (
     <>
       <div

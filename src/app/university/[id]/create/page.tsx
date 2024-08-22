@@ -1,4 +1,4 @@
-import Form from '@/app/ui/universities/create-review-form';
+import Form from '@/app/ui/universities/form/create-review-form';
 import { auth } from '@@/auth';
 import { SessionProvider } from 'next-auth/react';
 

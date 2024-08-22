@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function NotAllowed() {
   return (
-    <main className="flex h-full flex-col items-center justify-center gap-2">
+    <main className="mt-2 flex h-full flex-col items-center justify-center gap-2">
       <FaceFrownIcon className="w-10 text-gray-400" />
       <h2 className="text-xl font-semibold">403 Forbidden</h2>
       <p>アクセス権がありません</p>

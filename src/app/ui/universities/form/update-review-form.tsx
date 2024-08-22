@@ -1,25 +1,28 @@
 'use client';
 
-import { createReview } from '@/app/lib/actions';
+import { updateReview } from '@/app/lib/actions';
+import type { Review } from '@/app/lib/definitions';
 import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 
-export default function CreateReviewForm({
+export default function UpdateReview({
+  review,
   universityId,
 }: {
+  review: Review;
   universityId: string;
 }) {
   const { data: session } = useSession();
-
-  const createReviewWithUniversityId = createReview.bind(
+  const createReviewWithUniversityId = updateReview.bind(
     null,
-    parseInt(universityId),
+    review.id,
+    review.universityId,
   );
-
   const initialState = {
     errors: {},
     message: '',
@@ -30,15 +33,20 @@ export default function CreateReviewForm({
     initialState,
   );
 
-  const [rating, setRating] = useState(0);
+  if (!review) {
+    notFound();
+  }
+
+  const [rating, setRating] = useState(review.star);
 
   const onClickHandler = (value: number) => {
     setRating(value);
   };
   const stars = [1, 2, 3, 4, 5];
+
   return (
     <form action={formAction}>
-      <div className="flex justify-center p-20 pb-8">
+      <div className="flex justify-center p-4 md:m-auto md:w-7/12">
         <div className="flex w-full flex-col gap-4 rounded-md bg-gray-100 p-4">
           {/* 授業名フィールド */}
           <div>
@@ -50,7 +58,7 @@ export default function CreateReviewForm({
                 type="text"
                 placeholder="授業名を入力"
                 aria-describedby="className-error"
-                defaultValue=""
+                defaultValue={review.className}
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -74,7 +82,7 @@ export default function CreateReviewForm({
                 type="text"
                 placeholder="タイトルを入力"
                 aria-describedby="className-error"
-                defaultValue=""
+                defaultValue={review.title}
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -125,7 +133,7 @@ export default function CreateReviewForm({
                 name="evaluation"
                 id="evaluation"
                 placeholder="授業レビューを入力"
-                defaultValue=""
+                defaultValue={review.evaluation}
                 className="block h-[160px] w-full resize-y rounded border border-gray-200 p-2"
               />
             </div>
@@ -149,6 +157,7 @@ export default function CreateReviewForm({
                   type="radio"
                   name="who"
                   value="anonymous"
+                  defaultChecked
                 />
                 <label
                   htmlFor="anonymous"
@@ -189,9 +198,9 @@ export default function CreateReviewForm({
         </div>
       </div>
 
-      <div className="flex justify-end gap-2 pb-2 pr-20">
+      <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/university/${universityId}`}
+          href={`/university/${universityId}?query=${review.className}`}
           className="
           rounded-xl
           bg-gray-100
