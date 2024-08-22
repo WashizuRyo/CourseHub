@@ -6,7 +6,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   const universityId = params.id;
   const session = await auth();
   if (!session) {
-    return <p className="mt-4 text-center text-2xl">ログインしてください</p>;
+    return (
+      <p className="mt-4 text-center text-2xl">
+        右上のアイコンからログインしてください
+      </p>
+    );
   }
 
   return (

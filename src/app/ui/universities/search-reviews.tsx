@@ -18,7 +18,6 @@ export default async function Reviews({
 }) {
   const session = await auth();
   const stars = [1, 2, 3, 4, 5];
-
   return (
     <div>
       {reviewsWithClass.length === 0 ? (

@@ -1,4 +1,5 @@
 import '@/app/ui/global.css';
+import SearchUniversitySkeleton from '@/app/ui/skeletons/search-university-skelton';
 import {
   RocketLaunchIcon,
   SunIcon,
@@ -6,6 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import SearchClass from './ui/universities/class';
 import University from './ui/universities/university';
 export default async function Page({
@@ -47,7 +49,9 @@ export default async function Page({
         </div>
         <div className="mt-6 text-center">
           {query ? (
-            <University query={query} />
+            <Suspense fallback={<SearchUniversitySkeleton />}>
+              <University query={query} />
+            </Suspense>
           ) : (
             <p className="text-xl">大学名を入力してください</p>
           )}

@@ -1,5 +1,7 @@
+import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { fetchReviewsByClass } from '../../lib/data';
 import SearchClass from './class';
 import Reviews from './search-reviews';
@@ -43,13 +45,16 @@ export default async function ClassReviewList({
           <SearchClass placeholder="授業名を入力" />
         </div>
       </div>
+      {/* <SearchReviewSkeleton /> */}
       <div className="mt-4">
         {query ? (
-          <Reviews
-            query={query}
-            reviewsWithClass={reviewsWithClass}
-            id={params.id}
-          />
+          <Suspense fallback={<SearchReviewSkeleton />}>
+            <Reviews
+              query={query}
+              reviewsWithClass={reviewsWithClass}
+              id={params.id}
+            />
+          </Suspense>
         ) : (
           <p className="h-screen text-center text-xl">
             授業名を入力してください

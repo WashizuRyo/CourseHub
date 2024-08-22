@@ -47,7 +47,9 @@ export async function fetchReviewsByUniversityId(universityId: number) {
     throw new Error('Failed to fetch reviews');
   }
 }
-
+export async function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 export async function fetchReviewsByClass(className: string) {
   try {
     const data = await prisma.reviews.findMany({
