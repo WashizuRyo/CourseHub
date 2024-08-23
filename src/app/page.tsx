@@ -57,6 +57,7 @@ export default async function Page({
           )}
         </div>
       </div>
+
       <div className="buttom-0 absolute inset-x-0 top-[256px] m-6 mx-auto rounded-lg border p-2 shadow-sm">
         <div className="flex justify-center">
           <div className=" w-[400px] rounded-lg p-2 text-center">

@@ -1,3 +1,4 @@
+import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -22,9 +23,21 @@ export default async function ClassReviewList({
   return (
     <div>
       <div className="flex flex-col">
-        <div className="hidden sm:block">
-          <div className="mt-2 flex justify-end">
-            <div className="m-2 flex w-64 justify-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
+        <div className="hidden md:block">
+          <div className="ml-12 mt-2 flex justify-between">
+            <div className="m-2 flex items-center">
+              <Breadcrumb
+                breadcrumbs={[
+                  { label: '大学名検索', href: '/' },
+                  {
+                    label: '講義名検索',
+                    href: `/university/${params.id}`,
+                    active: true,
+                  },
+                ]}
+              />
+            </div>
+            <div className="m-2 flex w-64 items-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
               <Link href={`/university/${id}/create`}>
                 講義レビューを投稿する
               </Link>
@@ -32,8 +45,20 @@ export default async function ClassReviewList({
             </div>
           </div>
         </div>
-        <div className="block sm:hidden">
-          <div className="flex justify-end">
+        <div className="block md:hidden">
+          <div className="ml-5 flex justify-between">
+            <div className="m-2 flex items-center">
+              <Breadcrumb
+                breadcrumbs={[
+                  { label: '大学名検索', href: '/' },
+                  {
+                    label: '講義名検索',
+                    href: `/university/${params.id}`,
+                    active: true,
+                  },
+                ]}
+              />
+            </div>
             <div className="m-4 size-[54px] rounded-2xl bg-blue-500 p-4 hover:bg-blue-400">
               <Link href={`/university/${id}/create`}>
                 <PlusIcon className="size-6" />

@@ -1,6 +1,7 @@
 'use client';
 
 import { createReview } from '@/app/lib/actions';
+import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
@@ -38,6 +39,22 @@ export default function CreateReviewForm({
   const stars = [1, 2, 3, 4, 5];
   return (
     <form action={formAction}>
+      <div className="ml-4 mt-4">
+        <Breadcrumb
+          breadcrumbs={[
+            { label: '大学名検索', href: '/' },
+            {
+              label: '講義名検索',
+              href: `/university/${universityId}`,
+            },
+            {
+              label: 'レビュー作成',
+              href: `/university/${universityId}/create`,
+              active: true,
+            },
+          ]}
+        />
+      </div>
       <div className="flex justify-center p-4 md:m-auto md:w-7/12">
         <div className="flex w-full flex-col gap-4 rounded-md bg-gray-100 p-4">
           {/* 授業名フィールド */}
