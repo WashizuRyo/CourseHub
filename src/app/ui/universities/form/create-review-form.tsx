@@ -39,7 +39,7 @@ export default function CreateReviewForm({
   const stars = [1, 2, 3, 4, 5];
   return (
     <form action={formAction}>
-      <div className="ml-4 mt-4">
+      <div className="m-4 mt-8">
         <Breadcrumb
           breadcrumbs={[
             { label: '大学名検索', href: '/' },

@@ -1,12 +1,6 @@
+import { notosans } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
 import SearchUniversitySkeleton from '@/app/ui/skeletons/search-university-skelton';
-import {
-  RocketLaunchIcon,
-  SunIcon,
-  UnderlineIcon,
-} from '@heroicons/react/24/outline';
-import { SparklesIcon } from '@heroicons/react/24/solid';
-import Link from 'next/link';
 import { Suspense } from 'react';
 import SearchClass from './ui/universities/class';
 import University from './ui/universities/university';
@@ -19,31 +13,33 @@ export default async function Page({
 }) {
   const query = searchParams?.query || '';
 
-  const popularUniversity = [
-    {
-      name: 'RocketUniversity',
-      icon: <RocketLaunchIcon className="size-[100px] text-red-200" />,
-      link: '/university/2',
-    },
-    {
-      name: 'StarUniversity',
-      icon: <SparklesIcon className="size-[100px] text-yellow-200" />,
-      link: '/university/3',
-    },
-    {
-      name: 'UnderlineUniversity',
-      icon: <UnderlineIcon className="size-[100px] text-blue-200" />,
-      link: '/university/4',
-    },
-    {
-      name: 'SunUniversity',
-      icon: <SunIcon className="size-[100px] text-orange-200" />,
-      link: '/university/5',
-    },
-  ];
   return (
-    <div className="relative">
-      <div className=" p-7">
+    <div>
+      <div className="mt-6 flex flex-col items-center p-4">
+        <div>
+          <h1
+            className={`${notosans.className} inline-block whitespace-pre-line
+          bg-gradient-to-r from-sky-600 to-violet-700
+          bg-clip-text text-4xl font-semibold leading-[55px] tracking-widest text-transparent
+          `}
+          >
+            講義選びを、
+            <br />
+            もっと賢く、
+            <br />
+            もっと確実に。
+          </h1>
+        </div>
+        <div>
+          <p
+            className={`${notosans.className} mt-4 max-w-3xl font-medium leading-10 text-gray-500`}
+          >
+            このアプリは、学生が講義の評価を共有し、講義選びをサポートするコミュニティです。受講済みの講義を評価し、
+            他の学生と情報を交換することで、大学生活をより充実させましょう。最新の講義情報をチェックして、賢い選択をしましょう。
+          </p>
+        </div>
+      </div>
+      <div className="mb-12 h-96 p-7">
         <div className="flex justify-center">
           <SearchClass placeholder="大学名を入力" />
         </div>
@@ -55,31 +51,6 @@ export default async function Page({
           ) : (
             <p className="text-xl">大学名を入力してください</p>
           )}
-        </div>
-      </div>
-
-      <div className="buttom-0 absolute inset-x-0 top-[256px] m-6 mx-auto rounded-lg border p-2 shadow-sm">
-        <div className="flex justify-center">
-          <div className=" w-[400px] rounded-lg p-2 text-center">
-            <p className=" text-2xl font-bold text-gray-900">
-              検索された回数が多い大学
-            </p>
-          </div>
-        </div>
-        <div className="mt-8 flex flex-col items-center gap-[64px] pb-4 text-center md:flex-row md:justify-center">
-          {popularUniversity.map((e) => {
-            return (
-              <div key={e.name} className="">
-                <Link
-                  href={e.link}
-                  className="flex flex-col items-center text-gray-600"
-                >
-                  {e.icon}
-                  {e.name}
-                </Link>
-              </div>
-            );
-          })}
         </div>
       </div>
     </div>

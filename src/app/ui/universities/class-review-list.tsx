@@ -19,12 +19,12 @@ export default async function ClassReviewList({
   const query = searchParams?.query || '';
   const id = parseInt(params.id);
   const reviewsWithClass = await fetchReviewsByClass(query);
-
   return (
     <div>
       <div className="flex flex-col">
+        {/* パソコンから閲覧した場合 */}
         <div className="hidden md:block">
-          <div className="ml-12 mt-2 flex justify-between">
+          <div className="ml-4 mt-2 flex justify-between">
             <div className="m-2 flex items-center">
               <Breadcrumb
                 breadcrumbs={[
@@ -45,9 +45,11 @@ export default async function ClassReviewList({
             </div>
           </div>
         </div>
+
+        {/* スマホから閲覧した場合 */}
         <div className="block md:hidden">
           <div className="ml-5 flex justify-between">
-            <div className="m-2 flex items-center">
+            <div className="flex items-center">
               <Breadcrumb
                 breadcrumbs={[
                   { label: '大学名検索', href: '/' },
@@ -70,7 +72,6 @@ export default async function ClassReviewList({
           <SearchClass placeholder="授業名を入力" />
         </div>
       </div>
-      {/* <SearchReviewSkeleton /> */}
       <div className="mt-4">
         {query ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
