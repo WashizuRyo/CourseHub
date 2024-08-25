@@ -48,9 +48,13 @@ export async function fetchReviewsByUniversityId(universityId: number) {
   }
 }
 
-export async function fetchReviewsByClass(className: string) {
+export async function fetchReviewsByClass(className: string, page: number) {
+  const pageSize = 2;
+  console.log(page);
   try {
     const data = await prisma.reviews.findMany({
+      skip: pageSize * (Number(page) - 1),
+      take: pageSize,
       where: { className },
       include: {
         user: {
@@ -85,5 +89,21 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
   } catch (error) {
     console.error('Database Error', error);
     throw new Error('Failed to fetch review');
+  }
+}
+
+export async function fetchTotalPage(query: string) {
+  const pageSize = 2;
+  try {
+    let totalPage = await prisma.reviews.count({ where: { className: query } });
+    if (totalPage % 2 == 0) {
+      totalPage /= 2;
+    } else {
+      totalPage = Math.floor(totalPage / pageSize) + 1;
+    }
+    return totalPage;
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to fetch totalPage');
   }
 }

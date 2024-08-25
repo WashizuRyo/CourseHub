@@ -1,5 +1,4 @@
 import type { Review } from '@/app/lib/definitions';
-import Pagenation from '@/app/ui/pagenation';
 import DeleteDialog from '@/app/ui/universities/delete-dialog';
 import { auth } from '@@/auth';
 import { PencilSquareIcon, UserIcon } from '@heroicons/react/24/outline';
@@ -12,12 +11,10 @@ export default async function Reviews({
   query,
   reviewsWithClass,
   id,
-  totalPage,
 }: {
   query: string;
   reviewsWithClass: Review[];
   id: string;
-  totalPage: number;
 }) {
   const session = await auth();
   const stars = [1, 2, 3, 4, 5];
@@ -26,7 +23,7 @@ export default async function Reviews({
       {reviewsWithClass.length === 0 ? (
         <NotFound query={query} />
       ) : (
-        <div className="m-4 p-2 md:m-auto md:w-7/12">
+        <div className="m-4 h-screen p-2 md:m-auto md:w-7/12">
           <div className="rounded-md bg-gray-100 p-2">
             {reviewsWithClass.map((review) => (
               <div key={review.id} className="p-1">
@@ -59,9 +56,9 @@ export default async function Reviews({
                     <p className="text-xl">{review.title}</p>
                   </div>
 
+                  {/* 星の数 */}
                   <div className="mb-2">
                     <div className="flex">
-                      {/* 星の数 */}
                       {stars.map((element, value) => (
                         <div key={value}>
                           {value >= review.star ? (
@@ -79,14 +76,10 @@ export default async function Reviews({
                     </div>
 
                     {/* レビューした日 */}
-                    <p className="my-1 text-gray-400">
-                      {review.date}にレビュー
-                    </p>
+                    <p className="text-gray-400">{review.date}にレビュー</p>
 
                     {/* レビュー内容 */}
-                    <p className="w-128 break-word leading-7">
-                      {review.evaluation}
-                    </p>
+                    <p className="w-128 break-word">{review.evaluation}</p>
                   </div>
 
                   {/* 編集と削除ページ */}
@@ -113,9 +106,6 @@ export default async function Reviews({
                 </div>
               </div>
             ))}
-          </div>
-          <div className="mt-6 text-center">
-            <Pagenation totalPage={totalPage} />
           </div>
         </div>
       )}
