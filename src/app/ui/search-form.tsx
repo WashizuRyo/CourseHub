@@ -19,7 +19,7 @@ export default function Search() {
       params.delete('query');
     }
     replace(`${pathname}?${params.toString()}`);
-  }, 400);
+  }, 200);
 
   return (
     <div className="flex">

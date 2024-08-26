@@ -62,6 +62,7 @@ model Reviews {
   evaluation   String     @db.VarChar(511)
   universityId Int
   createdBy    String
+  faculty      String
   isAnonymous  Boolean
   university   University @relation(fields: [universityId], references: [universityId])
   user         User       @relation(fields: [createdBy], references: [id])

@@ -10,11 +10,13 @@ import NotFound from './not-found';
 
 export default async function Reviews({
   query,
+  faculty,
   reviewsWithClass,
   id,
   totalPage,
 }: {
   query: string;
+  faculty: string;
   reviewsWithClass: Review[];
   id: string;
   totalPage: number;
@@ -24,7 +26,7 @@ export default async function Reviews({
   return (
     <div>
       {reviewsWithClass.length === 0 ? (
-        <NotFound query={query} />
+        <NotFound query={query} faculty={faculty} />
       ) : (
         <div className="m-4 p-2 md:m-auto md:w-7/12">
           <div className="rounded-md bg-gray-100 p-2">
@@ -47,12 +49,18 @@ export default async function Reviews({
                           height={64}
                           className="rounded-full"
                         />
-                        <span className="ml-2 flex items-center text-xl">
+                        <span className="ml-2 flex items-center break-all text-xl">
                           {review.user.name!}
                         </span>
                       </>
                     )}
                   </div>
+
+                  {/* 学部名 */}
+                  <div className="mt-3">{review.faculty}</div>
+
+                  {/* 授業名 */}
+                  <div className="mt-2 text-xl">{review.className}</div>
 
                   {/* スマホから閲覧した場合のレビュータイトル */}
                   <div className="mb-1 mt-2 break-all md:hidden">
@@ -84,14 +92,14 @@ export default async function Reviews({
                     </p>
 
                     {/* レビュー内容 */}
-                    <p className="w-128 break-word leading-7">
+                    <p className="w-128 whitespace-break-spaces leading-7">
                       {review.evaluation}
                     </p>
                   </div>
 
                   {/* 編集と削除ページ */}
                   {session?.user?.id === review.createdBy && (
-                    <div className="mt-2 flex justify-end gap-1">
+                    <div className="mt-6 flex justify-end gap-1">
                       <div className="flex flex-col items-center">
                         <Link href={`/university/${id}/edit/${review.id}`}>
                           <div className="rounded-md border border-green-400 p-2 shadow-sm hover:bg-gray-100">

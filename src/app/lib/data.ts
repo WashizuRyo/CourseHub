@@ -1,5 +1,4 @@
 import { prisma } from './prisma';
-
 export async function fetchReviews(className: string) {
   try {
     const data = await prisma.reviews.findMany({
@@ -48,14 +47,19 @@ export async function fetchReviewsByUniversityId(universityId: number) {
   }
 }
 
-export async function fetchReviewsByClass(className: string, page: number) {
+export async function fetchReviewsByClass(
+  className: string,
+  page: number,
+  sort: 'asc' | 'desc',
+  faculty: string,
+) {
   const pageSize = 2;
-  console.log(page);
   try {
     const data = await prisma.reviews.findMany({
-      skip: pageSize * (Number(page) - 1),
+      skip: pageSize * (page - 1),
       take: pageSize,
-      where: { className },
+      where: faculty ? { faculty } : { className },
+      orderBy: { date: sort },
       include: {
         user: {
           select: {
@@ -92,10 +96,12 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
   }
 }
 
-export async function fetchTotalPage(query: string) {
+export async function fetchTotalPage(query: string, faculty: string) {
   const pageSize = 2;
   try {
-    let totalPage = await prisma.reviews.count({ where: { className: query } });
+    let totalPage = await prisma.reviews.count({
+      where: faculty ? { faculty } : { className: query },
+    });
     if (totalPage % 2 == 0) {
       totalPage /= 2;
     } else {

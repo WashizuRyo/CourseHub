@@ -16,7 +16,7 @@ export default function Tooltip({ session }: { session: Session }) {
         className="absolute right-[15px] top-[78px] z-10 h-min w-[200px]"
       >
         {session ? (
-          <div className="rounded bg-blue-200 text-center text-gray-700">
+          <div className="rounded bg-blue-200 text-gray-700">
             <div className="flex items-center">
               <Image
                 src={session!.user!.image!}
@@ -25,7 +25,7 @@ export default function Tooltip({ session }: { session: Session }) {
                 height={38}
                 className="m-2 rounded-full"
               />
-              {session.user?.name}
+              <p className="break-all">{session.user?.name}</p>
             </div>
             <div className="text-md flex size-full items-center gap-2 rounded py-2 hover:bg-blue-300">
               <ArrowRightStartOnRectangleIcon className="size-7" />

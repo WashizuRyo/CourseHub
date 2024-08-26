@@ -57,6 +57,26 @@ export default function CreateReviewForm({
       </div>
       <div className="flex justify-center p-4 md:m-auto md:w-7/12">
         <div className="flex w-full flex-col gap-4 rounded-md bg-gray-100 p-4">
+          {/* 学部選択フィールド */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="faculty">学部を選択してください</label>
+            <select id="faculty" name="faculty" className="p-2">
+              <option value="">学部を選んでください</option>
+              <option value="理学部">理学部</option>
+              <option value="工学部">工学部</option>
+              <option value="文学部">文学部</option>
+              <option value="経済部">経済部</option>
+            </select>
+            <div id="className-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.faculty &&
+                state.errors.faculty.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
+
           {/* 授業名フィールド */}
           <div>
             <div className="space-y-2">
@@ -159,7 +179,7 @@ export default function CreateReviewForm({
           {/* 投稿者名フィールド */}
           <div>
             <p>投稿者名を選択してください</p>
-            <div className="mt-2 flex gap-4 rounded-md border border-gray-200 bg-white p-4">
+            <div className="mt-2 flex flex-col gap-4 rounded-md border border-gray-200 bg-white p-4">
               <div className="">
                 <input
                   id="anonymous"
@@ -180,7 +200,8 @@ export default function CreateReviewForm({
                   htmlFor="username"
                   className="ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white"
                 >
-                  {session!.user!.name}で投稿
+                  {/* 長い場合は後ろを省略 */}
+                  {session!.user!.name?.slice(0, 20)}...で投稿
                 </label>
               </div>
             </div>

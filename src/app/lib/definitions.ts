@@ -1,4 +1,5 @@
 export type Review = {
+  faculty: string;
   id: number;
   date: string;
   title: string;

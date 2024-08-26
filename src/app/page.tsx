@@ -41,7 +41,10 @@ export default async function Page({
       </div>
       <div className="mb-12 h-96 p-7">
         <div className="flex justify-center">
-          <SearchClass placeholder="大学名を入力" />
+          <SearchClass
+            placeholder="大学名を入力"
+            isUniversitySearchBar={true}
+          />
         </div>
         <div className="mt-6 text-center">
           {query ? (

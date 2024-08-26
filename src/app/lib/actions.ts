@@ -19,6 +19,10 @@ export type State = {
 
 const FormSchema = z.object({
   id: z.string(),
+  faculty: z.enum(['理学部', '工学部', '文学部', '経済部'], {
+    invalid_type_error: '学部を選択してください',
+    message: '学部を選択してください',
+  }),
   className: z
     .string({
       invalid_type_error: '有効な授業名を入力してください',
@@ -56,6 +60,7 @@ export async function createReview(
   formData: FormData,
 ) {
   const validatedFields = CreateAndUpdateReview.safeParse({
+    faculty: formData.get('faculty'),
     className: formData.get('className'),
     title: formData.get('title'),
     star: formData.get('star'),
@@ -70,11 +75,12 @@ export async function createReview(
     };
   }
 
-  const { className, evaluation, title, star, who, userId } =
+  const { className, evaluation, title, star, who, userId, faculty } =
     validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   const data = {
     date,
+    faculty,
     className,
     title,
     star,
@@ -105,6 +111,7 @@ export async function updateReview(
   formData: FormData,
 ) {
   const validatedFields = CreateAndUpdateReview.safeParse({
+    faculty: formData.get('faculty'),
     className: formData.get('className'),
     title: formData.get('title'),
     star: formData.get('star'),
@@ -120,10 +127,11 @@ export async function updateReview(
     };
   }
 
-  const { className, evaluation, who, star, title, userId } =
+  const { faculty, className, evaluation, who, star, title, userId } =
     validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   const newData = {
+    faculty,
     date,
     className,
     title,

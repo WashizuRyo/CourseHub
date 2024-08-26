@@ -2,6 +2,7 @@
 
 import { updateReview } from '@/app/lib/actions';
 import type { Review } from '@/app/lib/definitions';
+import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
@@ -46,8 +47,48 @@ export default function UpdateReview({
 
   return (
     <form action={formAction}>
+      <div className="m-4 mt-8">
+        <Breadcrumb
+          breadcrumbs={[
+            { label: '大学名検索', href: '/' },
+            {
+              label: '講義名検索',
+              href: `/university/${universityId}`,
+            },
+            {
+              label: 'レビュー編集',
+              href: `/university/${universityId}/edit/${review.id}`,
+              active: true,
+            },
+          ]}
+        />
+      </div>
       <div className="flex justify-center p-4 md:m-auto md:w-7/12">
         <div className="flex w-full flex-col gap-4 rounded-md bg-gray-100 p-4">
+          {/* 学部選択フィールド */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="faculty">学部を選択してください</label>
+            <select
+              id="faculty"
+              name="faculty"
+              className="p-2"
+              defaultValue={review.faculty}
+            >
+              <option value="">学部を選んでください</option>
+              <option value="理学部">理学部</option>
+              <option value="工学部">工学部</option>
+              <option value="文学部">文学部</option>
+              <option value="経済部">経済部</option>
+            </select>
+            <div id="className-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.faculty &&
+                state.errors.faculty.map((error: string) => (
+                  <p className="mt-2 text-sm text-red-500" key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+          </div>
           {/* 授業名フィールド */}
           <div>
             <div className="space-y-2">
@@ -150,8 +191,8 @@ export default function UpdateReview({
           {/* 投稿者名フィールド */}
           <div>
             <p>投稿者名を選択してください</p>
-            <div className="mt-2 flex gap-4 rounded-md border border-gray-200 bg-white p-4">
-              <div className="">
+            <div className="mt-2 flex flex-col gap-4 rounded-md border border-gray-200 bg-white p-4">
+              <div>
                 <input
                   id="anonymous"
                   type="radio"

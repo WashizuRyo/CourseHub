@@ -18,8 +18,20 @@ export default function Pagenation({ totalPage }: { totalPage: number }) {
 
   return (
     <div className="flex justify-center gap-3">
+      {currentPage == 1 && totalPage == 1 && (
+        <>
+          <ArrowLeftIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
+          <PagenationNumber
+            currentPage={currentPage}
+            totalPage={totalPage}
+            createURL={createURL}
+          />
+          <ArrowRightIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
+        </>
+      )}
+
       {/* 現在のページが１の時のページネーションのUI */}
-      {currentPage == 1 && (
+      {currentPage == 1 && totalPage != 1 && (
         <>
           <ArrowLeftIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
           <PagenationNumber
@@ -51,7 +63,7 @@ export default function Pagenation({ totalPage }: { totalPage: number }) {
       )}
 
       {/* 現在のページがトータルページのときのページネーションUI */}
-      {currentPage == totalPage && (
+      {currentPage == totalPage && totalPage != 1 && (
         <>
           <Link href={createURL(currentPage - 1)}>
             <ArrowLeftIcon className="size-9 rounded border border-gray-200 p-1 text-black" />
@@ -77,9 +89,6 @@ function PagenationNumber({
   totalPage: number;
   createURL: (pageNumber: number) => string;
 }) {
-  console.log(currentPage);
-  console.log(totalPage);
-
   const pagenationNumber = Array.from(
     { length: totalPage },
     (_, index) => index + 1,
@@ -92,7 +101,7 @@ function PagenationNumber({
           href={createURL(e)}
           key={index}
           className={clsx(
-            'flex size-9 flex-col justify-center rounded border border-gray-200',
+            'flex size-9 flex-col justify-center rounded border',
             currentPage == e && 'border border-blue-500 text-blue-500',
           )}
         >
