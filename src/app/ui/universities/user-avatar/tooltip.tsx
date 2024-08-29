@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/24/outline';
 import type { Session } from 'next-auth';
 import Image from 'next/image';
+import Link from 'next/link';
 import SignIn from '../../signIn/signin-button';
 import SignOut from '../../signOut/signout-button';
 
@@ -25,7 +26,12 @@ export default function Tooltip({ session }: { session: Session }) {
                 height={38}
                 className="m-2 rounded-full"
               />
-              <p className="break-all">{session.user?.name}</p>
+              <Link
+                href="/university/userpage"
+                className="break-all hover:text-gray-500"
+              >
+                {session.user?.name}
+              </Link>
             </div>
             <div className="text-md flex size-full items-center gap-2 rounded py-2 hover:bg-blue-300">
               <ArrowRightStartOnRectangleIcon className="size-7" />

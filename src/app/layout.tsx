@@ -1,6 +1,7 @@
 import '@/app/ui/global.css';
 import { auth } from '@@/auth';
 import { AcademicCapIcon } from '@heroicons/react/24/outline';
+import { SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
 import { inter, lusitana } from './ui/fonts';
 import UserAvatar from './ui/universities/user-avatar/user-avatar';
@@ -21,11 +22,10 @@ export default async function RootLayout({
               <p className="ml-3 text-3xl">CourseHub</p>
             </div>
           </Link>
-
           <UserAvatar session={session!} />
         </div>
         <div className="flex justify-end"></div>
-        {children}
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );
