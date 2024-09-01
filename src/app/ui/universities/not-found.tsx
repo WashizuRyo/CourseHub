@@ -13,6 +13,7 @@ const NotFound = ({ query, faculty }: { query: string; faculty: string }) => {
       </div>
     );
   }
+
   return (
     <div>
       <div className="mb-4 flex justify-center">

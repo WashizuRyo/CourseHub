@@ -21,7 +21,6 @@ const FormSchema = z.object({
   id: z.string(),
   faculty: z.enum(['理学部', '工学部', '文学部', '経済部'], {
     invalid_type_error: '学部を選択してください',
-    message: '学部を選択してください',
   }),
   className: z
     .string({
@@ -45,7 +44,7 @@ const FormSchema = z.object({
   who: z.enum(['username', 'anonymous'], {
     invalid_type_error: '投稿者名を選択してください。',
   }),
-  userId: z.string(),
+  userId: z.string({ invalid_type_error: 'ユーザIDが不正です' }),
 });
 
 const CreateAndUpdateReview = FormSchema.omit({
@@ -176,6 +175,35 @@ export async function deleteReview(
 
   revalidatePath(`/university/${id}?query=${query}`);
   redirect(`/university/${id}?query=${query}`);
+}
+
+export async function fetchLikes(
+  reviewId: number,
+  userId: string,
+  state: boolean,
+) {
+  if (!state) {
+    try {
+      await prisma.likes.delete({
+        where: { reviewId_userId: { reviewId, userId } },
+      });
+    } catch (error) {
+      console.error('Database Error', error);
+      throw new Error('Failed to fetch likes');
+    }
+    return;
+  }
+
+  try {
+    await prisma.likes.upsert({
+      where: { reviewId_userId: { reviewId, userId } },
+      update: { reviewId, userId },
+      create: { reviewId, userId },
+    });
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to fetch likes');
+  }
 }
 
 export async function singOut() {

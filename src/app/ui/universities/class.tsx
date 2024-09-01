@@ -18,6 +18,7 @@ export default function SearchClass({
   const [intputValue, setInputValue] = useState('');
   const [facultyValue, setFacultyValue] = useState('');
   const [sortValue, setSortValue] = useState('');
+  const className = searchParams.get('query');
 
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
@@ -60,7 +61,7 @@ export default function SearchClass({
   return (
     <div>
       <div className="mb-4 text-center text-xl">
-        <label htmlFor="search">授業名で検索</label>
+        {!isUniversitySearchBar && <label htmlFor="search">授業名で検索</label>}
       </div>
       <div className="m-2 flex h-[54px] w-[350px] rounded-2xl border bg-gray-100 p-2 shadow-sm focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 sm:w-[430px]">
         <div className="flex items-center rounded-l-2xl  ">
@@ -78,7 +79,7 @@ export default function SearchClass({
               setInputValue(e.target.value);
               handleSearch(e.target.value);
             }}
-            value={intputValue}
+            value={intputValue || className || ''}
           />
         </div>
       </div>
@@ -105,10 +106,10 @@ export default function SearchClass({
                 value={facultyValue}
               >
                 <option value="">学部を選んでください</option>
-                <option value="science">理学部</option>
-                <option value="engineering">工学部</option>
-                <option value="humanities">文学部</option>
-                <option value="economics">経済部</option>
+                <option value="理学部">理学部</option>
+                <option value="工学部">工学部</option>
+                <option value="文学部">文学部</option>
+                <option value="経済部">経済部</option>
               </select>
             </div>
           </div>

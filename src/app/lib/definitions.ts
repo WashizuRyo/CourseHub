@@ -10,6 +10,14 @@ export type Review = {
   evaluation: string;
   universityId: number;
   user: User;
+  likes?: Likes[];
+  isLiked?: boolean;
+};
+
+export type Likes = {
+  id: number;
+  reviewId: number;
+  userId: string;
 };
 
 export type User = {

@@ -54,6 +54,7 @@ export async function fetchReviewsByClass(
   faculty: string,
 ) {
   const pageSize = 2;
+
   try {
     const data = await prisma.reviews.findMany({
       skip: pageSize * (page - 1),
@@ -65,8 +66,10 @@ export async function fetchReviewsByClass(
           select: {
             name: true,
             image: true,
+            likes: true,
           },
         },
+        likes: true,
       },
     });
     return data;
@@ -111,5 +114,20 @@ export async function fetchTotalPage(query: string, faculty: string) {
   } catch (error) {
     console.error('Database Error', error);
     throw new Error('Failed to fetch totalPage');
+  }
+}
+
+export async function fetchLikeByReviewIdAndUserId(
+  reviewId: number,
+  userId: string,
+) {
+  try {
+    const data = await prisma.likes.findUnique({
+      where: { reviewId_userId: { reviewId, userId } },
+    });
+    return data;
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to fetch like');
   }
 }

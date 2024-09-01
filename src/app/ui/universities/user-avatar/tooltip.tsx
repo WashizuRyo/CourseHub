@@ -27,7 +27,7 @@ export default function Tooltip({ session }: { session: Session }) {
                 className="m-2 rounded-full"
               />
               <Link
-                href="/university/userpage"
+                href="/university/userpage/reviews"
                 className="break-all hover:text-gray-500"
               >
                 {session.user?.name}

@@ -24,7 +24,13 @@ export async function GET(
 
   try {
     const data = await prisma.reviews.count({
-      where: { createdBy: userId },
+      where: {
+        likes: {
+          some: {
+            userId,
+          },
+        },
+      },
     });
     return NextResponse.json(data);
   } catch (error) {

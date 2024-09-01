@@ -92,11 +92,6 @@ export default async function ClassReviewList({
         </div>
       </div>
 
-      {/* 学部の選択とソート */}
-      {/* <div className="flex justify-center px-7 pt-2">
-        <FilterAndSortPanel />
-      </div> */}
-
       <div className="mt-4">
         {query || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>

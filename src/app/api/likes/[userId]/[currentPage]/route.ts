@@ -5,9 +5,10 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   req: NextApiRequest,
-  { params }: { params: { userId: string } },
+  { params }: { params: { userId: string; currentPage: number } },
 ) {
   const { userId } = params;
+  const currentPage = params.currentPage;
 
   const session = await auth();
 
@@ -22,9 +23,20 @@ export async function GET(
     return NextResponse.json({ message: 'Unauthorized' }, { status: 400 });
   }
 
+  const pageSize = 2;
+
   try {
-    const data = await prisma.reviews.count({
-      where: { createdBy: userId },
+    const data = await prisma.reviews.findMany({
+      where: {
+        likes: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: { user: true },
+      skip: pageSize * (currentPage - 1),
+      take: pageSize,
     });
     return NextResponse.json(data);
   } catch (error) {
