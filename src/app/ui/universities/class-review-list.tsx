@@ -52,10 +52,10 @@ export default async function ClassReviewList({
               />
             </div>
             <div className="m-2 flex w-64 items-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
-              <Link href={`/university/${id}/create`}>
+              <Link href={`/university/${id}/create`} className="flex gap-4">
                 講義レビューを投稿する
+                <ArrowRightIcon className="size-6" />
               </Link>
-              <ArrowRightIcon className="size-6" />
             </div>
           </div>
         </div>

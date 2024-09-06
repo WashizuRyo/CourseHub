@@ -7,7 +7,7 @@ import Submit from '@/app/ui/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 
@@ -19,11 +19,15 @@ export default function UpdateReview({
   universityId: string;
 }) {
   const { data: session } = useSession();
+  const accessPath = usePathname();
+
   const createReviewWithUniversityId = updateReview.bind(
     null,
     review.id,
     review.universityId,
+    accessPath,
   );
+
   const initialState = {
     errors: {},
     message: '',

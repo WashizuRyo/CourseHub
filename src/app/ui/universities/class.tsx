@@ -32,12 +32,6 @@ export default function SearchClass({
     params.delete('sort');
     params.delete('faculty');
 
-    if (params.get('query')) {
-      console.log(params.get('query'));
-    } else {
-      console.log('test');
-    }
-
     replace(`${pathname}?${params.toString()}`);
   }, 200);
 

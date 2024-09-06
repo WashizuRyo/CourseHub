@@ -38,7 +38,10 @@ export async function GET(
       skip: pageSize * (currentPage - 1),
       take: pageSize,
     });
-    return NextResponse.json(data);
+    const dataWithIsLiked = data.map((review) => {
+      return { ...review, isLiked: true };
+    });
+    return NextResponse.json(dataWithIsLiked);
   } catch (error) {
     console.error('Database Error', error);
     return NextResponse.json(

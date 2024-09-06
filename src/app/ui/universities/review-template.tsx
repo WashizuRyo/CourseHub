@@ -19,6 +19,7 @@ export default function ReviewTemplate({
   totalPage: number;
 }) {
   const stars = [1, 2, 3, 4, 5];
+
   return (
     <div className="m-4 p-2 md:m-auto md:w-7/12">
       <div className="rounded-md bg-gray-100 p-2">
@@ -82,23 +83,29 @@ export default function ReviewTemplate({
                 <p className="my-1 text-gray-400">{review.date}にレビュー</p>
 
                 {/* レビュー内容 */}
-                <p className="w-128 whitespace-break-spaces leading-7">
+                <p className="w-128 whitespace-break-spaces break-all leading-7">
                   {review.evaluation}
                 </p>
               </div>
 
               <div className="flex justify-between">
                 {/* いいね機能 */}
-                <div className="flex items-end">
-                  <div className="flex flex-col">
-                    {review.isLiked ? (
-                      <Likes reviewId={review.id} isLiked={true} />
-                    ) : (
-                      <Likes reviewId={review.id} isLiked={false} />
-                    )}
-                    <p className="mt-1 text-sm">いいね</p>
+                {/* 自分の投稿したレビューにはいいね機能が表示されないようにする。またログインしていない場合も表示しない */}
+                {review.createdBy === session?.user?.id || session === null ? (
+                  <div></div>
+                ) : (
+                  <div className="flex items-end">
+                    <div className="flex flex-col">
+                      {review.isLiked ? (
+                        <Likes reviewId={review.id} isLiked={true} />
+                      ) : (
+                        <Likes reviewId={review.id} isLiked={false} />
+                      )}
+                      <p className="mt-1 text-sm">いいね</p>
+                    </div>
                   </div>
-                </div>
+                )}
+
                 {/* 編集と削除ページ */}
                 {session?.user?.id === review.createdBy && (
                   <div className="mt-6 flex justify-end gap-1">
@@ -126,9 +133,9 @@ export default function ReviewTemplate({
             </div>
           </div>
         ))}
-        <div className="mt-6 text-center">
-          <Pagenation totalPage={totalPage} />
-        </div>
+      </div>
+      <div className="mt-6 text-center">
+        <Pagenation totalPage={totalPage} />
       </div>
     </div>
   );

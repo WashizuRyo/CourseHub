@@ -15,7 +15,6 @@ export default function CreateReviewForm({
   universityId: string;
 }) {
   const { data: session } = useSession();
-  console.log(session);
 
   const createReviewWithUniversityId = createReview.bind(
     null,

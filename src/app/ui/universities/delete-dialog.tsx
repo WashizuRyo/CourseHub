@@ -2,6 +2,7 @@
 
 import { deleteReview } from '@/app/lib/actions';
 import { TrashIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
 import { useRef } from 'react';
 
 export default function DeleteDialog({
@@ -16,12 +17,14 @@ export default function DeleteDialog({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const handleShowModal = () => dialogRef.current?.showModal();
   const handleCloseModal = () => dialogRef.current?.close();
+  const accessPath = usePathname();
 
   const deleteReviewByEvaluationId = deleteReview.bind(
     null,
     evaluationId,
     universityId,
     query,
+    accessPath,
   );
   return (
     <>
@@ -37,7 +40,7 @@ export default function DeleteDialog({
         className="h-6/12 md:h-4/2 w-9/12 rounded shadow-lg md:w-4/12"
       >
         <div className="mb-2 mt-4">
-          <h1 className="px-2 text-xl text-red-500">
+          <h1 className="px-2 text-xl leading-normal text-red-500">
             レビューを削除すると、元に戻すことはできません。本当に削除しますか？
           </h1>
         </div>

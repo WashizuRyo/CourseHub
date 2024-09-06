@@ -10,8 +10,6 @@ export default function Search() {
   const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
-    console.log(term);
-
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set('query', term);

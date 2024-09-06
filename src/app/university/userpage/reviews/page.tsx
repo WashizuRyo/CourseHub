@@ -2,10 +2,9 @@
 
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewTemplate from '@/app/ui/universities/review-template';
-import { Box, Button } from '@mui/material';
+import Navigation from '@/app/ui/universities/userpage/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 export default function Reviews() {
@@ -23,40 +22,42 @@ export default function Reviews() {
   });
 
   const { data, isLoading: isLodingTotalPage } = useQuery({
-    queryKey: ['totalPage'],
+    queryKey: ['totalPage', reviews],
     queryFn: () =>
       fetch(`http://localhost:3000/api/reviews/${userId}/`).then((res) =>
         res.json(),
       ),
   });
 
+  if (isLoadingReviews || isLodingTotalPage)
+    return (
+      <>
+        <Navigation isReviewPage={true} />
+        <div className="mt-3">
+          <SearchReviewSkeleton />
+        </div>
+      </>
+    );
+  if (reviews.length == 0) {
+    return (
+      <>
+        <Navigation isReviewPage={true} />
+        <div className="mt-3 text-center text-xl">
+          投稿したレビューがありません
+        </div>
+      </>
+    );
+  }
+
   //一回のレビュー表示数
   const pageSize = 2;
   //総ページ数
   const totalPage =
-    data % pageSize == 0 ? data / pageSize : data / pageSize + 1;
-
-  if (isLoadingReviews || isLodingTotalPage)
-    return (
-      <>
-        <div className="flex justify-center">
-          <Button>reviews</Button>
-          <Button>likes</Button>
-        </div>
-        <SearchReviewSkeleton />
-      </>
-    );
+    data % pageSize == 0 ? data / pageSize : Math.floor(data / pageSize) + 1;
 
   return (
     <>
-      <div className="flex justify-center">
-        <Box>
-          <Button>reviews</Button>
-        </Box>
-        <Link href="/university/userpage/likes">
-          <Button>LIKES</Button>
-        </Link>
-      </div>
+      <Navigation isReviewPage={true} />
       <ReviewTemplate
         session={session.data}
         reviews={reviews}

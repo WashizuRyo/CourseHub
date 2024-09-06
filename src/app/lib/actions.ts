@@ -106,6 +106,7 @@ export async function createReview(
 export async function updateReview(
   evaluationId: number,
   universityId: number,
+  accessPath: string,
   prevState: State,
   formData: FormData,
 ) {
@@ -161,6 +162,7 @@ export async function deleteReview(
   evaluationId: number,
   id: number,
   query: string | undefined,
+  accessPath: string,
 ) {
   try {
     await prisma.reviews.delete({
@@ -173,8 +175,18 @@ export async function deleteReview(
     };
   }
 
-  revalidatePath(`/university/${id}?query=${query}`);
-  redirect(`/university/${id}?query=${query}`);
+  // accessPathが/university/[一文字以上の任意の数字]の場合/university/${id}?query=${query}に
+  // リダイレクトする(大学名検索欄から閲覧し削除した時)
+  // それ以外の場合はaccessPathにリダイレクトする(userページから削除した時)
+  const regix = new RegExp('^/university/\\d+$');
+
+  if (regix.test(accessPath)) {
+    revalidatePath(`/university/${id}?query=${query}`);
+    redirect(`/university/${id}?query=${query}`);
+  } else {
+    revalidatePath('/university/userpage/reviews?page=1');
+    redirect('/university/userpage/reviews?page=1');
+  }
 }
 
 export async function fetchLikes(
