@@ -9,7 +9,7 @@ import Link from 'next/link';
 import SignIn from '../../signIn/signin-button';
 import SignOut from '../../signOut/signout-button';
 
-export default function Tooltip({ session }: { session: Session }) {
+export default function Tooltip({ session }: { session: Session | null }) {
   return (
     <>
       <div

@@ -22,7 +22,7 @@ export default async function RootLayout({
               <p className="ml-3 text-3xl">CourseHub</p>
             </div>
           </Link>
-          <UserAvatar session={session!} />
+          <UserAvatar session={session} />
         </div>
         <div className="flex justify-end"></div>
         <SessionProvider session={session}>{children}</SessionProvider>
