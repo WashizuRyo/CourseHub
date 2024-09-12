@@ -1,6 +1,6 @@
 import { XCircleIcon } from '@heroicons/react/24/outline';
 
-const NotFound = ({ query, faculty }: { query: string; faculty: string }) => {
+const NotFound = ({ query, faculty }: { query: string; faculty?: string }) => {
   if (faculty) {
     return (
       <div>
