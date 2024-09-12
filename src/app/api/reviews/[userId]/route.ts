@@ -2,7 +2,10 @@ import { prisma } from '@/app/lib/prisma';
 import { auth } from '@@/auth';
 import { NextResponse } from 'next/server';
 
-export async function GET({ params }: { params: { userId: string } }) {
+export async function GET(
+  request: NextResponse,
+  { params }: { params: { userId: string } },
+) {
   let { userId } = params;
 
   const session = await auth();

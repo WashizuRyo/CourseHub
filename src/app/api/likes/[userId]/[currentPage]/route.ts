@@ -2,11 +2,14 @@ import { prisma } from '@/app/lib/prisma';
 import { auth } from '@@/auth';
 import { NextResponse } from 'next/server';
 
-export async function GET({
-  params,
-}: {
-  params: { userId: string; currentPage: number };
-}) {
+export async function GET(
+  request: NextResponse,
+  {
+    params,
+  }: {
+    params: { userId: string; currentPage: number };
+  },
+) {
   let { userId } = params;
   const currentPage = params.currentPage;
 
