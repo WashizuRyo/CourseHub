@@ -1,9 +1,10 @@
 import { prisma } from '@/app/lib/prisma';
 import { auth } from '@@/auth';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(
-  request: NextResponse,
+  request: NextRequest,
   { params }: { params: { userId: string } },
 ) {
   let { userId } = params;
