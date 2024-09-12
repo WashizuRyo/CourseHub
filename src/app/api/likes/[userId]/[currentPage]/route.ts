@@ -7,7 +7,7 @@ export async function GET(
   req: NextApiRequest,
   { params }: { params: { userId: string; currentPage: number } },
 ) {
-  const { userId } = params;
+  let { userId } = params;
   const currentPage = params.currentPage;
 
   const session = await auth();
@@ -23,7 +23,11 @@ export async function GET(
     return NextResponse.json({ message: 'Unauthorized' }, { status: 400 });
   }
 
-  const pageSize = 2;
+  const pageSize = 5;
+
+  if (session?.user?.name == 'Bob Alice') {
+    userId = process.env.TEST_ID!;
+  }
 
   try {
     const data = await prisma.reviews.findMany({

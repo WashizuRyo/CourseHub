@@ -16,6 +16,7 @@ export default function Likes({
   const session = useSession();
   const [state, setState] = useState(isLiked);
   const userId = session?.data?.user?.id || '';
+
   const createLikesWithReviewIdAndUserId = fetchLikes.bind(
     null,
     reviewId,

@@ -13,6 +13,8 @@ export default function UserAvatar({ session }: { session: Session | null }) {
       onMouseOver={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
       className="relative"
+      id="user-avatar"
+      role="tooltip"
     >
       {session ? (
         <Image

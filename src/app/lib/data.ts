@@ -1,4 +1,5 @@
 import { prisma } from './prisma';
+
 export async function fetchReviews(className: string) {
   try {
     const data = await prisma.reviews.findMany({
@@ -53,7 +54,7 @@ export async function fetchReviewsByClass(
   sort: 'asc' | 'desc',
   faculty: string,
 ) {
-  const pageSize = 2;
+  const pageSize = 5;
 
   try {
     const data = await prisma.reviews.findMany({
@@ -100,13 +101,13 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
 }
 
 export async function fetchTotalPage(query: string, faculty: string) {
-  const pageSize = 2;
+  const pageSize = 5;
   try {
     let totalPage = await prisma.reviews.count({
       where: faculty ? { faculty } : { className: query },
     });
-    if (totalPage % 2 == 0) {
-      totalPage /= 2;
+    if (totalPage % 5 == 0) {
+      totalPage /= 5;
     } else {
       totalPage = Math.floor(totalPage / pageSize) + 1;
     }
@@ -129,5 +130,65 @@ export async function fetchLikeByReviewIdAndUserId(
   } catch (error) {
     console.error('Database Error', error);
     throw new Error('Failed to fetch like');
+  }
+}
+
+export async function createReviews(date: string, createdBy: string) {
+  try {
+    const data = await prisma.reviews.create({
+      data: {
+        date,
+        className: 'test',
+        title: 'test',
+        star: 5,
+        evaluation: 'test',
+        universityId: 1,
+        createdBy,
+        faculty: '理学部',
+        isAnonymous: false,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to create reviews');
+  }
+}
+
+export async function deleteReviews(faculty: string) {
+  try {
+    const data = await prisma.reviews.deleteMany({
+      where: { faculty },
+    });
+    return data;
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to delete reviews');
+  }
+}
+
+export async function createLikes(reviewId: number) {
+  const userId = process.env.TEST_ID!;
+  try {
+    await prisma.likes.upsert({
+      where: { reviewId_userId: { reviewId, userId } },
+      update: { reviewId, userId },
+      create: { reviewId, userId },
+    });
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to fetch likes');
+  }
+}
+
+export async function fetchReviewId(date: string) {
+  try {
+    const data = await prisma.reviews.findFirst({
+      where: { date },
+    });
+    return data?.id || '';
+  } catch (error) {
+    console.error('Database Error', error);
+    throw new Error('Failed to fetch reviewId');
   }
 }

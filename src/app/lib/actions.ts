@@ -194,6 +194,8 @@ export async function fetchLikes(
   userId: string,
   state: boolean,
 ) {
+  console.log(userId);
+  console.log('----------------------------------');
   if (!state) {
     try {
       await prisma.likes.delete({

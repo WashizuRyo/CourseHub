@@ -15,6 +15,7 @@ export default function Tooltip({ session }: { session: Session | null }) {
       <div
         role="tooltip"
         className="absolute right-[15px] top-[78px] z-10 h-min w-[200px]"
+        id="tooltip"
       >
         {session ? (
           <div className="rounded bg-blue-200 text-gray-700">
@@ -29,6 +30,7 @@ export default function Tooltip({ session }: { session: Session | null }) {
               <Link
                 href="/university/userpage/reviews"
                 className="break-all hover:text-gray-500"
+                id="username"
               >
                 {session.user?.name}
               </Link>

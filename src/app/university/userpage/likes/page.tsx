@@ -50,7 +50,7 @@ export default function Likes() {
     );
 
   //一回のレビュー表示数
-  const pageSize = 2;
+  const pageSize = 5;
   //総ページ数
   const totalPage =
     data % pageSize == 0 ? data / pageSize : Math.floor(data / pageSize) + 1;
