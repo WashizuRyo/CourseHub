@@ -1,6 +1,10 @@
-import { prisma } from '@/app/lib/prisma';
 import { auth } from '@@/auth';
+import { PrismaClient } from '@prisma/client';
 import { NextResponse, type NextRequest } from 'next/server';
+
+const prisma = new PrismaClient({
+  log: ['query'], // クエリのログを出力する設定（開発中のみ有効）
+});
 
 export async function GET(
   request: NextRequest,
