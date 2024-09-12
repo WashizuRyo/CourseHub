@@ -1,12 +1,12 @@
 import { prisma } from '@/app/lib/prisma';
 import { auth } from '@@/auth';
-import type { NextApiRequest } from 'next';
 import { NextResponse } from 'next/server';
 
-export async function GET(
-  req: NextApiRequest,
-  { params }: { params: { userId: string; currentPage: number } },
-) {
+export async function GET({
+  params,
+}: {
+  params: { userId: string; currentPage: number };
+}) {
   let { userId } = params;
   const currentPage = params.currentPage;
   const session = await auth();
