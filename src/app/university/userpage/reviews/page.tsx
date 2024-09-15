@@ -16,16 +16,16 @@ export default function Reviews() {
   const { data: reviews, isLoading: isLoadingReviews } = useQuery({
     queryKey: ['reviews', currentPage],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/reviews/${userId}/${currentPage}`).then(
-        (res) => res.json(),
-      ),
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/reviews/${userId}/${currentPage}`,
+      ).then((res) => res.json()),
   });
 
   const { data, isLoading: isLodingTotalPage } = useQuery({
     queryKey: ['totalPage', reviews],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/reviews/${userId}/`).then((res) =>
-        res.json(),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${userId}/`).then(
+        (res) => res.json(),
       ),
   });
 
