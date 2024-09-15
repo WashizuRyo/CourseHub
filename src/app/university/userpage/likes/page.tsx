@@ -16,9 +16,9 @@ export default function Likes() {
   const { data: likedReviews, isLoading: isLoadingLikedReviews } = useQuery({
     queryKey: ['likes', currentPage],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/likes/${userId}/${currentPage}`).then(
-        (res) => res.json(),
-      ),
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/likes/${userId}/${currentPage}`,
+      ).then((res) => res.json()),
   });
 
   const { data, isLoading: isLodingTotalPage } = useQuery({
