@@ -154,14 +154,18 @@ export async function updateReview(
     };
   }
 
-  revalidatePath(`/university/${universityId}?query=${className}`);
-  redirect(`/university/${universityId}?query=${className}`);
+  revalidatePath(
+    `/university/${universityId}?query=${encodeURIComponent(className)}`,
+  );
+  redirect(
+    `/university/${universityId}?query=${encodeURIComponent(className)}`,
+  );
 }
 
 export async function deleteReview(
   evaluationId: number,
   id: number,
-  query: string | undefined,
+  query: string,
   accessPath: string,
 ) {
   try {
@@ -181,8 +185,8 @@ export async function deleteReview(
   const regix = new RegExp('^/university/\\d+$');
 
   if (regix.test(accessPath)) {
-    revalidatePath(`/university/${id}?query=${query}`);
-    redirect(`/university/${id}?query=${query}`);
+    revalidatePath(`/university/${id}?query=${encodeURIComponent(query)}`);
+    redirect(`/university/${id}?query=${encodeURIComponent(query)}`);
   } else {
     revalidatePath('/university/userpage/reviews?page=1');
     redirect('/university/userpage/reviews?page=1');
@@ -194,8 +198,6 @@ export async function fetchLikes(
   userId: string,
   state: boolean,
 ) {
-  console.log(userId);
-  console.log('----------------------------------');
   if (!state) {
     try {
       await prisma.likes.delete({
