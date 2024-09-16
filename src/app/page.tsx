@@ -52,7 +52,9 @@ export default async function Page({
               <University query={query} />
             </Suspense>
           ) : (
-            <p className="text-xl">大学名を入力してください</p>
+            <p className="text-xl">
+              大学名を入力してください(Aichiと入力してください)
+            </p>
           )}
         </div>
       </div>
