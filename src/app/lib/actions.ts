@@ -99,8 +99,12 @@ export async function createReview(
     };
   }
 
-  revalidatePath(`/university/${universityId}?query=${className}`);
-  redirect(`/university/${universityId}?query=${className}`);
+  revalidatePath(
+    `/university/${universityId}?query=${encodeURIComponent(className)}`,
+  );
+  redirect(
+    `/university/${universityId}?query=${encodeURIComponent(className)}`,
+  );
 }
 
 export async function updateReview(
