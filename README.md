@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<img width="1800" src="https://github.com/user-attachments/assets/022245fd-a40f-46f8-854c-d0303b18981b">
 
-## Getting Started
+# ■サービスのURL
+右上のアイコンからGoogleでログインしてください。<br>
+<h1>CourseHub
+https://coursehuber.vercel.app</h1><br>
 
-First, run the development server:
+# ■サービス概要
+<h3>大学の講義の評価を投稿できるサービスです。</h3><br>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# ■アプリを作ったきっかけ
+<h4>サービスを作った理由は、大学の講義を受ける際に事前の情報が少ないことに不便さを感じたからです。<br>特に、講義の難易度や、担当する先生がどんな人なのか、授業の進め方や評価基準、そして単位の取りやすさなど、学生が知りたい情報が事前に得られることは非常に重要だと感じました。<br>講義を選ぶ際、これらの情報があれば、より自分に合った授業を選択でき、無駄な時間やエネルギーを消費しないと考えました。<br>そこで、同じ悩みを持つ学生のために、実際に講義を受けた人たちの評価や感想を共有できるサービスを作ることにしました。</h4><br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# ■機能一覧
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- <h3>Googleでのログイン機能</h3>
+- <h3>レビュー作成, 編集, 削除機能</h3>
+- <h3>いいね機能</h3>
+  
+<table>
+  <thead>
+    <tr>
+      <th>トップ画面</th>
+      <th>レビュー検索画面</th>
+    </tr>
+  <thead>
+    <tbody>
+      <tr>
+        <td>
+          <img width="1800" src="https://github.com/user-attachments/assets/765d8748-2ba5-441c-816b-b9fa0c617b77">
+        </td>
+        <td>
+          <img width="1800" src="https://github.com/user-attachments/assets/de02fc1b-f24d-4398-98d0-76b0e400ccc4">
+        </td>
+      </tr>
+    </tbody>
+    <tr>
+      <th>レビュー作成画面</th>
+      <th>ユーザ画面</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <img width="1800" src="https://github.com/user-attachments/assets/254f3543-2e7b-461f-96ad-86418150d0b9">
+      </td>
+      <td>
+        <img width="1800" src="https://github.com/user-attachments/assets/137efae7-e4e7-4e86-8146-51a51b68552c">
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
 
-## Learn More
+# ■使用技術
+<table>
+  <thead>
+    <tr>
+      <td>Category</td>
+      <td>Technology Stack</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        Frontend
+      </td>
+      <td>
+        TypeScript, Next.js(App Router)
+      </td>
+    </tr>
+    <tr>
+      <td>Backend</td>
+      <td>TypeScript, Next.js, Prisma</td>
+    </tr>
+    <tr>
+      <td>E2E</td>
+      <td>Playwright</td>
+    </tr>
+    <tr>
+      <td>Auth</td>
+      <td>Auth.js</td>
+    </tr>
+    <tr>
+      <td>Data Fetch</td>
+      <td>Tanstack Query</td>
+    </tr>
+    <tr>
+      <td>Database</td>
+      <td>PostgreSQL</td>
+    </tr>
+    <tr>
+      <td>Infrastructure</td>
+      <td>Vercel</td>
+    </tr>
+    <tr>
+      <td>etc.</td>
+      <td>Zod, ESLint, Prettier, Husky, Git, GitHub</td>
+    </tr>
+  </tbody>
+</table>
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+
+
+
+
+
+
+
+
+
+
