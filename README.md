@@ -3,7 +3,7 @@
 # ■サービスのURL
 右上のアイコンからGoogleでログインしてください。<br>
 <h1>CourseHub
-https://univesity-reviews.vercel.app</h1><br>
+https://coursehuber.vercel.app</h1><br>
 
 # ■サービス概要
 <h3>大学の講義の評価を投稿できるサービスです。</h3><br>
