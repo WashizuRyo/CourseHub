@@ -8,28 +8,25 @@ import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 
 export default function Reviews() {
+  // ユーザ情報取得
   const session = useSession();
   const userId = session?.data?.user?.id || '';
+
+  // クエリパラメータ取得
   const searchParams = useSearchParams();
   const currentPage = searchParams.get('page') || 1;
 
-  const { data: reviews, isLoading: isLoadingReviews } = useQuery({
+  // userIdを元にレビューを取得
+  const { data, isLoading: isLoadingReviews } = useQuery({
     queryKey: ['reviews', currentPage],
     queryFn: () =>
       fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/reviews/${userId}/${currentPage}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/reviews?page=${currentPage}`,
       ).then((res) => res.json()),
   });
 
-  const { data, isLoading: isLodingTotalPage } = useQuery({
-    queryKey: ['totalPage', reviews],
-    queryFn: () =>
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews/${userId}/`).then(
-        (res) => res.json(),
-      ),
-  });
-
-  if (isLoadingReviews || isLodingTotalPage)
+  // ローディング中
+  if (isLoadingReviews) {
     return (
       <>
         <Navigation isReviewPage={true} />
@@ -38,7 +35,10 @@ export default function Reviews() {
         </div>
       </>
     );
-  if (reviews.length == 0) {
+  }
+
+  // 一度もレビューを投稿していない場合
+  if (data.reviewsByUserId.length == 0) {
     return (
       <>
         <Navigation isReviewPage={true} />
@@ -49,18 +49,20 @@ export default function Reviews() {
     );
   }
 
-  //一回のレビュー表示数
+  //　一回のレビュー表示数
   const pageSize = 5;
-  //総ページ数
+  //　pageSizeで割り切れる場合と割り切れない場合でページ数を変更
   const totalPage =
-    data % pageSize == 0 ? data / pageSize : Math.floor(data / pageSize) + 1;
+    data.reviewCount % pageSize == 0
+      ? data.reviewCount / pageSize
+      : Math.floor(data.reviewCount / pageSize) + 1;
 
   return (
     <>
       <Navigation isReviewPage={true} />
       <ReviewTemplate
         session={session.data}
-        reviews={reviews}
+        reviews={data.reviewsByUserId}
         totalPage={totalPage}
       />
     </>

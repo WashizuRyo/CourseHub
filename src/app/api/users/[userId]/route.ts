@@ -9,15 +9,13 @@ const prisma = new PrismaClient({
 
 export async function GET(
   request: NextRequest,
-  {
-    params,
-  }: {
-    params: { userId: string; currentPage: number };
-  },
+  { params }: { params: { userId: string } },
 ) {
   let { userId } = params;
-  const currentPage = params.currentPage;
+
   const session = await auth();
+
+  //  /api/users/:userid/reviews
 
   if (typeof userId !== 'string') {
     return NextResponse.json(
@@ -30,24 +28,19 @@ export async function GET(
     return NextResponse.json({ message: 'Unauthorized' }, { status: 400 });
   }
 
-  const pageSize = 5;
-
   if (session?.user?.name == 'Bob Alice') {
-    userId = process.env.TEST_ID!;
+    userId = String(process.env.TEST_ID);
   }
 
   try {
-    const data = await prisma.reviews.findMany({
+    const data = await prisma.reviews.count({
       where: { createdBy: userId },
-      include: { user: true },
-      skip: pageSize * (currentPage - 1),
-      take: pageSize,
     });
     return NextResponse.json(data);
   } catch (error) {
     console.error('Database Error', error);
     return NextResponse.json(
-      { message: 'Failed to fetch reviews' },
+      { message: 'Failed to fetch likes' },
       { status: 500 },
     );
   }
