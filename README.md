@@ -84,7 +84,7 @@ https://coursehuber.vercel.app</h1><br>
     </tr>
     <tr>
       <td>Data Fetch</td>
-      <td>Tanstack Query</td>
+      <td>RSC, Tanstack Query</td>
     </tr>
     <tr>
       <td>Database</td>
