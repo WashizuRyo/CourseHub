@@ -3,6 +3,12 @@ import { auth } from '@@/auth';
 import { PrismaClient } from '@prisma/client';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+
+const paramsSchema = z.object({
+  userId: z.string(),
+  currentPage: z.number().int().positive(),
+});
 
 export async function GET(
   req: NextRequest,
@@ -11,19 +17,19 @@ export async function GET(
   // ユーザーIDとページ番号を取得
   const { userId } = params;
   const currentPage = Number(req.nextUrl.searchParams.get('page'));
+  const paramsAndQueryParams = { userId, currentPage };
 
-  // セッションを取得
-  const session = await auth();
-
-  // TODO: userIdとcurrentPageのバリデーションを追加
-
-  // ユーザーIDが文字列でない場合はエラーを返す
-  if (typeof userId !== 'string') {
+  // ユーザーIDとページ番号のバリデーション
+  const result = paramsSchema.safeParse(paramsAndQueryParams);
+  if (!result.success) {
     return NextResponse.json(
-      { message: 'Invalid Id parameter' },
+      { message: 'Invalid userId or page parameter' },
       { status: 401 },
     );
   }
+
+  // セッションを取得
+  const session = await auth();
 
   // セッションがないか、セッションのユーザーIDがリクエストのユーザーIDと一致しない場合はエラーを返す
   if (!session || session?.user?.id !== userId) {
