@@ -2,12 +2,19 @@ import { PAGE_SIZE } from '@/app/lib/constants';
 import { paramsSchema } from '@/app/lib/zod-schema';
 import { auth } from '@@/auth';
 import { PrismaClient } from '@prisma/client';
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+
+const prisma = new PrismaClient({
+  log: ['query'], // クエリのログを出力する設定（開発中のみ有効）
+});
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string } },
+  {
+    params,
+  }: {
+    params: { userId: string };
+  },
 ) {
   // ユーザーIDとページ番号を取得
   const { userId } = params;
@@ -28,7 +35,7 @@ export async function GET(
 
   // セッションがないか、セッションのユーザーIDがリクエストのユーザーIDと一致しない場合はエラーを返す
   if (!session || session?.user?.id !== userId) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 400 });
   }
 
   // if (session?.user?.name == 'Bob Alice') {
@@ -36,29 +43,35 @@ export async function GET(
   // }
 
   try {
-    // PrismaClientをインスタンス化
-    const prisma = new PrismaClient({
-      log: ['query'], // クエリのログを出力する設定（開発中のみ有効）
-    });
-
-    // ユーザーIDに紐づくレビューを取得
-    const reviewsByUserId = await prisma.reviews.findMany({
-      where: { createdBy: userId },
+    const likedReviewByUserId = await prisma.reviews.findMany({
+      where: {
+        likes: {
+          some: {
+            userId,
+          },
+        },
+      },
       include: { user: true },
       skip: PAGE_SIZE * (currentPage - 1),
       take: PAGE_SIZE,
     });
-
-    // ユーザーIDに紐づくレビューの総数を取得
-    const reviewCount = await prisma.reviews.count({
-      where: { createdBy: userId },
+    const likedReviewCountByUserId = await prisma.reviews.count({
+      where: {
+        likes: {
+          some: {
+            userId,
+          },
+        },
+      },
     });
-
-    return NextResponse.json({ reviewsByUserId, reviewCount }, { status: 200 });
+    const dataWithIsLiked = likedReviewByUserId.map((review) => {
+      return { ...review, isLiked: true };
+    });
+    return NextResponse.json({ dataWithIsLiked, likedReviewCountByUserId });
   } catch (error) {
     console.error('Database Error', error);
     return NextResponse.json(
-      { message: 'Failed to fetch reviews' },
+      { message: 'Failed to fetch likes' },
       { status: 500 },
     );
   }
