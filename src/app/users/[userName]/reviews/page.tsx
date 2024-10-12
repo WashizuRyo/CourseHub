@@ -1,8 +1,10 @@
 'use client';
 
+import { getReviewsAndCountByUserId } from '@/app/lib/api/users/get-review-and-count-by-user-id';
+import { PAGE_SIZE } from '@/app/lib/constants';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewTemplate from '@/app/ui/universities/review-template';
-import Navigation from '@/app/ui/universities/userpage/navigation';
+import ReviewSlector from '@/app/ui/universities/userpage/review-selector';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
@@ -17,19 +19,28 @@ export default function Reviews() {
   const currentPage = searchParams.get('page') || 1;
 
   // userIdを元にレビューを取得
-  const { data, isLoading: isLoadingReviews } = useQuery({
+  const {
+    data,
+    isError,
+    error,
+    isLoading: isLoadingReviews,
+  } = useQuery({
     queryKey: ['reviews', currentPage],
-    queryFn: () =>
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/reviews?page=${currentPage}`,
-      ).then((res) => res.json()),
+    queryFn: () => getReviewsAndCountByUserId(userId, Number(currentPage)),
   });
+
+  // エラーが発生した場合
+  if (isError) {
+    return (
+      <div className="mt-3 text-center text-3xl font-bold">{error.message}</div>
+    );
+  }
 
   // ローディング中
   if (isLoadingReviews) {
     return (
       <>
-        <Navigation isReviewPage={true} />
+        <ReviewSlector />
         <div className="mt-3">
           <SearchReviewSkeleton />
         </div>
@@ -37,11 +48,14 @@ export default function Reviews() {
     );
   }
 
+  // 投稿したレビューの数
+  const reviewCount = data.reviewCountByUserId;
+
   // 一度もレビューを投稿していない場合
-  if (data.reviewsByUserId.length == 0) {
+  if (reviewCount === 0) {
     return (
       <>
-        <Navigation isReviewPage={true} />
+        <ReviewSlector />
         <div className="mt-3 text-center text-xl">
           投稿したレビューがありません
         </div>
@@ -49,17 +63,15 @@ export default function Reviews() {
     );
   }
 
-  //　一回のレビュー表示数
-  const pageSize = 5;
   //　pageSizeで割り切れる場合と割り切れない場合でページ数を変更
   const totalPage =
-    data.reviewCount % pageSize == 0
-      ? data.reviewCount / pageSize
-      : Math.floor(data.reviewCount / pageSize) + 1;
+    reviewCount % PAGE_SIZE === 0
+      ? reviewCount / PAGE_SIZE
+      : Math.floor(reviewCount / PAGE_SIZE) + 1;
 
   return (
     <>
-      <Navigation isReviewPage={true} />
+      <ReviewSlector />
       <ReviewTemplate
         session={session.data}
         reviews={data.reviewsByUserId}

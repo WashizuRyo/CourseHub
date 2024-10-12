@@ -1,7 +1,9 @@
-import { PAGE_SIZE } from '@/app/lib/constants';
-import { paramsSchema } from '@/app/lib/zod-schema';
-import { auth } from '@@/auth';
-import { PrismaClient } from '@prisma/client';
+import authenticateSession from '@/app/lib/api/users/authenticate-session';
+import {
+  fetchReviewCountByUserId,
+  fetchReviewsByUserId,
+} from '@/app/lib/api/users/user-queries';
+import validateParams from '@/app/lib/api/users/validate-params';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -9,52 +11,33 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { userId: string } },
 ) {
-  // ユーザーIDとページ番号を取得
-  const { userId } = params;
-  const currentPage = Number(req.nextUrl.searchParams.get('page'));
-  const paramsAndQueryParams = { userId, currentPage };
-
-  // ユーザーIDとページ番号のバリデーション
-  const result = paramsSchema.safeParse(paramsAndQueryParams);
-  if (!result.success) {
-    return NextResponse.json(
-      { message: 'Invalid userId or page parameter' },
-      { status: 401 },
-    );
+  // ページ番号をバリデーション
+  const validationResponse = validateParams(req);
+  // バリデーションエラーがある場合はエラーを返す
+  if (validationResponse instanceof NextResponse) {
+    return validationResponse;
   }
 
-  // セッションを取得
-  const session = await auth();
-
-  // セッションがないか、セッションのユーザーIDがリクエストのユーザーIDと一致しない場合はエラーを返す
-  if (!session || session?.user?.id !== userId) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+  // セッションを認証
+  const authenticateSessionResponse = await authenticateSession(params.userId);
+  // 未認証、権限がない場合はエラーを返す
+  if (authenticateSessionResponse instanceof NextResponse) {
+    return authenticateSessionResponse;
   }
-
-  // if (session?.user?.name == 'Bob Alice') {
-  //   userId = process.env.TEST_ID!;
-  // }
 
   try {
-    // PrismaClientをインスタンス化
-    const prisma = new PrismaClient({
-      log: ['query'], // クエリのログを出力する設定（開発中のみ有効）
-    });
-
-    // ユーザーIDに紐づくレビューを取得
-    const reviewsByUserId = await prisma.reviews.findMany({
-      where: { createdBy: userId },
-      include: { user: true },
-      skip: PAGE_SIZE * (currentPage - 1),
-      take: PAGE_SIZE,
-    });
-
-    // ユーザーIDに紐づくレビューの総数を取得
-    const reviewCount = await prisma.reviews.count({
-      where: { createdBy: userId },
-    });
-
-    return NextResponse.json({ reviewsByUserId, reviewCount }, { status: 200 });
+    // ユーザーIDに紐づくレビューとその総数を取得
+    const [reviewsByUserId, reviewCountByUserId] = await Promise.all([
+      fetchReviewsByUserId(
+        authenticateSessionResponse.user?.id,
+        validationResponse.currentPage,
+      ),
+      fetchReviewCountByUserId(authenticateSessionResponse.user?.id),
+    ]);
+    return NextResponse.json(
+      { reviewsByUserId, reviewCountByUserId },
+      { status: 200 },
+    );
   } catch (error) {
     console.error('Database Error', error);
     return NextResponse.json(

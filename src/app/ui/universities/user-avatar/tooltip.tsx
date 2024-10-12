@@ -17,18 +17,18 @@ export default function Tooltip({ session }: { session: Session | null }) {
         className="absolute right-[15px] top-[78px] z-10 h-min w-[200px]"
         id="tooltip"
       >
-        {session ? (
+        {session?.user ? (
           <div className="rounded bg-blue-200 text-gray-700">
             <div className="flex items-center">
               <Image
-                src={session!.user!.image!}
+                src={session.user.image!}
                 alt="user image"
                 width={38}
                 height={38}
                 className="m-2 rounded-full"
               />
               <Link
-                href="/university/userpage/reviews"
+                href={`/users/${session.user.id}/reviews`}
                 className="break-all hover:text-gray-500"
                 id="username"
               >

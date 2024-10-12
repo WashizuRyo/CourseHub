@@ -24,7 +24,6 @@ export default async function RootLayout({
           </Link>
           <UserAvatar session={session} />
         </div>
-        <div className="flex justify-end"></div>
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

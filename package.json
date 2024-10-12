@@ -16,6 +16,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@auth/core": "^0.37.0",
     "@auth/prisma-adapter": "^2.4.2",
     "@heroicons/react": "^2.1.5",
     "@prisma/client": "5.18.0",
