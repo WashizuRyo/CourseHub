@@ -12,10 +12,10 @@ export async function fetchReviews(className: string) {
   }
 }
 
-export async function fetchUniversity(query: string) {
+export async function fetchUniversityByName(universityName: string) {
   try {
     const data = await prisma.university.findUnique({
-      where: { universityname: query },
+      where: { universityname: universityName },
     });
     return data;
   } catch (error) {

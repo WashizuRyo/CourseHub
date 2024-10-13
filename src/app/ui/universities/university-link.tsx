@@ -1,12 +1,18 @@
-import { fetchUniversity } from '@/app/lib/data';
+import { fetchUniversityByName } from '@/app/lib/data';
 import { BuildingLibraryIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import NotFound from './not-found';
 
-export default async function University({ query }: { query: string }) {
-  const university = await fetchUniversity(query);
+export default async function UniversityLink({
+  universityName,
+}: {
+  universityName: string;
+}) {
+  const university = await fetchUniversityByName(universityName);
+
   return (
     <div>
+      {/* 大学が見つかった場合はリンクを表示 */}
       {university ? (
         <div className="flex justify-center">
           <div className="flex w-[200px] justify-start rounded-xl border bg-blue-500 p-2 shadow-md hover:bg-blue-400">
@@ -22,7 +28,8 @@ export default async function University({ query }: { query: string }) {
           </div>
         </div>
       ) : (
-        <NotFound query={query} />
+        // 見つからなかった場合
+        <NotFound query={universityName} />
       )}
     </div>
   );
