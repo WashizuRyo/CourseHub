@@ -30,3 +30,10 @@ export type University = {
   universityname: string;
   date: string;
 } | null;
+
+export type searchParmas = {
+  query?: string;
+  page?: string;
+  sort?: 'asc' | 'desc';
+  faculty?: string;
+};

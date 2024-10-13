@@ -1,7 +1,8 @@
 'use client';
 
+import { getTotalPage } from '@/app/lib/functions';
 import { useGetLikedReviewsAndCountByUserId } from '@/app/lib/users';
-import { getTotalPage, useGetQueryParams } from '@/app/lib/users/functions';
+import { useGetQueryParams } from '@/app/lib/users/functions';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewTemplate from '@/app/ui/universities/review-template';
 import ReviewSlector from '@/app/ui/universities/userpage/review-selector';

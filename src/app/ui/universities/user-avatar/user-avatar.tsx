@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 export default function UserAvatar({ session }: { session: Session | null }) {
+  // ツールチップが表示の有無を管理
   const [isVisible, setIsVisible] = useState(false);
   return (
     <div
@@ -16,7 +17,8 @@ export default function UserAvatar({ session }: { session: Session | null }) {
       id="user-avatar"
       role="tooltip"
     >
-      {session ? (
+      {/* セッションがある場合はユーザ画像を表示, ない場合はデフォルトのユーザ画像を表示 */}
+      {session?.user ? (
         <Image
           src={session!.user!.image!}
           alt="user image"
@@ -27,6 +29,7 @@ export default function UserAvatar({ session }: { session: Session | null }) {
       ) : (
         <UserIcon className="m-3 size-[64px] rounded-full bg-gray-300 p-2" />
       )}
+      {/* ユーザ画像をホバーしたらツールチップを表示 */}
       {isVisible && <Tooltip session={session} />}
     </div>
   );

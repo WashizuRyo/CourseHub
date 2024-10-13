@@ -48,7 +48,7 @@ export async function fetchReviewsByUniversityId(universityId: number) {
   }
 }
 
-export async function fetchReviewsByClass(
+export async function fetchReviewsByClassNameOrFaculty(
   className: string,
   page: number,
   sort: 'asc' | 'desc',
@@ -100,17 +100,14 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
   }
 }
 
-export async function fetchTotalPage(query: string, faculty: string) {
-  const pageSize = 5;
+export async function fetchReviewCountByQueryOrFaculty(
+  query: string,
+  faculty: string,
+) {
   try {
-    let totalPage = await prisma.reviews.count({
+    const totalPage = await prisma.reviews.count({
       where: faculty ? { faculty } : { className: query },
     });
-    if (totalPage % 5 == 0) {
-      totalPage /= 5;
-    } else {
-      totalPage = Math.floor(totalPage / pageSize) + 1;
-    }
     return totalPage;
   } catch (error) {
     console.error('Database Error', error);
