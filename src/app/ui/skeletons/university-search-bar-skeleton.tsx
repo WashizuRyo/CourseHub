@@ -1,4 +1,4 @@
-export default function SearchUniversitySkeleton() {
+export default function UniversitySearchBarSkeleton() {
   return (
     <div className="flex justify-center">
       <div className="flex h-[66px] w-[200px] justify-start rounded-xl border bg-blue-500 p-2 shadow-md">
