@@ -1,43 +1,32 @@
 'use client';
 
-import { getLikedReviewsAndCountByUserId } from '@/app/lib/api/users/get-liked-reviews-and-count-by-user-id';
-import { PAGE_SIZE } from '@/app/lib/constants';
+import { useGetLikedReviewsAndCountByUserId } from '@/app/lib/users';
+import { getTotalPage, useGetQueryParams } from '@/app/lib/users/functions';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewTemplate from '@/app/ui/universities/review-template';
 import ReviewSlector from '@/app/ui/universities/userpage/review-selector';
-import { useQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 
-export default function Likes() {
-  // セッションを取得
-  const session = useSession();
-  const userId = session?.data?.user?.id || '';
-
+export default function Likes({ params }: { params: { userId: string } }) {
+  // ユーザIDを取得
+  const userId = params.userId;
   // クエリパラメータのpageを取得
-  const searchParams = useSearchParams();
-  const currentPage = searchParams.get('page') || 1;
+  const { currentPage } = useGetQueryParams('page');
 
   // ユーザがいいねしたレビューを取得
-  const {
-    data,
-    error,
-    isError,
-    isLoading: isLoadingLikedReviews,
-  } = useQuery({
-    queryKey: ['likes', currentPage],
-    queryFn: () => getLikedReviewsAndCountByUserId(userId, Number(currentPage)),
-  });
+  const { data, error, isError, isLoadingLikedReviews } =
+    useGetLikedReviewsAndCountByUserId(userId, Number(currentPage));
 
   // エラーが発生した場合
   if (isError) {
     return (
-      <div className="mt-3 text-center text-3xl font-bold">{error.message}</div>
+      <div className="mt-3 text-center text-3xl font-bold">
+        {error?.message}
+      </div>
     );
   }
 
   // ローディング中
-  if (isLoadingLikedReviews)
+  if (isLoadingLikedReviews) {
     return (
       <>
         <ReviewSlector />
@@ -46,6 +35,7 @@ export default function Likes() {
         </div>
       </>
     );
+  }
 
   // いいねしたレビューの数
   const likedReviewsCount = data.likedReviewCountByUserId;
@@ -62,17 +52,14 @@ export default function Likes() {
     );
 
   //　pageSizeで割り切れる場合と割り切れない場合でページ数を変更
-  const totalPage =
-    likedReviewsCount % PAGE_SIZE === 0
-      ? likedReviewsCount / PAGE_SIZE
-      : Math.floor(likedReviewsCount / PAGE_SIZE) + 1;
+  const totalPage = getTotalPage(likedReviewsCount);
 
   // いいねしたレビューを表示
   return (
     <>
       <ReviewSlector />
       <ReviewTemplate
-        session={session.data}
+        userId={userId}
         reviews={data.likedReviewByUserIdWithIsLikedTrue}
         totalPage={totalPage}
       />
