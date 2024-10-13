@@ -18,7 +18,7 @@ export default async function UniversityLink({
         <div className="flex justify-center">
           <div className="flex w-[200px] justify-start rounded-xl border bg-blue-500 p-2 shadow-md hover:bg-blue-400">
             <Link
-              href={`/university/${university?.universityId}`}
+              href={`/universities/${university?.universityId}`}
               className="flex items-center"
             >
               <BuildingLibraryIcon className="mr-2 size-12 text-white" />

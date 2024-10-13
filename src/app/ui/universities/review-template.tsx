@@ -110,7 +110,7 @@ export default function ReviewTemplate({
                   <div className="mt-6 flex justify-end gap-1">
                     <div className="flex flex-col items-center">
                       <Link
-                        href={`/university/${review.universityId}/edit/${review.id}`}
+                        href={`/universities/${review.universityId}/edit/${review.id}`}
                       >
                         <div className="rounded-md border border-green-400 p-2 shadow-sm hover:bg-gray-100">
                           <PencilSquareIcon className="size-5 text-green-400" />

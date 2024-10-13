@@ -45,14 +45,14 @@ export default async function ClassReviewList({
                   { label: '大学名検索', href: '/' },
                   {
                     label: '講義名検索',
-                    href: `/university/${params.id}`,
+                    href: `/universities/${params.id}`,
                     active: true,
                   },
                 ]}
               />
             </div>
             <div className="m-2 flex w-64 items-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
-              <Link href={`/university/${id}/create`} className="flex gap-4">
+              <Link href={`/universities/${id}/create`} className="flex gap-4">
                 講義レビューを投稿する
                 <ArrowRightIcon className="size-6" />
               </Link>
@@ -69,14 +69,14 @@ export default async function ClassReviewList({
                   { label: '大学名検索', href: '/' },
                   {
                     label: '講義名検索',
-                    href: `/university/${params.id}`,
+                    href: `/universities/${params.id}`,
                     active: true,
                   },
                 ]}
               />
             </div>
             <div className="m-4 size-[54px] rounded-2xl bg-blue-500 p-4 hover:bg-blue-400">
-              <Link href={`/university/${id}/create`}>
+              <Link href={`/universities/${id}/create`}>
                 <PlusIcon className="size-6 text-white" />
               </Link>
             </div>

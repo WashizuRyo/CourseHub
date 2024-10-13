@@ -57,11 +57,11 @@ export default function UpdateReview({
             { label: '大学名検索', href: '/' },
             {
               label: '講義名検索',
-              href: `/university/${universityId}`,
+              href: `/universities/${universityId}`,
             },
             {
               label: 'レビュー編集',
-              href: `/university/${universityId}/edit/${review.id}`,
+              href: `/universities/${universityId}/edit/${review.id}`,
               active: true,
             },
           ]}
@@ -245,7 +245,7 @@ export default function UpdateReview({
 
       <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/university/${universityId}?query=${review.className}`}
+          href={`/universities/${universityId}?query=${review.className}`}
           className="
           rounded-xl
           bg-gray-100
