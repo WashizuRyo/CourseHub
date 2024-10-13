@@ -1,6 +1,12 @@
 import { XCircleIcon } from '@heroicons/react/24/outline';
 
-const NotFound = ({ query, faculty }: { query: string; faculty?: string }) => {
+export default function NotFound({
+  universityName,
+  faculty,
+}: {
+  universityName: string;
+  faculty?: string;
+}) {
   if (faculty) {
     return (
       <div>
@@ -20,10 +26,8 @@ const NotFound = ({ query, faculty }: { query: string; faculty?: string }) => {
         <XCircleIcon className="size-10 text-gray-200" />
       </div>
       <p className="text-center text-xl">
-        見つかりませんでした：&quot;<b>{query}</b>&quot;
+        見つかりませんでした：&quot;<b>{universityName}</b>&quot;
       </p>
     </div>
   );
-};
-
-export default NotFound;
+}

@@ -1,21 +1,24 @@
+import { DEFAULT_UNIVERSITY_NAME } from '@/app/lib/constants';
 import { notosans } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
-import SearchUniversitySkeleton from '@/app/ui/skeletons/search-university-skelton';
+import UniversitySearchBarSkeleton from '@/app/ui/skeletons/university-search-bar-skeleton';
+import UniversityLink from '@/app/ui/universities/university-link';
+import UniversitySearchBar from '@/app/ui/university-search-bar';
 import { Suspense } from 'react';
-import SearchClass from './ui/universities/class';
-import University from './ui/universities/university';
 export default async function Page({
   searchParams,
 }: {
   searchParams?: {
-    query?: string;
+    universityName?: string;
   };
 }) {
-  const query = searchParams?.query || '';
+  // クエリパラメータuniversityNameを取得
+  const universityName =
+    searchParams?.universityName || DEFAULT_UNIVERSITY_NAME;
 
   return (
-    <div>
-      <div className="mt-6 flex flex-col items-center p-4">
+    <main>
+      <section className="mt-6 flex flex-col items-center p-4">
         <div>
           <h1
             className={`${notosans.className} inline-block whitespace-pre-line
@@ -23,9 +26,9 @@ export default async function Page({
           bg-clip-text text-4xl font-semibold leading-[55px] tracking-widest text-transparent
           `}
           >
-            講義選びを、
+            講義選びを
             <br />
-            もっと賢く、
+            もっと賢く
             <br />
             もっと確実に。
           </h1>
@@ -38,26 +41,27 @@ export default async function Page({
             他の学生と情報を交換することで、大学生活をより充実させましょう。最新の講義情報をチェックして、賢い選択をしましょう。
           </p>
         </div>
-      </div>
-      <div className="mb-12 h-96 p-7">
+      </section>
+
+      {/* 大学名検索欄 */}
+      <section className="mb-12 h-96 p-7">
         <div className="flex justify-center">
-          <SearchClass
-            placeholder="大学名を入力"
-            isUniversitySearchBar={true}
-          />
+          <UniversitySearchBar />
         </div>
         <div className="mt-6 text-center">
-          {query ? (
-            <Suspense fallback={<SearchUniversitySkeleton />}>
-              <University query={query} />
+          {/* 大学名が入力された場合 */}
+          {universityName ? (
+            <Suspense fallback={<UniversitySearchBarSkeleton />}>
+              <UniversityLink universityName={universityName} />
             </Suspense>
           ) : (
-            <p className="text-xl">
+            // 大学名が入力されていない場合
+            <p className={`${notosans.className} text-xl text-gray-500`}>
               大学名を入力してください(Aichiと入力してください)
             </p>
           )}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
