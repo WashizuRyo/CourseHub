@@ -4,16 +4,15 @@ import DeleteDialog from '@/app/ui/universities/delete-dialog';
 import Likes from '@/app/ui/universities/likes';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { StarIcon, UserIcon } from '@heroicons/react/24/solid';
-import type { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function ReviewTemplate({
-  session,
+  userId,
   reviews,
   totalPage,
 }: {
-  session: Session | null;
+  userId: string | undefined;
   reviews: Review[];
   id?: string;
   totalPage: number;
@@ -91,7 +90,7 @@ export default function ReviewTemplate({
               <div className="flex justify-between">
                 {/* いいね機能 */}
                 {/* 自分の投稿したレビューにはいいね機能が表示されないようにする。またログインしていない場合も表示しない */}
-                {review.createdBy === session?.user?.id || session === null ? (
+                {review.createdBy === userId || userId === undefined ? (
                   <div></div>
                 ) : (
                   <div className="flex items-end">
@@ -107,7 +106,7 @@ export default function ReviewTemplate({
                 )}
 
                 {/* 編集と削除ページ */}
-                {session?.user?.id === review.createdBy && (
+                {userId === review.createdBy && (
                   <div className="mt-6 flex justify-end gap-1">
                     <div className="flex flex-col items-center">
                       <Link

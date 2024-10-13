@@ -2,6 +2,7 @@ import { PAGE_SIZE } from '@/app/lib/constants';
 import { prisma } from '@/app/lib/prisma';
 import type { Session } from 'next-auth';
 
+// ユーザIDに紐づくいいねしたレビューを取得
 export async function fetchLikedReviewByUserId(
   session: Session,
   currentPage: number,
@@ -20,6 +21,7 @@ export async function fetchLikedReviewByUserId(
   });
 }
 
+// ユーザIDに紐づくいいねしたレビューの総数を取得
 export async function fetchLikedReviewCountByUserId(session: Session) {
   return await prisma.reviews.count({
     where: {

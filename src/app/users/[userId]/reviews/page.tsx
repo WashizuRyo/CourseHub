@@ -1,38 +1,28 @@
 'use client';
 
-import { getReviewsAndCountByUserId } from '@/app/lib/api/users/get-review-and-count-by-user-id';
-import { PAGE_SIZE } from '@/app/lib/constants';
+import { useGetReviewsAndCountByUserId } from '@/app/lib/users';
+import { getTotalPage, useGetQueryParams } from '@/app/lib/users/functions';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewTemplate from '@/app/ui/universities/review-template';
 import ReviewSlector from '@/app/ui/universities/userpage/review-selector';
-import { useQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 
-export default function Reviews() {
-  // ユーザ情報取得
-  const session = useSession();
-  const userId = session?.data?.user?.id || '';
+export default function Reviews({ params }: { params: { userId: string } }) {
+  // ユーザIDを取得
+  const userId = params.userId;
 
   // クエリパラメータ取得
-  const searchParams = useSearchParams();
-  const currentPage = searchParams.get('page') || 1;
+  const { currentPage } = useGetQueryParams('page');
 
   // userIdを元にレビューを取得
-  const {
-    data,
-    isError,
-    error,
-    isLoading: isLoadingReviews,
-  } = useQuery({
-    queryKey: ['reviews', currentPage],
-    queryFn: () => getReviewsAndCountByUserId(userId, Number(currentPage)),
-  });
+  const { data, isError, error, isLoadingReviews } =
+    useGetReviewsAndCountByUserId(userId, Number(currentPage));
 
   // エラーが発生した場合
   if (isError) {
     return (
-      <div className="mt-3 text-center text-3xl font-bold">{error.message}</div>
+      <div className="mt-3 text-center text-3xl font-bold">
+        {error?.message}
+      </div>
     );
   }
 
@@ -63,17 +53,14 @@ export default function Reviews() {
     );
   }
 
-  //　pageSizeで割り切れる場合と割り切れない場合でページ数を変更
-  const totalPage =
-    reviewCount % PAGE_SIZE === 0
-      ? reviewCount / PAGE_SIZE
-      : Math.floor(reviewCount / PAGE_SIZE) + 1;
+  //　総ページ数を取得
+  const totalPage = getTotalPage(reviewCount);
 
   return (
     <>
       <ReviewSlector />
       <ReviewTemplate
-        session={session.data}
+        userId={userId}
         reviews={data.reviewsByUserId}
         totalPage={totalPage}
       />

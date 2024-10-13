@@ -32,7 +32,7 @@ export default async function Reviews({
         <NotFound query={query} faculty={faculty} />
       ) : (
         <ReviewTemplate
-          session={session}
+          userId={session?.user?.id}
           id={id}
           totalPage={totalPage}
           reviews={reviewsAddedIsLiked}
