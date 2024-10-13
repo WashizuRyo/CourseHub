@@ -3,7 +3,10 @@ import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { fetchReviewsByClass, fetchTotalPage } from '../../lib/data';
+import {
+  fetchReviewsByClassNameOrFaculty,
+  fetchReviewsCountByQueryOrFaculty,
+} from '../../lib/data';
 import SearchClass from './class';
 import Reviews from './search-reviews';
 
@@ -25,13 +28,13 @@ export default async function ClassReviewList({
   const faculty = searchParams?.faculty || '';
 
   const id = parseInt(params.id);
-  const reviewsWithClass = await fetchReviewsByClass(
+  const reviewsWithClass = await fetchReviewsByClassNameOrFaculty(
     query,
     currentPage,
     sort,
     faculty,
   );
-  const totalPage = await fetchTotalPage(query, faculty);
+  const totalPage = await fetchReviewsCountByQueryOrFaculty(query, faculty);
 
   return (
     <div>
