@@ -45,11 +45,11 @@ export default function CreateReviewForm({
             { label: '大学名検索', href: '/' },
             {
               label: '講義名検索',
-              href: `/university/${universityId}`,
+              href: `/universities/${universityId}`,
             },
             {
               label: 'レビュー作成',
-              href: `/university/${universityId}/create`,
+              href: `/universities/${universityId}/create`,
               active: true,
             },
           ]}
@@ -229,7 +229,7 @@ export default function CreateReviewForm({
 
       <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/university/${universityId}`}
+          href={`/universities/${universityId}`}
           className="rounded-xl bg-gray-100 p-3 hover:bg-gray-200"
         >
           キャンセル

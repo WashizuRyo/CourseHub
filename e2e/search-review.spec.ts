@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('レビュー検索', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/university/1');
+    await page.goto('http://localhost:3000/universities/1');
   });
 
   test.beforeAll(async () => {
@@ -17,7 +17,7 @@ test.describe('レビュー検索', () => {
   });
 
   test('ログインせずにレビュー投稿する場合', async ({ page }) => {
-    await page.goto('http://localhost:3000/university/1');
+    await page.goto('http://localhost:3000/universities/1');
     await page.getByRole('link', { name: '講義レビューを投稿する' }).click();
     await expect(
       page.getByText('右上のアイコンからログインしてください'),
@@ -44,7 +44,7 @@ test.describe('レビュー検索', () => {
 
   test('ソート機能が正常に動作する', async ({ page }) => {
     await page.goto(
-      'http://localhost:3000/university/1?query=test&page=1&sort=asc',
+      'http://localhost:3000/universities/1?query=test&page=1&sort=asc',
     );
     await expect(page.getByText('2020-01-01にレビュー')).toBeVisible();
     await expect(page.getByText('2021-01-01にレビュー')).toBeVisible();
