@@ -8,6 +8,7 @@ export default async function UniversityLink({
 }: {
   universityName: string;
 }) {
+  // 大学が存在するかチェック
   const university = await fetchUniversityByName(universityName);
 
   return (
