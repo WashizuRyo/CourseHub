@@ -11,11 +11,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // セッションを取得
   const session = await auth();
   return (
     <html lang="ja">
       <body className={`${inter.className} antialiased`}>
         <div className="flex justify-between bg-slate-100 shadow">
+          {/* ロゴ */}
           <Link href="/" className="ml-2 flex items-center">
             <div className={`${lusitana.className} flex items-center`}>
               <AcademicCapIcon className="size-12" />
@@ -24,6 +26,7 @@ export default async function RootLayout({
           </Link>
           <UserAvatar session={session} />
         </div>
+        {/* Client Componentでもセッションを取得できるように */}
         <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>

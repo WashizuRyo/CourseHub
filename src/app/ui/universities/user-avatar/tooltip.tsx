@@ -17,6 +17,7 @@ export default function Tooltip({ session }: { session: Session | null }) {
         className="absolute right-[15px] top-[78px] z-10 h-min w-[200px]"
         id="tooltip"
       >
+        {/* セッションがある場合はユーザページへのリンクとログアウトボタンを表示 */}
         {session?.user ? (
           <div className="rounded bg-blue-200 text-gray-700">
             <div className="flex items-center">
@@ -41,6 +42,7 @@ export default function Tooltip({ session }: { session: Session | null }) {
             </div>
           </div>
         ) : (
+          // セッションがない場合はログインボタンを表示
           <div className="rounded bg-blue-200 text-center text-gray-700">
             <div className="flex items-center pl-2">
               <UserIcon className="m-3 size-[38px] rounded-full bg-gray-300 p-2" />
