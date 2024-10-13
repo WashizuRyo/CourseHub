@@ -8,7 +8,7 @@ import {
   fetchReviewsCountByQueryOrFaculty,
 } from '../../lib/data';
 import SearchClass from './class';
-import Reviews from './search-reviews';
+import ReviewsWrap from './reviews-wrap';
 
 export default async function ClassReviewList({
   params,
@@ -98,7 +98,7 @@ export default async function ClassReviewList({
       <div className="mt-4">
         {query || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
-            <Reviews
+            <ReviewsWrap
               query={query}
               faculty={faculty}
               reviewsWithClass={reviewsWithClass}
