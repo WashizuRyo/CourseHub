@@ -1,9 +1,10 @@
 import type { Review } from '@/app/lib/definitions';
+import { getAddedIsLikedFieldToReviews } from '@/app/lib/functions';
 import ReviewTemplate from '@/app/ui/universities/review-template';
 import { auth } from '@@/auth';
 import NotFound from './not-found';
 
-export default async function Reviews({
+export default async function ReviewsWrap({
   query,
   faculty,
   reviewsWithClass,
@@ -16,15 +17,14 @@ export default async function Reviews({
   id: string;
   totalPage: number;
 }) {
+  // セッションを取得
   const session = await auth();
 
-  const reviewsAddedIsLiked = reviewsWithClass.map((review) => {
-    const isLiked =
-      review.likes?.some((like) => like.userId === session?.user?.id) || false;
-
-    // 新しいオブジェクトを返す
-    return { ...review, isLiked };
-  });
+  // セッションのユーザがいいねしたかをフィールドに追加
+  const reviewsAddedIsLiked = getAddedIsLikedFieldToReviews(
+    reviewsWithClass,
+    session,
+  );
 
   return (
     <div>

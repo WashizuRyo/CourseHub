@@ -8,7 +8,7 @@ import { getQueryParams, getTotalPage } from '@/app/lib/functions';
 import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import SearchClass from '@/app/ui/universities/class';
-import Reviews from '@/app/ui/universities/search-reviews';
+import ReviewsWrap from '@/app/ui/universities/reviews-wrap';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -113,7 +113,7 @@ export default async function Page({
       <section className="mt-4">
         {query || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
-            <Reviews
+            <ReviewsWrap
               query={query}
               faculty={faculty}
               reviewsWithClass={reviewsByClassNameOrFaculty}
