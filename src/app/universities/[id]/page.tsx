@@ -7,7 +7,7 @@ import type { searchParmas } from '@/app/lib/definitions';
 import { getQueryParams, getTotalPage } from '@/app/lib/functions';
 import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
-import SearchClass from '@/app/ui/universities/class';
+import ReviewSearch from '@/app/ui/universities/review-search/review-search';
 import ReviewsWrap from '@/app/ui/universities/reviews-wrap';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -21,10 +21,14 @@ export default async function Page({
   params: { id: string };
   searchParams?: searchParmas;
 }) {
-  const { query, currentPage, sort, faculty } = getQueryParams(searchParams);
+  // QueryPrams(className, currentPage, sort, faculty)を取得
+  const { className, currentPage, sort, faculty } =
+    getQueryParams(searchParams);
 
+  // 大学IDを取得
+  const universityId = params.id;
   // 大学が存在するか確認
-  const university = await fetchUniversityByUniversityId(Number(params.id));
+  const university = await fetchUniversityByUniversityId(Number(universityId));
   // 大学が見つからなかった場合
   if (!university) {
     notFound();
@@ -33,15 +37,17 @@ export default async function Page({
   // 講義名または学部名で検索した時の総レビュー数とレビューを取得
   const [reviewCountByClassNameOrFaculty, reviewsByClassNameOrFaculty] =
     await Promise.all([
-      await fetchReviewCountByQueryOrFaculty(query, faculty),
-      await fetchReviewsByClassNameOrFaculty(query, currentPage, sort, faculty),
+      await fetchReviewCountByQueryOrFaculty(className, faculty),
+      await fetchReviewsByClassNameOrFaculty(
+        className,
+        currentPage,
+        sort,
+        faculty,
+      ),
     ]);
 
   // 総ページ数を取得
   const totalPage = getTotalPage(reviewCountByClassNameOrFaculty);
-
-  // 大学IDを取得
-  const universityId = params.id;
 
   return (
     <main>
@@ -100,24 +106,21 @@ export default async function Page({
           </div>
         </section>
 
-        {/* 講義名検索欄, 学部選択メニュー, ソート選択メニュー */}
+        {/* 講義名入力欄, 学部選択メニュー, ソート選択メニュー */}
         <section className="flex justify-center px-7 pt-2">
-          <SearchClass
-            placeholder="授業名を入力"
-            isUniversitySearchBar={false}
-          />
+          <ReviewSearch />
         </section>
       </div>
 
       {/* 講義名または学部名が入力または選択された場合 */}
       <section className="mt-4">
-        {query || faculty ? (
+        {className || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
             <ReviewsWrap
-              query={query}
+              query={className}
               faculty={faculty}
               reviewsWithClass={reviewsByClassNameOrFaculty}
-              id={params.id}
+              universityId={universityId}
               totalPage={totalPage}
             />
           </Suspense>
