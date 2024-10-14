@@ -16,12 +16,12 @@ export function getTotalPage(pageCount: number) {
 
 export function getQueryParams(searchParams?: searchParmas) {
   // QueryParamsを取得
-  const query = searchParams?.query || DEFAULT_CLASS_NAME;
+  const className = searchParams?.classname || DEFAULT_CLASS_NAME;
   const currentPage = Number(searchParams?.page) || DEFAULT_PAGE;
   const sort = searchParams?.sort || 'desc'; // デフォルトで降順にソート
   const faculty = searchParams?.faculty || DEFAULT_FACULTY_NAME;
 
-  return { query, currentPage, sort, faculty };
+  return { className, currentPage, sort, faculty };
 }
 
 export function getAddedIsLikedFieldToReviews(

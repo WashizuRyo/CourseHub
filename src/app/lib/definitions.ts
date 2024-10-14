@@ -32,7 +32,7 @@ export type University = {
 } | null;
 
 export type searchParmas = {
-  query?: string;
+  classname?: string;
   page?: string;
   sort?: 'asc' | 'desc';
   faculty?: string;

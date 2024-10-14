@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from '@/app/lib/constants';
 import { prisma } from './prisma';
 
 export async function fetchReviews(className: string) {
@@ -54,12 +55,10 @@ export async function fetchReviewsByClassNameOrFaculty(
   sort: 'asc' | 'desc',
   faculty: string,
 ) {
-  const pageSize = 5;
-
   try {
     const data = await prisma.reviews.findMany({
-      skip: pageSize * (page - 1),
-      take: pageSize,
+      skip: PAGE_SIZE * (page - 1),
+      take: PAGE_SIZE,
       where: faculty ? { faculty } : { className },
       orderBy: { date: sort },
       include: {

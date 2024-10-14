@@ -245,7 +245,7 @@ export default function UpdateReview({
 
       <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/universities/${universityId}?query=${review.className}`}
+          href={`/universities/${universityId}?classname=${review.className}`}
           className="
           rounded-xl
           bg-gray-100
