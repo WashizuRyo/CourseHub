@@ -8,13 +8,13 @@ export default async function ReviewsWrap({
   query,
   faculty,
   reviewsWithClass,
-  id,
+  universityId,
   totalPage,
 }: {
   query: string;
   faculty: string;
   reviewsWithClass: Review[];
-  id: string;
+  universityId: string;
   totalPage: number;
 }) {
   // セッションを取得
@@ -33,7 +33,7 @@ export default async function ReviewsWrap({
       ) : (
         <ReviewTemplate
           userId={session?.user?.id}
-          id={id}
+          id={universityId}
           totalPage={totalPage}
           reviews={reviewsAddedIsLiked}
         />
