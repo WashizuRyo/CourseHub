@@ -1,6 +1,6 @@
 'use server';
 
-import { signIn, signOut } from '@@/auth';
+import { auth, signIn, signOut } from '@@/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -172,6 +172,7 @@ export async function deleteReview(
   query: string,
   accessPath: string,
 ) {
+  const session = await auth();
   try {
     await prisma.reviews.delete({
       where: { id: evaluationId },
@@ -194,8 +195,8 @@ export async function deleteReview(
     );
     redirect(`/universities/${id}?classname=${encodeURIComponent(query)}`);
   } else {
-    revalidatePath('/universities/userpage/reviews?page=1');
-    redirect('/universities/userpage/reviews?page=1');
+    revalidatePath(`/users/${session?.user?.id}/likes`);
+    redirect(`/users/${session?.user?.id}/likes`);
   }
 }
 
