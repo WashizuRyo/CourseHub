@@ -100,10 +100,10 @@ export async function createReview(
   }
 
   revalidatePath(
-    `/universities/${universityId}?query=${encodeURIComponent(className)}`,
+    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
   );
   redirect(
-    `/universities/${universityId}?query=${encodeURIComponent(className)}`,
+    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
   );
 }
 
@@ -159,10 +159,10 @@ export async function updateReview(
   }
 
   revalidatePath(
-    `/universities/${universityId}?query=${encodeURIComponent(className)}`,
+    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
   );
   redirect(
-    `/universities/${universityId}?query=${encodeURIComponent(className)}`,
+    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
   );
 }
 
@@ -183,14 +183,16 @@ export async function deleteReview(
     };
   }
 
-  // accessPathが/universities/[一文字以上の任意の数字]の場合/universities/${id}?query=${query}に
+  // accessPathが/universities/[一文字以上の任意の数字]の場合/universities/${id}?classname=${classname}に
   // リダイレクトする(大学名検索欄から閲覧し削除した時)
   // それ以外の場合はaccessPathにリダイレクトする(userページから削除した時)
   const regix = new RegExp('^/universities/\\d+$');
 
   if (regix.test(accessPath)) {
-    revalidatePath(`/universities/${id}?query=${encodeURIComponent(query)}`);
-    redirect(`/universities/${id}?query=${encodeURIComponent(query)}`);
+    revalidatePath(
+      `/universities/${id}?classname=${encodeURIComponent(query)}`,
+    );
+    redirect(`/universities/${id}?classname=${encodeURIComponent(query)}`);
   } else {
     revalidatePath('/universities/userpage/reviews?page=1');
     redirect('/universities/userpage/reviews?page=1');
