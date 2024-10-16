@@ -28,13 +28,16 @@ export default function DeleteDialog({
   );
   return (
     <>
-      <button
-        type="button"
-        onClick={handleShowModal}
-        className="rounded-md border border-red-400 p-2 shadow-sm hover:bg-gray-100"
-      >
-        <TrashIcon className="size-5 text-red-400" />
-      </button>
+      <div className="flex flex-col items-center">
+        <button
+          type="button"
+          onClick={handleShowModal}
+          className="rounded-md border border-red-400 p-2 shadow-sm hover:bg-gray-100"
+        >
+          <TrashIcon className="size-5 text-red-400" />
+        </button>
+        <span className="mt-1 text-sm">削除</span>
+      </div>
       <dialog
         ref={dialogRef}
         className="h-6/12 md:h-4/2 w-9/12 rounded shadow-lg md:w-4/12"

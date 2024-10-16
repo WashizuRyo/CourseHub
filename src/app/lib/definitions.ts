@@ -10,9 +10,12 @@ export type Review = {
   evaluation: string;
   universityId: number;
   user: User;
-  // hitCount: number;
   likes?: Likes[];
-  isLiked?: boolean;
+  // isLiked?: boolean;
+};
+
+export type ReviewWithLike = Review & {
+  isLiked: boolean;
 };
 
 export type Likes = {

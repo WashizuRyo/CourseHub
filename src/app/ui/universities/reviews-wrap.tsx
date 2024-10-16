@@ -10,10 +10,8 @@ import NotFound from './not-found';
 
 export default async function ReviewsWrap({
   searchParams,
-  universityId,
 }: {
   searchParams: searchParmas;
-  universityId: string;
 }) {
   // QueryPrams(className, currentPage, sort, faculty)を取得
   const { className, currentPage, sort, faculty } =
@@ -39,7 +37,6 @@ export default async function ReviewsWrap({
   return (
     <ReviewTemplate
       userId={session?.user?.id}
-      id={universityId}
       hitCount={reviewsByClassNameOrFaculty.hitCount}
       reviews={reviewsAddedIsLiked}
     />
