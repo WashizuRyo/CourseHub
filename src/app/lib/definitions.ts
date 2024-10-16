@@ -10,6 +10,7 @@ export type Review = {
   evaluation: string;
   universityId: number;
   user: User;
+  // hitCount: number;
   likes?: Likes[];
   isLiked?: boolean;
 };
@@ -33,7 +34,7 @@ export type University = {
 
 export type searchParmas = {
   classname?: string;
-  page?: string;
+  page: string;
   sort?: 'asc' | 'desc';
   faculty?: string;
 };

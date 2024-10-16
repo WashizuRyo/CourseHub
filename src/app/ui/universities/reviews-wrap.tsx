@@ -1,43 +1,47 @@
-import type { Review } from '@/app/lib/definitions';
-import { getAddedIsLikedFieldToReviews } from '@/app/lib/functions';
+import { fetchReviewsByClassNameOrFaculty } from '@/app/lib/data';
+import type { searchParmas } from '@/app/lib/definitions';
+import {
+  getAddedIsLikedFieldToReviews,
+  getQueryParams,
+} from '@/app/lib/functions';
 import ReviewTemplate from '@/app/ui/universities/review-template';
 import { auth } from '@@/auth';
 import NotFound from './not-found';
 
 export default async function ReviewsWrap({
-  query,
-  faculty,
-  reviewsWithClass,
+  searchParams,
   universityId,
-  totalPage,
 }: {
-  query: string;
-  faculty: string;
-  reviewsWithClass: Review[];
+  searchParams: searchParmas;
   universityId: string;
-  totalPage: number;
 }) {
-  // セッションを取得
-  const session = await auth();
+  // QueryPrams(className, currentPage, sort, faculty)を取得
+  const { className, currentPage, sort, faculty } =
+    getQueryParams(searchParams);
+
+  // 講義名または学部名で検索した時のレビューとセッションを取得
+  const [reviewsByClassNameOrFaculty, session] = await Promise.all([
+    fetchReviewsByClassNameOrFaculty(className, currentPage, sort, faculty),
+    auth(),
+  ]);
+
+  // レビューがない場合
+  if (reviewsByClassNameOrFaculty.hitCount === 0) {
+    return <NotFound query={className} faculty={faculty} />;
+  }
 
   // セッションのユーザがいいねしたかをフィールドに追加
   const reviewsAddedIsLiked = getAddedIsLikedFieldToReviews(
-    reviewsWithClass,
+    reviewsByClassNameOrFaculty.data,
     session,
   );
 
   return (
-    <div>
-      {reviewsAddedIsLiked.length === 0 ? (
-        <NotFound query={query} faculty={faculty} />
-      ) : (
-        <ReviewTemplate
-          userId={session?.user?.id}
-          id={universityId}
-          totalPage={totalPage}
-          reviews={reviewsAddedIsLiked}
-        />
-      )}
-    </div>
+    <ReviewTemplate
+      userId={session?.user?.id}
+      id={universityId}
+      hitCount={reviewsByClassNameOrFaculty.hitCount}
+      reviews={reviewsAddedIsLiked}
+    />
   );
 }

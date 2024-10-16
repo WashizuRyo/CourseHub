@@ -52,8 +52,8 @@ export async function fetchReviewsByUniversityId(universityId: number) {
 export async function fetchReviewsByClassNameOrFaculty(
   className: string,
   page: number,
-  sort: 'asc' | 'desc',
-  faculty: string,
+  sort?: 'asc' | 'desc',
+  faculty?: string,
 ) {
   try {
     const data = await prisma.reviews.findMany({
@@ -72,7 +72,12 @@ export async function fetchReviewsByClassNameOrFaculty(
         likes: true,
       },
     });
-    return data;
+
+    const hitCount = await prisma.reviews.count({
+      where: faculty ? { faculty } : { className },
+    });
+
+    return { data, hitCount };
   } catch (error) {
     console.error('Database Error', error);
     throw new Error('Failed to fetch reviews');
@@ -99,7 +104,7 @@ export default async function fetchReviewByEvaluationId(evaluationId: number) {
   }
 }
 
-export async function fetchReviewCountByQueryOrFaculty(
+export async function fetchReviewCountBClassNameOrFaculty(
   query: string,
   faculty: string,
 ) {

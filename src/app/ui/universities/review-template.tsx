@@ -10,12 +10,12 @@ import Link from 'next/link';
 export default function ReviewTemplate({
   userId,
   reviews,
-  totalPage,
+  hitCount,
 }: {
   userId: string | undefined;
   reviews: Review[];
   id?: string;
-  totalPage: number;
+  hitCount: number;
 }) {
   const stars = [1, 2, 3, 4, 5];
 
@@ -134,7 +134,7 @@ export default function ReviewTemplate({
         ))}
       </div>
       <div className="mt-6 text-center">
-        <Pagenation totalPage={totalPage} />
+        <Pagenation hitCount={hitCount} />
       </div>
     </div>
   );

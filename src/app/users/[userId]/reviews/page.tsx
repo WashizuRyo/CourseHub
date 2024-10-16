@@ -1,6 +1,5 @@
 'use client';
 
-import { getTotalPage } from '@/app/lib/functions';
 import { useGetReviewsAndCountByUserId } from '@/app/lib/users';
 import { useGetQueryParams } from '@/app/lib/users/functions';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
@@ -39,11 +38,8 @@ export default function Reviews({ params }: { params: { userId: string } }) {
     );
   }
 
-  // 投稿したレビューの数
-  const reviewCount = data.reviewCountByUserId;
-
   // 一度もレビューを投稿していない場合
-  if (reviewCount === 0) {
+  if (data.reviewCountByUserId === 0) {
     return (
       <>
         <ReviewSlector />
@@ -54,16 +50,13 @@ export default function Reviews({ params }: { params: { userId: string } }) {
     );
   }
 
-  //　総ページ数を取得
-  const totalPage = getTotalPage(reviewCount);
-
   return (
     <>
       <ReviewSlector />
       <ReviewTemplate
         userId={userId}
         reviews={data.reviewsByUserId}
-        totalPage={totalPage}
+        hitCount={data.reviewCountByUserId}
       />
     </>
   );
