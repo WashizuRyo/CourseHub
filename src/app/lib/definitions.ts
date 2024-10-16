@@ -11,7 +11,11 @@ export type Review = {
   universityId: number;
   user: User;
   likes?: Likes[];
-  isLiked?: boolean;
+  // isLiked?: boolean;
+};
+
+export type ReviewWithLike = Review & {
+  isLiked: boolean;
 };
 
 export type Likes = {
@@ -33,7 +37,7 @@ export type University = {
 
 export type searchParmas = {
   classname?: string;
-  page?: string;
+  page: string;
   sort?: 'asc' | 'desc';
   faculty?: string;
 };

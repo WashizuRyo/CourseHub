@@ -1,10 +1,6 @@
-import {
-  fetchReviewCountByQueryOrFaculty,
-  fetchReviewsByClassNameOrFaculty,
-  fetchUniversityByUniversityId,
-} from '@/app/lib/data';
+import { fetchUniversityByUniversityId } from '@/app/lib/data';
 import type { searchParmas } from '@/app/lib/definitions';
-import { getQueryParams, getTotalPage } from '@/app/lib/functions';
+import { getQueryParams } from '@/app/lib/functions';
 import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
 import ReviewSearch from '@/app/ui/universities/review-search/review-search';
@@ -19,13 +15,12 @@ export default async function Page({
   searchParams,
 }: {
   params: { id: string };
-  searchParams?: searchParmas;
+  searchParams: searchParmas;
 }) {
-  // QueryPrams(className, currentPage, sort, faculty)を取得
-  const { className, currentPage, sort, faculty } =
-    getQueryParams(searchParams);
+  // QueryPrams(className, faculty)を取得
+  const { className, faculty } = getQueryParams(searchParams);
 
-  // 大学IDを取得
+  // // 大学IDを取得
   const universityId = params.id;
   // 大学が存在するか確認
   const university = await fetchUniversityByUniversityId(Number(universityId));
@@ -33,21 +28,6 @@ export default async function Page({
   if (!university) {
     notFound();
   }
-
-  // 講義名または学部名で検索した時の総レビュー数とレビューを取得
-  const [reviewCountByClassNameOrFaculty, reviewsByClassNameOrFaculty] =
-    await Promise.all([
-      await fetchReviewCountByQueryOrFaculty(className, faculty),
-      await fetchReviewsByClassNameOrFaculty(
-        className,
-        currentPage,
-        sort,
-        faculty,
-      ),
-    ]);
-
-  // 総ページ数を取得
-  const totalPage = getTotalPage(reviewCountByClassNameOrFaculty);
 
   return (
     <main>
@@ -116,13 +96,7 @@ export default async function Page({
       <section className="mt-4">
         {className || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
-            <ReviewsWrap
-              query={className}
-              faculty={faculty}
-              reviewsWithClass={reviewsByClassNameOrFaculty}
-              universityId={universityId}
-              totalPage={totalPage}
-            />
+            <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
           <p className="text-center text-xl">

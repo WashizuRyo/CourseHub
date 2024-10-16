@@ -1,6 +1,5 @@
 'use client';
 
-import { getTotalPage } from '@/app/lib/functions';
 import { useGetLikedReviewsAndCountByUserId } from '@/app/lib/users';
 import { useGetQueryParams } from '@/app/lib/users/functions';
 import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
@@ -38,11 +37,8 @@ export default function Likes({ params }: { params: { userId: string } }) {
     );
   }
 
-  // いいねしたレビューの数
-  const likedReviewsCount = data.likedReviewCountByUserId;
-
   // いいねしたレビューがなかった場合
-  if (likedReviewsCount === 0)
+  if (data.likedReviewCountByUserId === 0)
     return (
       <>
         <ReviewSlector />
@@ -52,9 +48,6 @@ export default function Likes({ params }: { params: { userId: string } }) {
       </>
     );
 
-  //　pageSizeで割り切れる場合と割り切れない場合でページ数を変更
-  const totalPage = getTotalPage(likedReviewsCount);
-
   // いいねしたレビューを表示
   return (
     <>
@@ -62,7 +55,7 @@ export default function Likes({ params }: { params: { userId: string } }) {
       <ReviewTemplate
         userId={userId}
         reviews={data.likedReviewByUserIdWithIsLikedTrue}
-        totalPage={totalPage}
+        hitCount={data.likedReviewCountByUserId}
       />
     </>
   );

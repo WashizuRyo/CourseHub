@@ -1,14 +1,17 @@
 'use client';
 
+import { getTotalPage } from '@/app/lib/functions';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-export default function Pagenation({ totalPage }: { totalPage: number }) {
+export default function Pagenation({ hitCount }: { hitCount: number }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const currentPage = Number(searchParams.get('page')) || 1;
+
+  const totalPage = getTotalPage(hitCount);
 
   const createURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
