@@ -96,10 +96,7 @@ export default async function Page({
       <section className="mt-4">
         {className || faculty ? (
           <Suspense fallback={<SearchReviewSkeleton />}>
-            <ReviewsWrap
-              searchParams={searchParams}
-              universityId={universityId}
-            />
+            <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
           <p className="text-center text-xl">
