@@ -33,10 +33,10 @@ export default async function Page({
     <main>
       <div className="flex flex-col">
         {/* パソコンから閲覧した場合 */}
-        <section className="hidden md:block">
+        <div className="hidden md:block">
           <div className="ml-4 mt-2 flex justify-between">
             {/* パンクズリスト */}
-            <div className="m-2 flex items-center">
+            <section className="m-2 flex items-center">
               <Breadcrumb
                 breadcrumbs={[
                   { label: '大学名検索', href: '/' },
@@ -47,25 +47,29 @@ export default async function Page({
                   },
                 ]}
               />
-            </div>
+            </section>
             {/* 講義レビュー投稿フォームへのリンク */}
-            <div className="m-2 flex w-64 items-center gap-3 rounded-2xl bg-blue-500 p-4 text-white hover:bg-blue-400">
-              <Link
-                href={`/universities/${universityId}/create`}
-                className="flex gap-4"
-              >
-                講義レビューを投稿する
-                <ArrowRightIcon className="size-6" />
-              </Link>
-            </div>
+            <Link
+              href={`/universities/${universityId}/create`}
+              className="m-2 w-64 gap-3 rounded-2xl bg-blue-500 text-white hover:bg-blue-400"
+            >
+              <div className="flex gap-4 p-4">
+                <span className="flex items-center">
+                  講義レビューを投稿する
+                </span>
+                <div>
+                  <ArrowRightIcon className="size-8" />
+                </div>
+              </div>
+            </Link>
           </div>
-        </section>
+        </div>
 
         {/* スマホから閲覧した場合 */}
-        <section className="block md:hidden">
+        <div className="block md:hidden">
           <div className="ml-5 flex justify-between">
             {/* パンクズリスト */}
-            <div className="flex items-center">
+            <section className="flex items-center">
               <Breadcrumb
                 breadcrumbs={[
                   { label: '大学名検索', href: '/' },
@@ -76,15 +80,18 @@ export default async function Page({
                   },
                 ]}
               />
-            </div>
+            </section>
             {/* 講義レビュー投稿フォームへのリンク */}
-            <div className="m-4 size-[54px] rounded-2xl bg-blue-500 p-4 hover:bg-blue-400">
-              <Link href={`/universities/${universityId}/create`}>
-                <PlusIcon className="size-6 text-white" />
-              </Link>
-            </div>
+            <Link
+              href={`/universities/${universityId}/create`}
+              className="m-4 size-[54px] rounded-2xl bg-blue-500 hover:bg-blue-400"
+            >
+              <div className="p-4">
+                <PlusIcon className="flex size-6 items-center text-white" />
+              </div>
+            </Link>
           </div>
-        </section>
+        </div>
 
         {/* 講義名入力欄, 学部選択メニュー, ソート選択メニュー */}
         <section className="flex justify-center px-7 pt-2">
