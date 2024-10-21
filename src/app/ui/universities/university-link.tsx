@@ -11,27 +11,28 @@ export default async function UniversityLink({
   // 大学が存在するかチェック
   const university = await fetchUniversityByName(universityName);
 
+  if (!university) {
+    return <NotFound query={universityName} />;
+  }
+
   return (
     <div>
       {/* 大学が見つかった場合はリンクを表示 */}
-      {university ? (
-        <div className="flex justify-center">
-          <div className="flex w-[200px] justify-start rounded-xl border bg-blue-500 p-2 shadow-md hover:bg-blue-400">
-            <Link
-              href={`/universities/${university?.universityId}`}
-              className="flex items-center"
-            >
-              <BuildingLibraryIcon className="mr-2 size-12 text-white" />
-              <p className="mt-1 text-2xl text-white">
+      <div className="flex justify-center">
+        <div className="flex justify-start rounded-xl border bg-blue-500 shadow-md hover:bg-blue-400">
+          <Link
+            href={`/universities/${university?.universityId}`}
+            className="flex items-center"
+          >
+            <div className="flex w-[180px] items-center p-2">
+              <BuildingLibraryIcon className="ml-4 mr-1 size-12 text-white" />
+              <p className="text-2xl text-white">
                 {university?.universityname}
               </p>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
-      ) : (
-        // 見つからなかった場合
-        <NotFound query={universityName} />
-      )}
+      </div>
     </div>
   );
 }
