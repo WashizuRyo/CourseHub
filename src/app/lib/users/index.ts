@@ -6,12 +6,7 @@ export function useGetLikedReviewsAndCountByUserId(
   userId: string,
   currentPage: number,
 ) {
-  const {
-    data,
-    error,
-    isError,
-    isLoading: isLoadingLikedReviews,
-  } = useQuery({
+  const { data, error, isError, isPending } = useQuery({
     queryKey: ['likes', currentPage],
     queryFn: () => getLikedReviewsAndCountByUserId(userId, Number(currentPage)),
   });
@@ -20,7 +15,7 @@ export function useGetLikedReviewsAndCountByUserId(
     data,
     error,
     isError,
-    isLoadingLikedReviews,
+    isPending,
   };
 }
 
