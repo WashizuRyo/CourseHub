@@ -1,4 +1,5 @@
 import { PAGE_SIZE } from '@/app/lib/constants';
+import type { Review } from '@/app/lib/definitions';
 import { prisma } from '@/app/lib/prisma';
 import type { Session } from 'next-auth';
 
@@ -38,7 +39,7 @@ export async function fetchLikedReviewCountByUserId(session: Session) {
 export async function fetchReviewsByUserId(
   userId: string | undefined,
   currentPage: number,
-) {
+): Promise<Review[]> {
   // ユーザーIDがundefinedの場合は空の配列を返す
   if (userId === undefined) return [];
 
@@ -51,7 +52,9 @@ export async function fetchReviewsByUserId(
 }
 
 // ユーザーIDに紐づくレビューの総数を取得
-export async function fetchReviewCountByUserId(userId: string | undefined) {
+export async function fetchReviewCountByUserId(
+  userId: string | undefined,
+): Promise<number> {
   // ユーザーIDがundefinedの場合は0を返す
   if (userId === undefined) return 0;
 

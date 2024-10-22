@@ -4,6 +4,7 @@ import {
   fetchLikedReviewCountByUserId,
 } from '@/app/lib/api/users/user-queries';
 import validateParams from '@/app/lib/api/users/validate-params';
+import type { ReviewWithLike } from '@/app/lib/definitions';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(
@@ -42,11 +43,10 @@ export async function GET(
       fetchLikedReviewCountByUserId(authenticateSessionResponse),
     ]);
     // いいねしたレビューにisLikedプロパティを追加
-    const likedReviewByUserIdWithIsLikedTrue = likedReviewByUserId.map(
-      (review) => {
+    const likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[] =
+      likedReviewByUserId.map((review) => {
         return { ...review, isLiked: true };
-      },
-    );
+      });
     return NextResponse.json({
       likedReviewByUserIdWithIsLikedTrue,
       likedReviewCountByUserId,

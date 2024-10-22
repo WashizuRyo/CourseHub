@@ -1,7 +1,9 @@
+import type { likedReviewsAndCount } from '@/app/lib/definitions';
+
 export async function getLikedReviewsAndCountByUserId(
   userId: string,
   currentPage: number,
-) {
+): Promise<likedReviewsAndCount> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/users/${userId}/likes?page=${currentPage}`,
   );

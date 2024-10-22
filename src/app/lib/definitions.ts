@@ -18,6 +18,16 @@ export type ReviewWithLike = Review & {
   isLiked: boolean;
 };
 
+export type likedReviewsAndCount = {
+  likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[];
+  likedReviewCountByUserId: number;
+};
+
+export type ReviewsAndCount = {
+  reviewsByUserId: ReviewWithLike[];
+  reviewCountByUserId: number;
+};
+
 export type Likes = {
   id: number;
   reviewId: number;

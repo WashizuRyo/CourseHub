@@ -13,7 +13,7 @@ export default function Likes({ params }: { params: { userId: string } }) {
   const { currentPage } = useGetQueryParams('page');
 
   // ユーザがいいねしたレビューを取得
-  const { data, error, isError, isLoadingLikedReviews } =
+  const { data, error, isError, isPending } =
     useGetLikedReviewsAndCountByUserId(userId, Number(currentPage));
 
   // エラーが発生した場合
@@ -26,7 +26,7 @@ export default function Likes({ params }: { params: { userId: string } }) {
   }
 
   // ローディング中
-  if (isLoadingLikedReviews) {
+  if (isPending) {
     return (
       <>
         <ReviewSlector />
@@ -38,7 +38,7 @@ export default function Likes({ params }: { params: { userId: string } }) {
   }
 
   // いいねしたレビューがなかった場合
-  if (data.likedReviewCountByUserId === 0)
+  if (!data)
     return (
       <>
         <ReviewSlector />
