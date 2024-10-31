@@ -8,6 +8,7 @@ import type { Review, searchParmas } from '@/app/lib/definitions';
 import type { Session } from 'next-auth';
 
 export function getTotalPage(pageCount: number) {
+  if (pageCount <= 0) return 0;
   //　PAZE_SIZEで割り切れる場合と割り切れない場合でページ数を変更
   return pageCount % PAGE_SIZE === 0
     ? pageCount / PAGE_SIZE
