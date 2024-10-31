@@ -193,3 +193,10 @@ export async function fetchReviewId(date: string) {
     throw new Error('Failed to fetch reviewId');
   }
 }
+
+export function multi(x: number, y: number): number | null {
+  if (x < 0 || y < 0) {
+    return null;
+  }
+  return x * y;
+}
