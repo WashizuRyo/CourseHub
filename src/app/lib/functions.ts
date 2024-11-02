@@ -1,7 +1,7 @@
 import {
   DEFAULT_CLASS_NAME,
   DEFAULT_FACULTY_NAME,
-  DEFAULT_PAGE,
+  DEFAULT_SORT,
   PAGE_SIZE,
 } from '@/app/lib/constants';
 import type {
@@ -19,12 +19,12 @@ export function getTotalPage(pageCount: number) {
     : Math.floor(pageCount / PAGE_SIZE) + 1;
 }
 
-export function getQueryParams(searchParams?: searchParmas) {
+export function getQueryParams(searchParams: searchParmas) {
   // QueryParamsを取得
-  const className = searchParams?.classname || DEFAULT_CLASS_NAME;
-  const currentPage = Number(searchParams?.page) || DEFAULT_PAGE;
-  const sort = searchParams?.sort || 'desc'; // デフォルトで降順にソート
-  const faculty = searchParams?.faculty || DEFAULT_FACULTY_NAME;
+  const className = searchParams.classname || DEFAULT_CLASS_NAME;
+  const currentPage = Number(searchParams.page);
+  const sort = searchParams.sort || DEFAULT_SORT;
+  const faculty = searchParams.faculty || DEFAULT_FACULTY_NAME;
 
   return { className, currentPage, sort, faculty };
 }

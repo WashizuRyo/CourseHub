@@ -1,6 +1,12 @@
+import {
+  DEFAULT_CLASS_NAME,
+  DEFAULT_FACULTY_NAME,
+  DEFAULT_SORT,
+} from '@/app/lib/constants';
 import type { Review } from '@/app/lib/definitions';
 import {
   getAddedIsLikedFieldToReviews,
+  getQueryParams,
   getTotalPage,
 } from '@/app/lib/functions';
 import type { Session } from 'next-auth';
@@ -91,5 +97,33 @@ describe('getAddedIsLikedFieldToReviews', () => {
     expect(getAddedIsLikedFieldToReviews([testReview1], null)).toEqual([
       { ...testReview1, isLiked: false },
     ]);
+  });
+});
+
+describe('getQueryParams', () => {
+  test('searchParmasを渡して、それぞれのパラメータが返ってくる', () => {
+    const searchParams = {
+      classname: 'test',
+      page: '1',
+      sort: 'asc' as const,
+      faculty: 'Computer Science',
+    };
+
+    expect(getQueryParams(searchParams)).toEqual({
+      className: 'test',
+      currentPage: 1,
+      sort: 'asc',
+      faculty: 'Computer Science',
+    });
+  });
+  test('パラメータがないsearchParmasを渡した時、デフォルトのパラメータが返ってくる', () => {
+    const searchParams = { page: '1' };
+
+    expect(getQueryParams(searchParams)).toEqual({
+      className: DEFAULT_CLASS_NAME,
+      currentPage: 1,
+      sort: DEFAULT_SORT,
+      faculty: DEFAULT_FACULTY_NAME,
+    });
   });
 });
