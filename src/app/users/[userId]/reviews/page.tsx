@@ -39,11 +39,11 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   }
 
   // 一度もレビューを投稿していない場合
-  if (!data) {
+  if (!data?.reviewCountByUserId) {
     return (
       <>
         <ReviewSlector />
-        <div className="mt-3 text-center text-xl">
+        <div className="mt-12 text-center text-xl">
           投稿したレビューがありません
         </div>
       </>
