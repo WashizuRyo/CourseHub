@@ -4,7 +4,11 @@ import {
   DEFAULT_PAGE,
   PAGE_SIZE,
 } from '@/app/lib/constants';
-import type { Review, searchParmas } from '@/app/lib/definitions';
+import type {
+  Review,
+  ReviewWithLike,
+  searchParmas,
+} from '@/app/lib/definitions';
 import type { Session } from 'next-auth';
 
 export function getTotalPage(pageCount: number) {
@@ -28,7 +32,7 @@ export function getQueryParams(searchParams?: searchParmas) {
 export function getAddedIsLikedFieldToReviews(
   reviews: Review[],
   session: Session | null,
-) {
+): ReviewWithLike[] {
   const reviewsAddedIsLiked = reviews.map((review) => {
     // レビューをいいねした人の中にsession?.user?.idがあったらtrueを返す
     // booleanがわかればいいのでmapではなくsomeを使用
