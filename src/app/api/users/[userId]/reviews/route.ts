@@ -6,7 +6,7 @@ import {
 import validateParams from '@/app/lib/api/users/validate-params';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-
+// test
 export async function GET(
   req: NextRequest,
   { params }: { params: { userId: string } },
