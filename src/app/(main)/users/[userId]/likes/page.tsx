@@ -35,7 +35,7 @@ export default function Likes({ params }: { params: { userId: string } }) {
   }
 
   // いいねしたレビューがなかった場合
-  if (!data)
+  if (!data?.likedReviewCountByUserId)
     return (
       <>
         <ReviewSlector />

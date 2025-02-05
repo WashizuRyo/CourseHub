@@ -34,7 +34,7 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   }
 
   // 一度もレビューを投稿していない場合
-  if (!data) {
+  if (!data?.reviewCountByUserId) {
     return (
       <>
         <ReviewSlector />
