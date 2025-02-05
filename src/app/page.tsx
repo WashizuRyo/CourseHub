@@ -1,4 +1,3 @@
-import { DEFAULT_UNIVERSITY_NAME } from '@/app/lib/constants';
 import { notosans } from '@/app/ui/fonts';
 import '@/app/ui/global.css';
 import UniversitySearchBarSkeleton from '@/app/ui/skeletons/university-search-bar-skeleton';
@@ -8,13 +7,11 @@ import { Suspense } from 'react';
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: {
-    universityName?: string;
+  searchParams: {
+    universityName: string;
   };
 }) {
-  // クエリパラメータuniversityNameを取得
-  const universityName =
-    searchParams?.universityName || DEFAULT_UNIVERSITY_NAME;
+  const { universityName } = searchParams;
 
   return (
     <main>
