@@ -38,12 +38,12 @@ export default function Likes({ params }: { params: { userId: string } }) {
   }
 
   // いいねしたレビューがなかった場合
-  if (!data)
+  if (!data?.likedReviewCountByUserId)
     return (
       <>
         <ReviewSlector />
-        <div className="m-4 text-center text-xl">
-          いいねをするといいねしたレビューが表示されます
+        <div className="mt-12 text-center text-xl">
+          いいねをするとレビューが表示されます
         </div>
       </>
     );

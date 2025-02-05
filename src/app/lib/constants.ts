@@ -4,3 +4,4 @@ export const DEFAULT_UNIVERSITY_NAME = '';
 export const DEFAULT_CLASS_NAME = '';
 export const DEFAULT_FACULTY_NAME = '';
 export const DEFAULT_NAME = '名前未設定';
+export const DEFAULT_SORT = 'desc';
