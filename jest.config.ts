@@ -14,6 +14,11 @@ const config: Config = {
   collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
+  moduleNameMapper: {
+    '^@/app/(.*)$': '<rootDir>/src/app/$1',
+    '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/styles/(.*)$': '<rootDir>/src/styles/$1',
+  },
   // setupFilesAfterEnv: ['<rootDir>/singleton.ts'],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
