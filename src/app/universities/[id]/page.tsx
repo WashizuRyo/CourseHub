@@ -17,14 +17,23 @@ export default async function Page({
   params: { id: string };
   searchParams: searchParmas;
 }) {
-  // QueryPrams(className, faculty)を取得
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReviewSearchPage universityId={params.id} searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function ReviewSearchPage({
+  universityId,
+  searchParams,
+}: {
+  universityId: string;
+  searchParams: searchParmas;
+}) {
+  const university = await fetchUniversityByUniversityId(Number(universityId));
   const { className, faculty } = getQueryParams(searchParams);
 
-  // // 大学IDを取得
-  const universityId = params.id;
-  // 大学が存在するか確認
-  const university = await fetchUniversityByUniversityId(Number(universityId));
-  // 大学が見つからなかった場合
   if (!university) {
     notFound();
   }
@@ -42,7 +51,7 @@ export default async function Page({
                   { label: '大学名検索', href: '/' },
                   {
                     label: '講義名検索',
-                    href: `/universities/${params.id}`,
+                    href: `/universities/${universityId}`,
                     active: true,
                   },
                 ]}
@@ -75,7 +84,7 @@ export default async function Page({
                   { label: '大学名検索', href: '/' },
                   {
                     label: '講義名検索',
-                    href: `/universities/${params.id}`,
+                    href: `/universities/${universityId}`,
                     active: true,
                   },
                 ]}
