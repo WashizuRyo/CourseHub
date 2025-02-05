@@ -1,10 +1,10 @@
-import '@/app/ui/global.css';
+import { inter, lusitana } from '@/components//fonts';
+import UserAvatar from '@/components//universities/user-avatar/user-avatar';
+import '@/components/global.css';
 import { auth } from '@@/auth';
 import { AcademicCapIcon } from '@heroicons/react/24/outline';
 import { SessionProvider } from 'next-auth/react';
 import Link from 'next/link';
-import { inter, lusitana } from './ui/fonts';
-import UserAvatar from './ui/universities/user-avatar/user-avatar';
 
 export default async function RootLayout({
   children,

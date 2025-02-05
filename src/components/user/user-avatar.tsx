@@ -1,4 +1,4 @@
-import { Avatar } from '@/app/ui/user/avatar';
+import { Avatar } from '@/components/user/avatar';
 import { UserIcon } from '@heroicons/react/24/solid';
 
 type Props = {

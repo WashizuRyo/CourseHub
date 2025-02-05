@@ -1,6 +1,6 @@
 import fetchReviewByEvaluationId from '@/app/lib/data';
-import UpdateReview from '@/app/ui/universities/form/update-review-form';
-import NotAllowed from '@/app/ui/universities/not-allowed';
+import UpdateReview from '@/components/universities/form/update-review-form';
+import NotAllowed from '@/components/universities/not-allowed';
 import { auth } from '@@/auth';
 import { SessionProvider } from 'next-auth/react';
 import { notFound } from 'next/navigation';

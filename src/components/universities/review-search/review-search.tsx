@@ -1,9 +1,9 @@
 'use client';
 
 import { useSetQueryParams } from '@/app/hooks/functions';
-import FacultySelect from '@/app/ui/universities/review-search/faculty-select';
-import LectureSearchBar from '@/app/ui/universities/review-search/lecture-search-bar';
-import SortSelect from '@/app/ui/universities/review-search/sort-select';
+import FacultySelect from '@/components/universities/review-search/faculty-select';
+import LectureSearchBar from '@/components/universities/review-search/lecture-search-bar';
+import SortSelect from '@/components/universities/review-search/sort-select';
 
 export default function ReviewSearch() {
   const {

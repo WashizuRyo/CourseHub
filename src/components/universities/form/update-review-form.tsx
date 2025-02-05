@@ -1,24 +1,31 @@
 'use client';
 
-import { createReview } from '@/app/lib/actions';
-import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
-import Submit from '@/app/ui/universities/submit';
+import { updateReview } from '@/app/lib/actions';
+import type { Review } from '@/app/lib/definitions';
+import Breadcrumb from '@/components/breadcrumb/breadcrumb';
+import Submit from '@/components/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { notFound, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 
-export default function CreateReviewForm({
+export default function UpdateReview({
+  review,
   universityId,
 }: {
+  review: Review;
   universityId: string;
 }) {
   const { data: session } = useSession();
+  const accessPath = usePathname();
 
-  const createReviewWithUniversityId = createReview.bind(
+  const createReviewWithUniversityId = updateReview.bind(
     null,
-    parseInt(universityId),
+    review.id,
+    review.universityId,
+    accessPath,
   );
 
   const initialState = {
@@ -31,12 +38,17 @@ export default function CreateReviewForm({
     initialState,
   );
 
-  const [rating, setRating] = useState(0);
+  if (!review) {
+    notFound();
+  }
+
+  const [rating, setRating] = useState(review.star);
 
   const onClickHandler = (value: number) => {
     setRating(value);
   };
   const stars = [1, 2, 3, 4, 5];
+
   return (
     <form action={formAction}>
       <div className="m-4 mt-8">
@@ -48,8 +60,8 @@ export default function CreateReviewForm({
               href: `/universities/${universityId}`,
             },
             {
-              label: 'レビュー作成',
-              href: `/universities/${universityId}/create`,
+              label: 'レビュー編集',
+              href: `/universities/${universityId}/edit/${review.id}`,
               active: true,
             },
           ]}
@@ -60,7 +72,12 @@ export default function CreateReviewForm({
           {/* 学部選択フィールド */}
           <div className="flex flex-col gap-2">
             <label htmlFor="faculty">学部を選択してください</label>
-            <select id="faculty" name="faculty" className="p-2">
+            <select
+              id="faculty"
+              name="faculty"
+              className="p-2"
+              defaultValue={review.faculty}
+            >
               <option value="">学部を選んでください</option>
               <option value="理学部">理学部</option>
               <option value="工学部">工学部</option>
@@ -76,7 +93,6 @@ export default function CreateReviewForm({
                 ))}
             </div>
           </div>
-
           {/* 授業名フィールド */}
           <div>
             <div className="space-y-2">
@@ -87,7 +103,7 @@ export default function CreateReviewForm({
                 type="text"
                 placeholder="授業名を入力"
                 aria-describedby="className-error"
-                defaultValue=""
+                defaultValue={review.className}
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -111,7 +127,7 @@ export default function CreateReviewForm({
                 type="text"
                 placeholder="タイトルを入力"
                 aria-describedby="className-error"
-                defaultValue=""
+                defaultValue={review.title}
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -162,7 +178,7 @@ export default function CreateReviewForm({
                 name="evaluation"
                 id="evaluation"
                 placeholder="授業レビューを入力"
-                defaultValue=""
+                defaultValue={review.evaluation}
                 className="block h-[160px] w-full resize-y rounded border border-gray-200 p-2"
               />
             </div>
@@ -180,12 +196,13 @@ export default function CreateReviewForm({
           <div>
             <p>投稿者名を選択してください</p>
             <div className="mt-2 flex flex-col gap-4 rounded-md border border-gray-200 bg-white p-4">
-              <div className="">
+              <div>
                 <input
                   id="anonymous"
                   type="radio"
                   name="who"
                   value="anonymous"
+                  defaultChecked
                 />
                 <label
                   htmlFor="anonymous"
@@ -200,8 +217,7 @@ export default function CreateReviewForm({
                   htmlFor="username"
                   className="ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white"
                 >
-                  {/* 長い場合は後ろを省略 */}
-                  {session!.user!.name?.slice(0, 20)}...で投稿
+                  {session!.user!.name}で投稿
                 </label>
               </div>
             </div>
@@ -229,8 +245,12 @@ export default function CreateReviewForm({
 
       <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/universities/${universityId}`}
-          className="rounded-xl bg-gray-100 p-3 hover:bg-gray-200"
+          href={`/universities/${universityId}?classname=${review.className}`}
+          className="
+          rounded-xl
+          bg-gray-100
+          p-3
+          hover:bg-gray-200"
         >
           キャンセル
         </Link>

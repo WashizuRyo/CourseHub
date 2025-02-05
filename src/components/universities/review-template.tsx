@@ -1,6 +1,6 @@
 import type { ReviewWithLike } from '@/app/lib/definitions';
-import Pagenation from '@/app/ui/pagenation';
-import { Review } from '@/app/ui/review/review';
+import Pagenation from '@/components/pagenation';
+import { Review } from '@/components/review/review';
 
 export default function ReviewTemplate({
   userId,

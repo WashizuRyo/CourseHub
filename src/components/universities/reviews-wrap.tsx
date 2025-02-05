@@ -4,7 +4,7 @@ import {
   getAddedIsLikedFieldToReviews,
   getQueryParams,
 } from '@/app/lib/functions';
-import ReviewTemplate from '@/app/ui/universities/review-template';
+import ReviewTemplate from '@/components/universities/review-template';
 import { auth } from '@@/auth';
 import NotFound from './not-found';
 

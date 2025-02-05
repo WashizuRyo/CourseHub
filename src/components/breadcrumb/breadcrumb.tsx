@@ -1,4 +1,4 @@
-import { notosans } from '@/app/ui/fonts';
+import { notosans } from '@/components/fonts';
 import clsx from 'clsx';
 import Link from 'next/link';
 

@@ -1,8 +1,8 @@
-import { notosans } from '@/app/ui/fonts';
-import '@/app/ui/global.css';
-import UniversitySearchBarSkeleton from '@/app/ui/skeletons/university-search-bar-skeleton';
-import UniversityLink from '@/app/ui/universities/university-link';
-import UniversitySearchBar from '@/app/ui/university-search-bar';
+import { notosans } from '@/components/fonts';
+import '@/components/global.css';
+import UniversitySearchBarSkeleton from '@/components/skeletons/university-search-bar-skeleton';
+import UniversityLink from '@/components/universities/university-link';
+import UniversitySearchBar from '@/components/university-search-bar';
 import { Suspense } from 'react';
 export default async function Page({
   searchParams,

@@ -2,9 +2,9 @@
 
 import { useGetReviewsAndCountByUserId } from '@/app/lib/users';
 import { useGetQueryParams } from '@/app/lib/users/functions';
-import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
-import ReviewTemplate from '@/app/ui/universities/review-template';
-import ReviewSlector from '@/app/ui/universities/userpage/review-selector';
+import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton';
+import ReviewTemplate from '@/components/universities/review-template';
+import ReviewSlector from '@/components/universities/userpage/review-selector';
 
 export default function Reviews({ params }: { params: { userId: string } }) {
   // ユーザIDを取得

@@ -1,31 +1,24 @@
 'use client';
 
-import { updateReview } from '@/app/lib/actions';
-import type { Review } from '@/app/lib/definitions';
-import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
-import Submit from '@/app/ui/universities/submit';
+import { createReview } from '@/app/lib/actions';
+import Breadcrumb from '@/components/breadcrumb/breadcrumb';
+import Submit from '@/components/universities/submit';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { notFound, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 
-export default function UpdateReview({
-  review,
+export default function CreateReviewForm({
   universityId,
 }: {
-  review: Review;
   universityId: string;
 }) {
   const { data: session } = useSession();
-  const accessPath = usePathname();
 
-  const createReviewWithUniversityId = updateReview.bind(
+  const createReviewWithUniversityId = createReview.bind(
     null,
-    review.id,
-    review.universityId,
-    accessPath,
+    parseInt(universityId),
   );
 
   const initialState = {
@@ -38,17 +31,12 @@ export default function UpdateReview({
     initialState,
   );
 
-  if (!review) {
-    notFound();
-  }
-
-  const [rating, setRating] = useState(review.star);
+  const [rating, setRating] = useState(0);
 
   const onClickHandler = (value: number) => {
     setRating(value);
   };
   const stars = [1, 2, 3, 4, 5];
-
   return (
     <form action={formAction}>
       <div className="m-4 mt-8">
@@ -60,8 +48,8 @@ export default function UpdateReview({
               href: `/universities/${universityId}`,
             },
             {
-              label: 'レビュー編集',
-              href: `/universities/${universityId}/edit/${review.id}`,
+              label: 'レビュー作成',
+              href: `/universities/${universityId}/create`,
               active: true,
             },
           ]}
@@ -72,12 +60,7 @@ export default function UpdateReview({
           {/* 学部選択フィールド */}
           <div className="flex flex-col gap-2">
             <label htmlFor="faculty">学部を選択してください</label>
-            <select
-              id="faculty"
-              name="faculty"
-              className="p-2"
-              defaultValue={review.faculty}
-            >
+            <select id="faculty" name="faculty" className="p-2">
               <option value="">学部を選んでください</option>
               <option value="理学部">理学部</option>
               <option value="工学部">工学部</option>
@@ -93,6 +76,7 @@ export default function UpdateReview({
                 ))}
             </div>
           </div>
+
           {/* 授業名フィールド */}
           <div>
             <div className="space-y-2">
@@ -103,7 +87,7 @@ export default function UpdateReview({
                 type="text"
                 placeholder="授業名を入力"
                 aria-describedby="className-error"
-                defaultValue={review.className}
+                defaultValue=""
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -127,7 +111,7 @@ export default function UpdateReview({
                 type="text"
                 placeholder="タイトルを入力"
                 aria-describedby="className-error"
-                defaultValue={review.title}
+                defaultValue=""
                 className="w-full rounded border border-gray-200 p-2"
               ></input>
             </div>
@@ -178,7 +162,7 @@ export default function UpdateReview({
                 name="evaluation"
                 id="evaluation"
                 placeholder="授業レビューを入力"
-                defaultValue={review.evaluation}
+                defaultValue=""
                 className="block h-[160px] w-full resize-y rounded border border-gray-200 p-2"
               />
             </div>
@@ -196,13 +180,12 @@ export default function UpdateReview({
           <div>
             <p>投稿者名を選択してください</p>
             <div className="mt-2 flex flex-col gap-4 rounded-md border border-gray-200 bg-white p-4">
-              <div>
+              <div className="">
                 <input
                   id="anonymous"
                   type="radio"
                   name="who"
                   value="anonymous"
-                  defaultChecked
                 />
                 <label
                   htmlFor="anonymous"
@@ -217,7 +200,8 @@ export default function UpdateReview({
                   htmlFor="username"
                   className="ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white"
                 >
-                  {session!.user!.name}で投稿
+                  {/* 長い場合は後ろを省略 */}
+                  {session!.user!.name?.slice(0, 20)}...で投稿
                 </label>
               </div>
             </div>
@@ -245,12 +229,8 @@ export default function UpdateReview({
 
       <div className="mb-2 flex justify-center gap-2">
         <Link
-          href={`/universities/${universityId}?classname=${review.className}`}
-          className="
-          rounded-xl
-          bg-gray-100
-          p-3
-          hover:bg-gray-200"
+          href={`/universities/${universityId}`}
+          className="rounded-xl bg-gray-100 p-3 hover:bg-gray-200"
         >
           キャンセル
         </Link>

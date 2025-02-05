@@ -1,10 +1,10 @@
 import { fetchUniversityByUniversityId } from '@/app/lib/data';
 import type { searchParmas } from '@/app/lib/definitions';
 import { getQueryParams } from '@/app/lib/functions';
-import Breadcrumb from '@/app/ui/breadcrumb/breadcrumb';
-import SearchReviewSkeleton from '@/app/ui/skeletons/search-review-skeleton';
-import ReviewSearch from '@/app/ui/universities/review-search/review-search';
-import ReviewsWrap from '@/app/ui/universities/reviews-wrap';
+import Breadcrumb from '@/components/breadcrumb/breadcrumb';
+import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton';
+import ReviewSearch from '@/components/universities/review-search/review-search';
+import ReviewsWrap from '@/components/universities/reviews-wrap';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';

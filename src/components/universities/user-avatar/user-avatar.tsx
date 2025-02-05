@@ -1,6 +1,6 @@
 'use client';
 
-import Tooltip from '@/app/ui/universities/user-avatar/tooltip';
+import Tooltip from '@/components/universities/user-avatar/tooltip';
 import { UserIcon } from '@heroicons/react/24/outline';
 import type { Session } from 'next-auth';
 import Image from 'next/image';
