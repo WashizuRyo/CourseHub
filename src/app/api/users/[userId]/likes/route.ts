@@ -1,8 +1,5 @@
 import authenticateSession from '@/app/lib/api/users/authenticate-session';
-import {
-  fetchLikedReviewByUserId,
-  fetchLikedReviewCountByUserId,
-} from '@/app/lib/api/users/user-queries';
+import { fetchLikedReviewByUserId, fetchLikedReviewCountByUserId } from '@/app/lib/api/users/user-queries';
 import validateParams from '@/app/lib/api/users/validate-params';
 import type { ReviewWithLike } from '@/app/lib/definitions';
 import { NextResponse, type NextRequest } from 'next/server';
@@ -36,26 +33,19 @@ export async function GET(
   try {
     // ユーザーIDがいいねしたレビューとその総数を取得
     const [likedReviewByUserId, likedReviewCountByUserId] = await Promise.all([
-      fetchLikedReviewByUserId(
-        authenticateSessionResponse,
-        validationResponse.currentPage,
-      ),
+      fetchLikedReviewByUserId(authenticateSessionResponse, validationResponse.currentPage),
       fetchLikedReviewCountByUserId(authenticateSessionResponse),
     ]);
     // いいねしたレビューにisLikedプロパティを追加
-    const likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[] =
-      likedReviewByUserId.map((review) => {
-        return { ...review, isLiked: true };
-      });
+    const likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[] = likedReviewByUserId.map((review) => {
+      return { ...review, isLiked: true };
+    });
     return NextResponse.json({
       likedReviewByUserIdWithIsLikedTrue,
       likedReviewCountByUserId,
     });
   } catch (error) {
     console.error('Database Error', error);
-    return NextResponse.json(
-      { message: 'Failed to fetch likes' },
-      { status: 500 },
-    );
+    return NextResponse.json({ message: 'Failed to fetch likes' }, { status: 500 });
   }
 }
