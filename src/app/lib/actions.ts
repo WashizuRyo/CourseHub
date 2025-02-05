@@ -53,11 +53,7 @@ const CreateAndUpdateReview = FormSchema.omit({
   universityId: true,
 });
 
-export async function createReview(
-  universityId: number,
-  prevState: State,
-  formData: FormData,
-) {
+export async function createReview(universityId: number, prevState: State, formData: FormData) {
   const validatedFields = CreateAndUpdateReview.safeParse({
     faculty: formData.get('faculty'),
     className: formData.get('className'),
@@ -74,8 +70,7 @@ export async function createReview(
     };
   }
 
-  const { className, evaluation, title, star, who, userId, faculty } =
-    validatedFields.data;
+  const { className, evaluation, title, star, who, userId, faculty } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   const data = {
     date,
@@ -99,12 +94,8 @@ export async function createReview(
     };
   }
 
-  revalidatePath(
-    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
-  );
-  redirect(
-    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
-  );
+  revalidatePath(`/universities/${universityId}?classname=${encodeURIComponent(className)}`);
+  redirect(`/universities/${universityId}?classname=${encodeURIComponent(className)}`);
 }
 
 export async function updateReview(
@@ -131,8 +122,7 @@ export async function updateReview(
     };
   }
 
-  const { faculty, className, evaluation, who, star, title, userId } =
-    validatedFields.data;
+  const { faculty, className, evaluation, who, star, title, userId } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
   const newData = {
     faculty,
@@ -158,20 +148,11 @@ export async function updateReview(
     };
   }
 
-  revalidatePath(
-    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
-  );
-  redirect(
-    `/universities/${universityId}?classname=${encodeURIComponent(className)}`,
-  );
+  revalidatePath(`/universities/${universityId}?classname=${encodeURIComponent(className)}`);
+  redirect(`/universities/${universityId}?classname=${encodeURIComponent(className)}`);
 }
 
-export async function deleteReview(
-  evaluationId: number,
-  id: number,
-  query: string,
-  accessPath: string,
-) {
+export async function deleteReview(evaluationId: number, id: number, query: string, accessPath: string) {
   const session = await auth();
   try {
     await prisma.reviews.delete({
@@ -179,9 +160,7 @@ export async function deleteReview(
     });
   } catch (error) {
     console.error(error);
-    return {
-      message: 'Database Error: Failed to Delete Review',
-    };
+    throw new Error('Database Error: Failed to Delete Review');
   }
 
   // accessPathが/universities/[一文字以上の任意の数字]の場合/universities/${id}?classname=${classname}に
@@ -190,9 +169,7 @@ export async function deleteReview(
   const regix = new RegExp('^/universities/\\d+$');
 
   if (regix.test(accessPath)) {
-    revalidatePath(
-      `/universities/${id}?classname=${encodeURIComponent(query)}`,
-    );
+    revalidatePath(`/universities/${id}?classname=${encodeURIComponent(query)}`);
     redirect(`/universities/${id}?classname=${encodeURIComponent(query)}`);
   } else {
     revalidatePath(`/users/${session?.user?.id}/likes`);
@@ -200,11 +177,7 @@ export async function deleteReview(
   }
 }
 
-export async function fetchLikes(
-  reviewId: number,
-  userId: string,
-  state: boolean,
-) {
+export async function fetchLikes(reviewId: number, userId: string, state: boolean) {
   if (!state) {
     try {
       await prisma.likes.delete({

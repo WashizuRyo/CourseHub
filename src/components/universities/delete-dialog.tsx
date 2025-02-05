@@ -19,13 +19,7 @@ export default function DeleteDialog({
   const handleCloseModal = () => dialogRef.current?.close();
   const accessPath = usePathname();
 
-  const deleteReviewByEvaluationId = deleteReview.bind(
-    null,
-    evaluationId,
-    universityId,
-    query,
-    accessPath,
-  );
+  const deleteReviewByEvaluationId = deleteReview.bind(null, evaluationId, universityId, query, accessPath);
   return (
     <>
       <div className="flex flex-col items-center">
@@ -38,10 +32,7 @@ export default function DeleteDialog({
         </button>
         <span className="mt-1 text-sm">削除</span>
       </div>
-      <dialog
-        ref={dialogRef}
-        className="h-6/12 md:h-4/2 w-9/12 rounded shadow-lg md:w-4/12"
-      >
+      <dialog ref={dialogRef} className="h-6/12 md:h-4/2 w-9/12 rounded shadow-lg md:w-4/12">
         <div className="mb-2 mt-4">
           <h1 className="px-2 text-xl leading-normal text-red-500">
             レビューを削除すると、元に戻すことはできません。本当に削除しますか？

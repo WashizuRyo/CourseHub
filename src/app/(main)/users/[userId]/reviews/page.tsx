@@ -14,16 +14,11 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   const { currentPage } = useGetQueryParams('page');
 
   // userIdを元にレビューを取得
-  const { data, isError, error, isLoadingReviews } =
-    useGetReviewsAndCountByUserId(userId, Number(currentPage));
+  const { data, isError, error, isLoadingReviews } = useGetReviewsAndCountByUserId(userId, Number(currentPage));
 
   // エラーが発生した場合
   if (isError) {
-    return (
-      <div className="mt-3 text-center text-3xl font-bold">
-        {error?.message}
-      </div>
-    );
+    return <div className="mt-3 text-center text-3xl font-bold">{error?.message}</div>;
   }
 
   // ローディング中
@@ -43,9 +38,7 @@ export default function Reviews({ params }: { params: { userId: string } }) {
     return (
       <>
         <ReviewSlector />
-        <div className="mt-12 text-center text-xl">
-          投稿したレビューがありません
-        </div>
+        <div className="mt-3 text-center text-xl">投稿したレビューがありません</div>
       </>
     );
   }
@@ -53,11 +46,7 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   return (
     <>
       <ReviewSlector />
-      <ReviewTemplate
-        userId={userId}
-        reviews={data.reviewsByUserId}
-        hitCount={data.reviewCountByUserId}
-      />
+      <ReviewTemplate userId={userId} reviews={data.reviewsByUserId} hitCount={data.reviewCountByUserId} />
     </>
   );
 }

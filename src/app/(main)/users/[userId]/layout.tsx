@@ -16,13 +16,7 @@ export default function UserPage({ children }: { children: React.ReactNode }) {
       <div className="m-3 flex items-center">
         <div>
           {session?.user?.image ? (
-            <Image
-              src={session.user.image}
-              alt="user image"
-              width={100}
-              height={100}
-              className="m-3 rounded-full"
-            />
+            <Image src={session.user.image} alt="user image" width={100} height={100} className="m-3 rounded-full" />
           ) : (
             <UserIcon className="m-3 size-[100px] rounded-full bg-gray-300 p-2" />
           )}
