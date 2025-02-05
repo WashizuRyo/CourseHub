@@ -14,7 +14,7 @@
     "fix:prettier": "npm run lint:prettier -- --write",
     "prepare": "husky",
     "test:e2e": "playwright test",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "dependencies": {
     "@auth/core": "^0.37.0",
@@ -33,8 +33,8 @@
   "devDependencies": {
     "@playwright/test": "^1.47.0",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.2",
-    "@testing-library/react": "^16.0.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.16.1",
     "@types/react": "^18.3.4",
