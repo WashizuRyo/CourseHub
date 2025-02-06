@@ -46,7 +46,7 @@ export default async function Page({
         <div className="mt-6 text-center">
           {/* 大学名が入力された場合 */}
           {universityName ? (
-            <Suspense fallback={<UniversitySearchBarSkeleton />}>
+            <Suspense key={universityName} fallback={<UniversitySearchBarSkeleton />}>
               <UniversityLinkContainer universityName={universityName} />
             </Suspense>
           ) : (
