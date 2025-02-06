@@ -45,7 +45,7 @@ export type University = {
 } | null;
 
 export type searchParmas = {
-  classname?: string;
+  className?: string;
   page: string;
   sort?: 'asc' | 'desc';
   faculty?: string;

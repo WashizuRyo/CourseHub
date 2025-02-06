@@ -10,7 +10,7 @@ export function getTotalPage(pageCount: number) {
 
 export function getQueryParams(searchParams: searchParmas) {
   // QueryParamsを取得
-  const className = searchParams.classname || DEFAULT_CLASS_NAME;
+  const className = searchParams.className || DEFAULT_CLASS_NAME;
   const currentPage = Number(searchParams.page);
   const sort = searchParams.sort || DEFAULT_SORT;
   const faculty = searchParams.faculty || DEFAULT_FACULTY_NAME;
