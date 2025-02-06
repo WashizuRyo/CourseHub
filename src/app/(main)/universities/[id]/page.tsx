@@ -10,13 +10,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: searchParmas;
-}) {
+export default async function Page({ params, searchParams }: { params: { id: string }; searchParams: searchParmas }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ReviewSearchPage universityId={params.id} searchParams={searchParams} />
@@ -24,13 +18,7 @@ export default async function Page({
   );
 }
 
-async function ReviewSearchPage({
-  universityId,
-  searchParams,
-}: {
-  universityId: string;
-  searchParams: searchParmas;
-}) {
+async function ReviewSearchPage({ universityId, searchParams }: { universityId: string; searchParams: searchParmas }) {
   const university = await fetchUniversityByUniversityId(Number(universityId));
   const { className, faculty } = getQueryParams(searchParams);
 
@@ -63,9 +51,7 @@ async function ReviewSearchPage({
               className="m-2 w-64 gap-3 rounded-2xl bg-blue-500 text-white hover:bg-blue-400"
             >
               <div className="flex gap-4 p-4">
-                <span className="flex items-center">
-                  講義レビューを投稿する
-                </span>
+                <span className="flex items-center">講義レビューを投稿する</span>
                 <div>
                   <ArrowRightIcon className="size-8" />
                 </div>
@@ -111,13 +97,11 @@ async function ReviewSearchPage({
       {/* 講義名または学部名が入力または選択された場合 */}
       <section className="mt-4">
         {className || faculty ? (
-          <Suspense fallback={<SearchReviewSkeleton />}>
+          <Suspense key={className + faculty} fallback={<SearchReviewSkeleton />}>
             <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
-          <p className="text-center text-xl">
-            授業名または学部名を入力してください
-          </p>
+          <p className="text-center text-xl">授業名または学部名を入力してください</p>
         )}
       </section>
     </main>
