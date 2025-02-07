@@ -1,39 +1,39 @@
-import { fetchUniversityByUniversityId } from '@/app/lib/data';
-import type { searchParmas } from '@/app/lib/definitions';
-import { getQueryParams } from '@/app/lib/functions';
-import Breadcrumb from '@/components/breadcrumb/breadcrumb';
-import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton';
-import ReviewSearch from '@/components/universities/review-search/review-search';
-import ReviewsWrap from '@/components/universities/reviews-wrap';
-import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
+import { fetchUniversityByUniversityId } from '@/app/lib/data'
+import type { searchParmas } from '@/app/lib/definitions'
+import { getQueryParams } from '@/app/lib/functions'
+import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
+import ReviewSearch from '@/components/universities/review-search/review-search'
+import ReviewsWrap from '@/components/universities/reviews-wrap'
+import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 
 export default async function Page({ params, searchParams }: { params: { id: string }; searchParams: searchParmas }) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ReviewSearchPage universityId={params.id} searchParams={searchParams} />
     </Suspense>
-  );
+  )
 }
 
 async function ReviewSearchPage({ universityId, searchParams }: { universityId: string; searchParams: searchParmas }) {
-  const university = await fetchUniversityByUniversityId(Number(universityId));
-  const { className, faculty } = getQueryParams(searchParams);
+  const university = await fetchUniversityByUniversityId(Number(universityId))
+  const { className, faculty } = getQueryParams(searchParams)
 
   if (!university) {
-    notFound();
+    notFound()
   }
 
   return (
     <main>
-      <div className="flex flex-col">
+      <div className='flex flex-col'>
         {/* パソコンから閲覧した場合 */}
-        <div className="hidden md:block">
-          <div className="ml-4 mt-2 flex justify-between">
+        <div className='hidden md:block'>
+          <div className='ml-4 mt-2 flex justify-between'>
             {/* パンクズリスト */}
-            <section className="m-2 flex items-center">
+            <section className='m-2 flex items-center'>
               <Breadcrumb
                 breadcrumbs={[
                   { label: '大学名検索', href: '/' },
@@ -47,13 +47,13 @@ async function ReviewSearchPage({ universityId, searchParams }: { universityId: 
             </section>
             {/* 講義レビュー投稿フォームへのリンク */}
             <Link
-              href={`/universities/${universityId}/create`}
-              className="m-2 w-64 gap-3 rounded-2xl bg-blue-500 text-white hover:bg-blue-400"
+              href={`/universities/${universityId}/reviews/new`}
+              className='m-2 w-64 gap-3 rounded-2xl bg-blue-500 text-white hover:bg-blue-400'
             >
-              <div className="flex gap-4 p-4">
-                <span className="flex items-center">講義レビューを投稿する</span>
+              <div className='flex gap-4 p-4'>
+                <span className='flex items-center'>講義レビューを投稿する</span>
                 <div>
-                  <ArrowRightIcon className="size-8" />
+                  <ArrowRightIcon className='size-8' />
                 </div>
               </div>
             </Link>
@@ -61,10 +61,10 @@ async function ReviewSearchPage({ universityId, searchParams }: { universityId: 
         </div>
 
         {/* スマホから閲覧した場合 */}
-        <div className="block md:hidden">
-          <div className="ml-5 flex justify-between">
+        <div className='block md:hidden'>
+          <div className='ml-5 flex justify-between'>
             {/* パンクズリスト */}
-            <section className="flex items-center">
+            <section className='flex items-center'>
               <Breadcrumb
                 breadcrumbs={[
                   { label: '大学名検索', href: '/' },
@@ -78,32 +78,32 @@ async function ReviewSearchPage({ universityId, searchParams }: { universityId: 
             </section>
             {/* 講義レビュー投稿フォームへのリンク */}
             <Link
-              href={`/universities/${universityId}/create`}
-              className="m-4 size-[54px] rounded-2xl bg-blue-500 hover:bg-blue-400"
+              href={`/universities/${universityId}/reviews/new`}
+              className='m-4 size-[54px] rounded-2xl bg-blue-500 hover:bg-blue-400'
             >
-              <div className="p-4">
-                <PlusIcon className="flex size-6 items-center text-white" />
+              <div className='p-4'>
+                <PlusIcon className='flex size-6 items-center text-white' />
               </div>
             </Link>
           </div>
         </div>
 
         {/* 講義名入力欄, 学部選択メニュー, ソート選択メニュー */}
-        <section className="flex justify-center px-7 pt-2">
+        <section className='flex justify-center px-7 pt-2'>
           <ReviewSearch />
         </section>
       </div>
 
       {/* 講義名または学部名が入力または選択された場合 */}
-      <section className="mt-4">
+      <section className='mt-4'>
         {className || faculty ? (
           <Suspense key={className + faculty} fallback={<SearchReviewSkeleton />}>
             <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
-          <p className="text-center text-xl">授業名または学部名を入力してください</p>
+          <p className='text-center text-xl'>授業名または学部名を入力してください</p>
         )}
       </section>
     </main>
-  );
+  )
 }
