@@ -77,7 +77,7 @@ export const Review = ({ review, userId }: Props) => {
           {/* 編集と削除ページへのリンク */}
           {userId === review.createdBy && (
             <div className='mt-6 flex justify-end gap-2'>
-              <EditLink href={`/universities/${review.universityId}/reviews/edit/${review.id}}`} />
+              <EditLink href={`/universities/${review.universityId}/reviews/${review.id}`} />
               <DeleteDialog universityId={review.universityId} evaluationId={review.id} query={review.className} />
             </div>
           )}

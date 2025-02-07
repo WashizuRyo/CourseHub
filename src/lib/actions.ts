@@ -1,6 +1,7 @@
 'use server'
 
-import { createReview as createReviewData } from '@/model/review'
+import type { OriginalReview } from '@/lib/definitions'
+import { createReview as createReviewData, updateReview as udpateReviewData } from '@/model/review'
 import { auth, signIn, signOut } from '@@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -55,7 +56,7 @@ const CreateAndUpdateReview = FormSchema.omit({
 
 export type Review = z.infer<typeof CreateAndUpdateReview>
 
-export async function createReview(universityId: number, prevState: State, formData: FormData) {
+export async function createReview(universityId: number, prevState: State, formData: FormData): Promise<State> {
   const session = await auth()
   if (!session?.user?.id) {
     throw new Error('ログインしてください')
@@ -86,7 +87,7 @@ export async function updateReview(
   accessPath: string,
   prevState: State,
   formData: FormData,
-) {
+): Promise<State> {
   const session = await auth()
   if (!session?.user?.id) {
     throw new Error('ログインしてください')
@@ -194,4 +195,37 @@ export async function singOut() {
 
 export async function singIn() {
   await signIn()
+}
+
+export async function updateReviewFromForm(
+  { universityId, id: reviewId, createdBy }: OriginalReview,
+  prevState: State,
+  formData: FormData,
+): Promise<State> {
+  const session = await auth()
+  if (!session?.user?.id) {
+    throw new Error('ログインしてください')
+  }
+
+  if (session.user.id !== createdBy) {
+    throw new Error('このレビューを更新する権限がありません')
+  }
+
+  const validatedFields = CreateAndUpdateReview.safeParse({
+    faculty: formData.get('faculty'),
+    className: formData.get('className'),
+    title: formData.get('title'),
+    star: formData.get('star'),
+    evaluation: formData.get('evaluation'),
+    who: formData.get('who'),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: '入力された値が正しくないです。レビュー作成に失敗しました。',
+    }
+  }
+
+  return await udpateReviewData({ formData: validatedFields.data, universityId, reviewId })
 }
