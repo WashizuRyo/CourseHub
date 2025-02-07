@@ -1,7 +1,8 @@
 'use client'
 
 import Submit from '@/components/universities/submit'
-import { createReview, type State } from '@/lib/actions'
+import { type State } from '@/lib/actions'
+import type { OriginalReview } from '@/lib/definitions'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -13,16 +14,19 @@ const initialState: State = {
   message: null,
 }
 
-export default function Form({
+export function Form({
   universityId,
   userName,
+  review,
+  onSubmit,
 }: {
   universityId: string
   userName: string | null | undefined
+  review?: OriginalReview
+  onSubmit: (prevState: State, formData: FormData) => Promise<State>
 }) {
-  const postReview = createReview.bind(null, Number(universityId))
-  const [state, formAction] = useFormState(postReview, initialState)
-  const [rating, setRating] = useState(0)
+  const [state, formAction] = useFormState(onSubmit, initialState)
+  const [rating, setRating] = useState(review?.star || 0)
   const handleClick = (value: number) => {
     setRating(value)
   }
@@ -34,7 +38,7 @@ export default function Form({
           {/* 学部選択フィールド */}
           <div className='flex flex-col gap-2'>
             <label htmlFor='faculty'>学部を選択してください</label>
-            <select id='faculty' name='faculty' className='p-2' required>
+            <select id='faculty' name='faculty' className='p-2' required defaultValue={review?.faculty}>
               <option value=''>学部を選んでください</option>
               <option value='理学部'>理学部</option>
               <option value='工学部'>工学部</option>
@@ -61,7 +65,7 @@ export default function Form({
                 type='text'
                 placeholder='授業名を入力'
                 aria-describedby='className-error'
-                defaultValue=''
+                defaultValue={review?.className}
                 className='w-full rounded border border-gray-200 p-2'
               ></input>
             </div>
@@ -85,7 +89,7 @@ export default function Form({
                 type='text'
                 placeholder='タイトルを入力'
                 aria-describedby='className-error'
-                defaultValue=''
+                defaultValue={review?.title}
                 className='w-full rounded border border-gray-200 p-2'
               ></input>
             </div>
@@ -132,7 +136,7 @@ export default function Form({
                 name='evaluation'
                 id='evaluation'
                 placeholder='授業レビューを入力'
-                defaultValue=''
+                defaultValue={review?.evaluation}
                 className='block h-[160px] w-full resize-y rounded border border-gray-200 p-2'
               />
             </div>
@@ -151,13 +155,19 @@ export default function Form({
             <p>投稿者名を選択してください</p>
             <div className='mt-2 flex flex-col gap-4 rounded-md border border-gray-200 bg-white p-4'>
               <div className=''>
-                <input id='anonymous' type='radio' name='who' value='anonymous' />
+                <input
+                  id='anonymous'
+                  type='radio'
+                  name='who'
+                  value='anonymous'
+                  checked={review?.isAnonymous === true}
+                />
                 <label htmlFor='anonymous' className='ml-2 rounded-3xl bg-gray-100 p-2 px-4 text-sm'>
                   匿名で投稿
                 </label>
               </div>
               <div>
-                <input id='username' type='radio' name='who' value='username' />
+                <input id='username' type='radio' name='who' value='username' checked={review?.isAnonymous === false} />
                 <label htmlFor='username' className='ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white'>
                   {/* 長い場合は後ろを省略 */}
                   {userName?.slice(0, 20)}で投稿

@@ -33,3 +33,43 @@ export async function createReview({ formData, universityId, createdBy }: create
   revalidatePath(`/universities/${universityId}`)
   redirect(`/universities/${universityId}`)
 }
+
+export default async function fetchReview(evaluationId: number) {
+  try {
+    const data = await prisma.reviews.findUnique({
+      where: { id: evaluationId },
+    })
+    return data
+  } catch (error) {
+    console.error('Database Error', error)
+    throw new Error('Failed to fetch review')
+  }
+}
+
+export async function updateReview({
+  formData,
+  universityId,
+  reviewId,
+}: {
+  formData: Review
+  universityId: number
+  reviewId: number
+}) {
+  const { who, ...restFormData } = formData
+
+  try {
+    await prisma.reviews.update({
+      where: { id: reviewId },
+      data: { ...restFormData, isAnonymous: who === 'anonymous' },
+    })
+  } catch (error) {
+    console.error(error)
+    return {
+      errors: null,
+      message: 'Database Error: Failed to Update Review',
+    }
+  }
+
+  revalidatePath(`/universities/${universityId}`)
+  redirect(`/universities/${universityId}`)
+}
