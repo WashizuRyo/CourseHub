@@ -13,6 +13,19 @@ export type Review = {
   likes?: Likes[]
 }
 
+export type OriginalReview = {
+  id: number
+  date: string
+  className: string
+  title: string
+  star: number
+  evaluation: string
+  universityId: number
+  createdBy: string
+  faculty: string
+  isAnonymous: boolean
+}
+
 export type ReviewWithLike = Review & {
   isLiked: boolean
 }
