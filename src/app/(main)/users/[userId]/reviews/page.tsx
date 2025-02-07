@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
-import { useGetReviewsAndCountByUserId } from '@/app/lib/users';
-import { useGetQueryParams } from '@/app/lib/users/functions';
-import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton';
-import ReviewTemplate from '@/components/universities/review-template';
-import ReviewSlector from '@/components/universities/userpage/review-selector';
+import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
+import ReviewTemplate from '@/components/universities/review-template'
+import ReviewSlector from '@/components/universities/userpage/review-selector'
+import { useGetReviewsAndCountByUserId } from '@/lib/users'
+import { useGetQueryParams } from '@/lib/users/functions'
 
 export default function Reviews({ params }: { params: { userId: string } }) {
   // ユーザIDを取得
-  const userId = params.userId;
+  const userId = params.userId
 
   // クエリパラメータ取得
-  const { currentPage } = useGetQueryParams('page');
+  const { currentPage } = useGetQueryParams('page')
 
   // userIdを元にレビューを取得
-  const { data, isError, error, isLoadingReviews } = useGetReviewsAndCountByUserId(userId, Number(currentPage));
+  const { data, isError, error, isLoadingReviews } = useGetReviewsAndCountByUserId(userId, Number(currentPage))
 
   // エラーが発生した場合
   if (isError) {
-    return <div className="mt-3 text-center text-3xl font-bold">{error?.message}</div>;
+    return <div className='mt-3 text-center text-3xl font-bold'>{error?.message}</div>
   }
 
   // ローディング中
@@ -26,11 +26,11 @@ export default function Reviews({ params }: { params: { userId: string } }) {
     return (
       <>
         <ReviewSlector />
-        <div className="mt-3">
+        <div className='mt-3'>
           <SearchReviewSkeleton />
         </div>
       </>
-    );
+    )
   }
 
   // 一度もレビューを投稿していない場合
@@ -38,9 +38,9 @@ export default function Reviews({ params }: { params: { userId: string } }) {
     return (
       <>
         <ReviewSlector />
-        <div className="mt-3 text-center text-xl">投稿したレビューがありません</div>
+        <div className='mt-3 text-center text-xl'>投稿したレビューがありません</div>
       </>
-    );
+    )
   }
 
   return (
@@ -48,5 +48,5 @@ export default function Reviews({ params }: { params: { userId: string } }) {
       <ReviewSlector />
       <ReviewTemplate userId={userId} reviews={data.reviewsByUserId} hitCount={data.reviewCountByUserId} />
     </>
-  );
+  )
 }

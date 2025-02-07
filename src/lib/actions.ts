@@ -1,6 +1,6 @@
 'use server'
 
-import { createReview as createReviewData } from '@/app/lib/review'
+import { createReview as createReviewData } from '@/lib/review'
 import { auth, signIn, signOut } from '@@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'

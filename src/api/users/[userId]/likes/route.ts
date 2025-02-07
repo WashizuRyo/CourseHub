@@ -1,29 +1,29 @@
-import authenticateSession from '@/app/lib/api/users/authenticate-session';
-import { fetchLikedReviewByUserId, fetchLikedReviewCountByUserId } from '@/app/lib/api/users/user-queries';
-import validateParams from '@/app/lib/api/users/validate-params';
-import type { ReviewWithLike } from '@/app/lib/definitions';
-import { NextResponse, type NextRequest } from 'next/server';
+import authenticateSession from '@/lib/api/users/authenticate-session'
+import { fetchLikedReviewByUserId, fetchLikedReviewCountByUserId } from '@/lib/api/users/user-queries'
+import validateParams from '@/lib/api/users/validate-params'
+import type { ReviewWithLike } from '@/lib/definitions'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(
   req: NextRequest,
   {
     params,
   }: {
-    params: { userId: string };
+    params: { userId: string }
   },
 ) {
   // ユーザーIDとページ番号をバリデーション
-  const validationResponse = validateParams(req);
+  const validationResponse = validateParams(req)
   // バリデーションエラーがある場合はエラーを返す
   if (validationResponse instanceof NextResponse) {
-    return validationResponse;
+    return validationResponse
   }
 
   // セッションを認証
-  const authenticateSessionResponse = await authenticateSession(params.userId);
+  const authenticateSessionResponse = await authenticateSession(params.userId)
   // 未認証、権限がない場合はエラーを返す
   if (authenticateSessionResponse instanceof NextResponse) {
-    return authenticateSessionResponse;
+    return authenticateSessionResponse
   }
 
   // if (session?.user?.name == 'Bob Alice') {
@@ -35,17 +35,17 @@ export async function GET(
     const [likedReviewByUserId, likedReviewCountByUserId] = await Promise.all([
       fetchLikedReviewByUserId(authenticateSessionResponse, validationResponse.currentPage),
       fetchLikedReviewCountByUserId(authenticateSessionResponse),
-    ]);
+    ])
     // いいねしたレビューにisLikedプロパティを追加
     const likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[] = likedReviewByUserId.map((review) => {
-      return { ...review, isLiked: true };
-    });
+      return { ...review, isLiked: true }
+    })
     return NextResponse.json({
       likedReviewByUserIdWithIsLikedTrue,
       likedReviewCountByUserId,
-    });
+    })
   } catch (error) {
-    console.error('Database Error', error);
-    return NextResponse.json({ message: 'Failed to fetch likes' }, { status: 500 });
+    console.error('Database Error', error)
+    return NextResponse.json({ message: 'Failed to fetch likes' }, { status: 500 })
   }
 }

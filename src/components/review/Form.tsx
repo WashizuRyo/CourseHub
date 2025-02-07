@@ -1,7 +1,7 @@
 'use client'
 
-import { createReview, type State } from '@/app/lib/actions'
 import Submit from '@/components/universities/submit'
+import { createReview, type State } from '@/lib/actions'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { useState } from 'react'

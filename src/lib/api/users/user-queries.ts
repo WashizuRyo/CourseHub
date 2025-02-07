@@ -1,13 +1,10 @@
-import { PAGE_SIZE } from '@/app/lib/constants';
-import type { Review } from '@/app/lib/definitions';
-import { prisma } from '@/app/lib/prisma';
-import type { Session } from 'next-auth';
+import { PAGE_SIZE } from '@/lib/constants'
+import type { Review } from '@/lib/definitions'
+import { prisma } from '@/lib/prisma'
+import type { Session } from 'next-auth'
 
 // ユーザIDに紐づくいいねしたレビューを取得
-export async function fetchLikedReviewByUserId(
-  session: Session,
-  currentPage: number,
-) {
+export async function fetchLikedReviewByUserId(session: Session, currentPage: number) {
   return await prisma.reviews.findMany({
     where: {
       likes: {
@@ -19,7 +16,7 @@ export async function fetchLikedReviewByUserId(
     include: { user: true },
     skip: PAGE_SIZE * (currentPage - 1),
     take: PAGE_SIZE,
-  });
+  })
 }
 
 // ユーザIDに紐づくいいねしたレビューの総数を取得
@@ -32,33 +29,28 @@ export async function fetchLikedReviewCountByUserId(session: Session) {
         },
       },
     },
-  });
+  })
 }
 
 // ユーザーIDに紐づくレビューを取得
-export async function fetchReviewsByUserId(
-  userId: string | undefined,
-  currentPage: number,
-): Promise<Review[]> {
+export async function fetchReviewsByUserId(userId: string | undefined, currentPage: number): Promise<Review[]> {
   // ユーザーIDがundefinedの場合は空の配列を返す
-  if (userId === undefined) return [];
+  if (userId === undefined) return []
 
   return await prisma.reviews.findMany({
     where: { createdBy: userId },
     include: { user: true },
     skip: PAGE_SIZE * (currentPage - 1),
     take: PAGE_SIZE,
-  });
+  })
 }
 
 // ユーザーIDに紐づくレビューの総数を取得
-export async function fetchReviewCountByUserId(
-  userId: string | undefined,
-): Promise<number> {
+export async function fetchReviewCountByUserId(userId: string | undefined): Promise<number> {
   // ユーザーIDがundefinedの場合は0を返す
-  if (userId === undefined) return 0;
+  if (userId === undefined) return 0
 
   return await prisma.reviews.count({
     where: { createdBy: userId },
-  });
+  })
 }

@@ -1,11 +1,11 @@
-import { DEFAULT_NAME } from '@/app/lib/constants'
-import type { ReviewWithLike } from '@/app/lib/definitions'
 import { EditLink } from '@/components/review/edit-link'
 import { StarNumber } from '@/components/review/star-number'
 import DeleteDialog from '@/components/universities/delete-dialog'
 import Likes from '@/components/universities/likes'
 import { DefaultUserAvatar } from '@/components/user/default-user-avatar'
 import { UserAvatar } from '@/components/user/user-avatar'
+import { DEFAULT_NAME } from '@/lib/constants'
+import type { ReviewWithLike } from '@/lib/definitions'
 
 type Props = {
   review: ReviewWithLike

@@ -1,49 +1,41 @@
-'use client';
+'use client'
 
-import { getTotalPage } from '@/app/lib/functions';
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { getTotalPage } from '@/lib/functions'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
+import Link from 'next/link'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export default function Pagenation({ hitCount }: { hitCount: number }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const currentPage = Number(searchParams.get('page')) || 1
 
-  const totalPage = getTotalPage(hitCount);
+  const totalPage = getTotalPage(hitCount)
 
   const createURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
+    const params = new URLSearchParams(searchParams)
+    params.set('page', pageNumber.toString())
+    return `${pathname}?${params.toString()}`
+  }
 
   return (
-    <div className="flex justify-center gap-3">
+    <div className='flex justify-center gap-3'>
       {currentPage == 1 && totalPage == 1 && (
         <>
-          <ArrowLeftIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
-          <PagenationNumber
-            currentPage={currentPage}
-            totalPage={totalPage}
-            createURL={createURL}
-          />
-          <ArrowRightIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
+          <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+          <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
         </>
       )}
 
       {/* 現在のページが１の時のページネーションのUI */}
       {currentPage == 1 && totalPage != 1 && (
         <>
-          <ArrowLeftIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
-          <PagenationNumber
-            currentPage={currentPage}
-            totalPage={totalPage}
-            createURL={createURL}
-          />
+          <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
           <Link href={createURL(currentPage + 1)}>
-            <ArrowRightIcon className="size-9 rounded border border-gray-200 p-1 text-black" />
+            <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
           </Link>
         </>
       )}
@@ -52,15 +44,11 @@ export default function Pagenation({ hitCount }: { hitCount: number }) {
       {currentPage > 1 && currentPage < totalPage && (
         <>
           <Link href={createURL(currentPage - 1)}>
-            <ArrowLeftIcon className="size-9 rounded border border-gray-200 p-1" />
+            <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1' />
           </Link>
-          <PagenationNumber
-            currentPage={currentPage}
-            totalPage={totalPage}
-            createURL={createURL}
-          />
+          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
           <Link href={createURL(currentPage + 1)}>
-            <ArrowRightIcon className="size-9 rounded border border-gray-200 p-1" />
+            <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1' />
           </Link>
         </>
       )}
@@ -69,18 +57,14 @@ export default function Pagenation({ hitCount }: { hitCount: number }) {
       {currentPage == totalPage && totalPage != 1 && (
         <>
           <Link href={createURL(currentPage - 1)}>
-            <ArrowLeftIcon className="size-9 rounded border border-gray-200 p-1 text-black" />
+            <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
           </Link>
-          <PagenationNumber
-            currentPage={currentPage}
-            totalPage={totalPage}
-            createURL={createURL}
-          />
-          <ArrowRightIcon className="size-9 rounded border border-gray-300 p-1 text-gray-300" />
+          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+          <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
         </>
       )}
     </div>
-  );
+  )
 }
 
 function PagenationNumber({
@@ -88,17 +72,14 @@ function PagenationNumber({
   totalPage,
   createURL,
 }: {
-  currentPage: number;
-  totalPage: number;
-  createURL: (pageNumber: number) => string;
+  currentPage: number
+  totalPage: number
+  createURL: (pageNumber: number) => string
 }) {
-  const pagenationNumber = Array.from(
-    { length: totalPage },
-    (_, index) => index + 1,
-  );
+  const pagenationNumber = Array.from({ length: totalPage }, (_, index) => index + 1)
 
   return (
-    <div className="flex items-center gap-2">
+    <div className='flex items-center gap-2'>
       {pagenationNumber.map((e, index) => (
         <Link
           href={createURL(e)}
@@ -112,5 +93,5 @@ function PagenationNumber({
         </Link>
       ))}
     </div>
-  );
+  )
 }

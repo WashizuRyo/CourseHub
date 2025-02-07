@@ -1,5 +1,5 @@
-import type { Review } from '@/app/lib/actions'
-import { prisma } from '@/app/lib/prisma'
+import type { Review } from '@/lib/actions'
+import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
