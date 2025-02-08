@@ -1,15 +1,18 @@
+import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
 import ReviewTemplate from '@/components/universities/review-template'
-import { fetchLikedReview, fetchLikedReviewCount } from '@/model/review'
+import { loadLikedReviews } from '@/entries/review'
 import { auth } from '@@/auth'
+import { Suspense } from 'react'
 
-export default async function LikedReviews({
+export default async function LikedReviewsPage({
   params,
   searchParams,
 }: {
   params: { userId: string }
-  searchParams: { page: string }
+  searchParams: { page: string | undefined }
 }) {
   const { userId } = params
+  const page = searchParams.page ? Number(searchParams.page) : 1
 
   const session = await auth()
   const sessionUserId = session?.user?.id
@@ -20,10 +23,15 @@ export default async function LikedReviews({
     return <div className='mt-3 text-center text-3xl font-bold'>権限がありません</div>
   }
 
-  const [reviews, count] = await Promise.all([
-    fetchLikedReview({ userId, currentPage: Number(searchParams.page) }),
-    fetchLikedReviewCount({ userId }),
-  ])
+  return (
+    <Suspense key={page} fallback={<ReviewsSkeleton />}>
+      <Reviews userId={userId} page={page} />
+    </Suspense>
+  )
+}
+
+async function Reviews({ userId, page }: { userId: string; page: number }) {
+  const { reviews, count } = await loadLikedReviews({ userId, page })
 
   if (count === 0) {
     return <div className='m-4 text-center text-xl'>いいねをするとレビューが表示されます</div>
