@@ -76,7 +76,7 @@ export async function updateReview({
   redirect(`/universities/${universityId}`)
 }
 
-export async function fetchLikedReview({
+export async function fetchLikedReviews({
   userId,
   currentPage = 1,
 }: {
@@ -99,7 +99,7 @@ export async function fetchLikedReview({
   return reviews.map((review) => ({ ...review, isLiked: true }))
 }
 
-export async function fetchLikedReviewCount({ userId }: { userId: string }) {
+export async function fetchLikedReviewsCount({ userId }: { userId: string }) {
   return await prisma.reviews.count({
     where: {
       likes: {
