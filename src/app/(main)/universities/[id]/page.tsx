@@ -1,5 +1,6 @@
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
+import Spinner from '@/components/Spinner'
 import ReviewSearch from '@/components/universities/review-search/review-search'
 import ReviewsWrap from '@/components/universities/reviews-wrap'
 import { fetchUniversityByUniversityId } from '@/lib/data'
@@ -12,7 +13,7 @@ import { Suspense } from 'react'
 
 export default async function Page({ params, searchParams }: { params: { id: string }; searchParams: searchParmas }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <ReviewSearchPage universityId={params.id} searchParams={searchParams} />
     </Suspense>
   )
