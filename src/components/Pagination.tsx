@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function Pagenation({ hitCount }: { hitCount: number }) {
+export default function Pagination({ hitCount }: { hitCount: number }) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const currentPage = Number(searchParams.get('page')) || 1

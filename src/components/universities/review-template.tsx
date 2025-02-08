@@ -1,4 +1,4 @@
-import Pagenation from '@/components/pagenation'
+import Pagination from '@/components/Pagination'
 import { Review } from '@/components/review/review'
 import type { ReviewWithLike } from '@/lib/definitions'
 
@@ -19,7 +19,7 @@ export default function ReviewTemplate({
         ))}
       </section>
       <section className='mt-6 text-center'>
-        <Pagenation hitCount={hitCount} />
+        <Pagination hitCount={hitCount} />
       </section>
     </div>
   )
