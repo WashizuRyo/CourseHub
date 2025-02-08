@@ -1,8 +1,6 @@
 'use client'
 
 import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
-import ReviewTemplate from '@/components/universities/review-template'
-import ReviewSlector from '@/components/universities/userpage/review-selector'
 import { useGetReviewsAndCountByUserId } from '@/lib/users'
 import { useGetQueryParams } from '@/lib/users/functions'
 
@@ -25,7 +23,6 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   if (isLoadingReviews) {
     return (
       <>
-        <ReviewSlector />
         <div className='mt-3'>
           <SearchReviewSkeleton />
         </div>
@@ -37,16 +34,15 @@ export default function Reviews({ params }: { params: { userId: string } }) {
   if (!data?.reviewCountByUserId) {
     return (
       <>
-        <ReviewSlector />
         <div className='mt-3 text-center text-xl'>投稿したレビューがありません</div>
       </>
     )
   }
 
-  return (
-    <>
-      <ReviewSlector />
-      <ReviewTemplate userId={userId} reviews={data.reviewsByUserId} hitCount={data.reviewCountByUserId} />
-    </>
-  )
+  // return (
+  //   <>
+  //     <ReviewSlector />
+  //     <ReviewTemplate userId={userId} reviews={data.reviewsByUserId} hitCount={data.reviewCountByUserId} />
+  //   </>
+  // )
 }

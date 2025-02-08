@@ -1,59 +1,33 @@
-'use client'
-
-import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
 import ReviewTemplate from '@/components/universities/review-template'
-import ReviewSlector from '@/components/universities/userpage/review-selector'
-import { useGetLikedReviewsAndCountByUserId } from '@/lib/users'
-import { useGetQueryParams } from '@/lib/users/functions'
+import { fetchLikedReview, fetchLikedReviewCount } from '@/model/review'
+import { auth } from '@@/auth'
 
-export default function Likes({ params }: { params: { userId: string } }) {
-  // ユーザIDを取得
-  console.log('test----------------------------')
+export default async function LikedReviews({
+  params,
+  searchParams,
+}: {
+  params: { userId: string }
+  searchParams: { page: string }
+}) {
+  const { userId } = params
 
-  const userId = params.userId
-  console.log(params.userId)
-
-  // クエリパラメータのpageを取得
-  const { currentPage } = useGetQueryParams('page')
-
-  // ユーザがいいねしたレビューを取得
-  const { data, error, isError, isPending } = useGetLikedReviewsAndCountByUserId(userId, Number(currentPage))
-
-  // エラーが発生した場合
-  if (isError) {
-    return <div className='mt-3 text-center text-3xl font-bold'>{error?.message}</div>
+  const session = await auth()
+  const sessionUserId = session?.user?.id
+  if (!sessionUserId) {
+    return <div className='mt-3 text-center text-3xl font-bold'>ログインしてください</div>
+  }
+  if (sessionUserId !== userId) {
+    return <div className='mt-3 text-center text-3xl font-bold'>権限がありません</div>
   }
 
-  // ローディング中
-  if (isPending) {
-    return (
-      <>
-        <ReviewSlector />
-        <div className='mt-3'>
-          <SearchReviewSkeleton />
-        </div>
-      </>
-    )
+  const [reviews, count] = await Promise.all([
+    fetchLikedReview({ userId, currentPage: Number(searchParams.page) }),
+    fetchLikedReviewCount({ userId }),
+  ])
+
+  if (count === 0) {
+    return <div className='m-4 text-center text-xl'>いいねをするとレビューが表示されます</div>
   }
 
-  // いいねしたレビューがなかった場合
-  if (!data?.likedReviewCountByUserId)
-    return (
-      <>
-        <ReviewSlector />
-        <div className='m-4 text-center text-xl'>いいねをするといいねしたレビューが表示されます</div>
-      </>
-    )
-
-  // いいねしたレビューを表示
-  return (
-    <>
-      <ReviewSlector />
-      <ReviewTemplate
-        userId={userId}
-        reviews={data.likedReviewByUserIdWithIsLikedTrue}
-        hitCount={data.likedReviewCountByUserId}
-      />
-    </>
-  )
+  return <ReviewTemplate userId={userId} reviews={reviews} hitCount={count} />
 }

@@ -1,4 +1,6 @@
 import type { Review } from '@/lib/actions'
+import { PAGE_SIZE } from '@/lib/constants'
+import type { ReviewWithLike } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -72,4 +74,39 @@ export async function updateReview({
 
   revalidatePath(`/universities/${universityId}`)
   redirect(`/universities/${universityId}`)
+}
+
+export async function fetchLikedReview({
+  userId,
+  currentPage = 1,
+}: {
+  userId: string
+  currentPage: number
+}): Promise<ReviewWithLike[]> {
+  const reviews = await prisma.reviews.findMany({
+    where: {
+      likes: {
+        some: {
+          userId,
+        },
+      },
+    },
+    include: { user: true },
+    skip: PAGE_SIZE * (currentPage - 1),
+    take: PAGE_SIZE,
+  })
+
+  return reviews.map((review) => ({ ...review, isLiked: true }))
+}
+
+export async function fetchLikedReviewCount({ userId }: { userId: string }) {
+  return await prisma.reviews.count({
+    where: {
+      likes: {
+        some: {
+          userId,
+        },
+      },
+    },
+  })
 }
