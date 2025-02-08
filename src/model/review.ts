@@ -1,12 +1,12 @@
-import type { Review } from '@/lib/actions'
+import type { ReviewData } from '@/lib/actions'
 import { PAGE_SIZE } from '@/lib/constants'
-import type { ReviewWithLike } from '@/lib/definitions'
+import type { Review, ReviewWithLike } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 type createReviewParams = {
-  formData: Review
+  formData: ReviewData
   universityId: number
   createdBy: string
 }
@@ -53,7 +53,7 @@ export async function updateReview({
   universityId,
   reviewId,
 }: {
-  formData: Review
+  formData: ReviewData
   universityId: number
   reviewId: number
 }) {
@@ -108,5 +108,21 @@ export async function fetchLikedReviewCount({ userId }: { userId: string }) {
         },
       },
     },
+  })
+}
+
+export async function fetchUserReviews({ userId, page = 1 }: { userId: string; page: number }): Promise<Review[]> {
+  const reviews = await prisma.reviews.findMany({
+    where: { createdBy: userId },
+    include: { user: true, likes: true },
+    skip: PAGE_SIZE * (page - 1),
+    take: PAGE_SIZE,
+  })
+  return reviews
+}
+
+export async function fetchUserReviewsCount({ userId }: { userId: string }) {
+  return await prisma.reviews.count({
+    where: { createdBy: userId },
   })
 }
