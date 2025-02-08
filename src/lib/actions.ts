@@ -54,7 +54,7 @@ const CreateAndUpdateReview = FormSchema.omit({
   universityId: true,
 })
 
-export type Review = z.infer<typeof CreateAndUpdateReview>
+export type ReviewData = z.infer<typeof CreateAndUpdateReview>
 
 export async function createReview(universityId: number, prevState: State, formData: FormData): Promise<State> {
   const session = await auth()
