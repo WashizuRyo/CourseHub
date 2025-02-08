@@ -62,17 +62,12 @@ export const Review = ({ review, userId }: Props) => {
 
         <div className='flex justify-between'>
           {/* いいね機能 */}
-          {/* 自分の投稿したレビューにはいいね機能が表示されないようにする。またログインしていない場合も表示しない */}
-          {review.createdBy === userId ? (
-            <div></div>
-          ) : (
-            <div className='flex items-end'>
-              <div className='flex flex-col'>
-                <Likes reviewId={review.id} isLiked={review.isLiked} />
-                <span className='mt-1 text-sm'>いいね</span>
-              </div>
+          <div className='flex items-end'>
+            <div className='flex flex-col'>
+              <Likes reviewId={review.id} isLiked={review.isLiked} />
+              <span className='mt-1 text-sm'>いいね</span>
             </div>
-          )}
+          </div>
 
           {/* 編集と削除ページへのリンク */}
           {userId === review.createdBy && (
