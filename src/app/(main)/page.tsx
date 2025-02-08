@@ -1,21 +1,21 @@
-import { notosans } from '@/components/fonts';
-import '@/components/global.css';
-import UniversitySearchBarSkeleton from '@/components/skeletons/university-search-bar-skeleton';
-import UniversityLinkContainer from '@/components/universities/university-link';
-import UniversitySearchBar from '@/components/university-search-bar';
-import { Suspense } from 'react';
+import { notosans } from '@/components/fonts'
+import '@/components/global.css'
+import UniversitySearchBarSkeleton from '@/components/skeletons/university-search-bar-skeleton'
+import UniversityLinkContainer from '@/components/universities/university-link'
+import UniversitySearchBar from '@/components/UniversitySearchBar'
+import { Suspense } from 'react'
 export default async function Page({
   searchParams,
 }: {
   searchParams: {
-    universityName: string;
-  };
+    universityName: string
+  }
 }) {
-  const { universityName } = searchParams;
+  const { universityName } = searchParams
 
   return (
     <main>
-      <section className="mt-6 flex flex-col items-center p-4">
+      <section className='mt-6 flex flex-col items-center p-4'>
         <div>
           <h1
             className={`${notosans.className} inline-block whitespace-pre-line
@@ -39,11 +39,11 @@ export default async function Page({
       </section>
 
       {/* 大学名検索欄 */}
-      <section className="mb-12 h-96 p-7">
-        <div className="flex justify-center">
+      <section className='mb-12 h-96 p-7'>
+        <div className='flex justify-center'>
           <UniversitySearchBar />
         </div>
-        <div className="mt-6 text-center">
+        <div className='mt-6 text-center'>
           {/* 大学名が入力された場合 */}
           {universityName ? (
             <Suspense key={universityName} fallback={<UniversitySearchBarSkeleton />}>
@@ -58,5 +58,5 @@ export default async function Page({
         </div>
       </section>
     </main>
-  );
+  )
 }

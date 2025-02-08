@@ -1,4 +1,4 @@
-import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+import Breadcrumb from '@/components/Breadcrumb'
 import { Form as ReviewNewForm } from '@/components/review/Form'
 import Spinner from '@/components/Spinner'
 import { createReview } from '@/lib/actions'

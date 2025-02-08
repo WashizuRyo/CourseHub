@@ -1,4 +1,4 @@
-import Breadcrumb from '@/components/breadcrumb/breadcrumb'
+import Breadcrumb from '@/components/Breadcrumb'
 import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
 import Spinner from '@/components/Spinner'
 import ReviewSearch from '@/components/universities/review-search/review-search'
