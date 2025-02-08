@@ -12,6 +12,7 @@ export default async function ReviewsPage({
   searchParams: { page: string | undefined }
 }) {
   const { userId } = params
+  const page = searchParams.page ? Number(searchParams.page) : 1
 
   const session = await auth()
   const sessionUserId = session?.user?.id
@@ -23,8 +24,8 @@ export default async function ReviewsPage({
   }
 
   return (
-    <Suspense key={searchParams.page} fallback={<ReviewsSkeleton />}>
-      <Reviews userId={userId} page={searchParams.page ? Number(searchParams.page) : 1} />
+    <Suspense key={page} fallback={<ReviewsSkeleton />}>
+      <Reviews userId={userId} page={page} />
     </Suspense>
   )
 }
