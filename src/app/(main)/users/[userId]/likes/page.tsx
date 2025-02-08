@@ -11,6 +11,8 @@ export default function Likes({ params }: { params: { userId: string } }) {
   console.log('test----------------------------')
 
   const userId = params.userId
+  console.log(params.userId)
+
   // クエリパラメータのpageを取得
   const { currentPage } = useGetQueryParams('page')
 
