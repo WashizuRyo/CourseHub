@@ -27,7 +27,13 @@ export type OriginalReview = {
 }
 
 export type ReviewWithLike = Review & {
+  user: User
   isLiked: boolean
+}
+
+export type User = {
+  name: string | null
+  image: string | null
 }
 
 export type likedReviewsAndCount = {
@@ -44,11 +50,6 @@ export type Likes = {
   id: number
   reviewId: number
   userId: string
-}
-
-export type User = {
-  name: string | null
-  image: string | null
 }
 
 export type University = {
