@@ -1,48 +1,40 @@
-'use client'
+import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
+import ReviewTemplate from '@/components/universities/review-template'
+import { loadUserReviews } from '@/entries/review'
+import { auth } from '@@/auth'
+import { Suspense } from 'react'
 
-import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
-import { useGetReviewsAndCountByUserId } from '@/lib/users'
-import { useGetQueryParams } from '@/lib/users/functions'
+export default async function ReviewsPage({
+  params,
+  searchParams,
+}: {
+  params: { userId: string }
+  searchParams: { page: string | undefined }
+}) {
+  const { userId } = params
 
-export default function Reviews({ params }: { params: { userId: string } }) {
-  // ユーザIDを取得
-  const userId = params.userId
-
-  // クエリパラメータ取得
-  const { currentPage } = useGetQueryParams('page')
-
-  // userIdを元にレビューを取得
-  const { data, isError, error, isLoadingReviews } = useGetReviewsAndCountByUserId(userId, Number(currentPage))
-
-  // エラーが発生した場合
-  if (isError) {
-    return <div className='mt-3 text-center text-3xl font-bold'>{error?.message}</div>
+  const session = await auth()
+  const sessionUserId = session?.user?.id
+  if (!sessionUserId) {
+    return <div className='mt-3 text-center text-3xl font-bold'>ログインしてください</div>
+  }
+  if (sessionUserId !== userId) {
+    return <div className='mt-3 text-center text-3xl font-bold'>権限がありません</div>
   }
 
-  // ローディング中
-  if (isLoadingReviews) {
-    return (
-      <>
-        <div className='mt-3'>
-          <SearchReviewSkeleton />
-        </div>
-      </>
-    )
+  return (
+    <Suspense key={searchParams.page} fallback={<ReviewsSkeleton />}>
+      <Reviews userId={userId} page={searchParams.page ? Number(searchParams.page) : 1} />
+    </Suspense>
+  )
+}
+
+async function Reviews({ userId, page }: { userId: string; page: number }) {
+  const { reviews, count } = await loadUserReviews({ userId, page })
+
+  if (count === 0) {
+    return <div className='mt-3 text-center text-xl'>投稿したレビューがありません</div>
   }
 
-  // 一度もレビューを投稿していない場合
-  if (!data?.reviewCountByUserId) {
-    return (
-      <>
-        <div className='mt-3 text-center text-xl'>投稿したレビューがありません</div>
-      </>
-    )
-  }
-
-  // return (
-  //   <>
-  //     <ReviewSlector />
-  //     <ReviewTemplate userId={userId} reviews={data.reviewsByUserId} hitCount={data.reviewCountByUserId} />
-  //   </>
-  // )
+  return <ReviewTemplate userId={userId} reviews={reviews} hitCount={count} />
 }
