@@ -1,5 +1,6 @@
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import { Form as ReviewNewForm } from '@/components/review/Form'
+import Spinner from '@/components/Spinner'
 import { createReview } from '@/lib/actions'
 import { auth } from '@@/auth'
 import { Suspense } from 'react'
@@ -8,7 +9,7 @@ export default function ReviewNewPage({ params }: { params: { id: string } }) {
   const { id: universityId } = params
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <Review universityId={universityId} />;
     </Suspense>
   )

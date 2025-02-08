@@ -1,5 +1,6 @@
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
 import { Form as ReviewEditForm } from '@/components/review/Form'
+import Spinner from '@/components/Spinner'
 import NotAllowed from '@/components/universities/not-allowed'
 import { updateReviewFromForm } from '@/lib/actions'
 import fetchReview from '@/model/review'
@@ -9,7 +10,7 @@ import { Suspense } from 'react'
 
 export default async function ReviewEditPage({ params }: { params: { reviewId: string; id: string } }) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <Review universityId={params.id} reviewId={params.reviewId} />
     </Suspense>
   )
