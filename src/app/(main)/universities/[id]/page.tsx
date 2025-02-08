@@ -1,5 +1,5 @@
 import Breadcrumb from '@/components/breadcrumb/breadcrumb'
-import SearchReviewSkeleton from '@/components/skeletons/search-review-skeleton'
+import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
 import ReviewSearch from '@/components/universities/review-search/review-search'
 import ReviewsWrap from '@/components/universities/reviews-wrap'
 import { fetchUniversityByUniversityId } from '@/lib/data'
@@ -97,7 +97,7 @@ async function ReviewSearchPage({ universityId, searchParams }: { universityId: 
       {/* 講義名または学部名が入力または選択された場合 */}
       <section className='mt-4'>
         {className || faculty ? (
-          <Suspense key={className + faculty} fallback={<SearchReviewSkeleton />}>
+          <Suspense key={className + faculty} fallback={<ReviewsSkeleton />}>
             <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
