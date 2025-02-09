@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('user can sign in and sign out successfully', async ({ page }) => {
   // login
-  await page.goto('/api/auth/signin?callbackUrl=http://localhost:3000/')
+  await page.goto('/api/auth/signin?callbackUrl=http://localhost:1111/')
   await page.getByLabel('Password').fill('password')
   await page.getByRole('button', { name: 'Sign in with Password' }).click()
 

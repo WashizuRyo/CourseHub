@@ -1,16 +1,18 @@
-import { createLikes, createReviews, deleteReviews, fetchReviewId } from '@/lib/data'
+import { createLikes, createReviews, createUniversity, createUser, deleteReviews, fetchReviewId } from '@/lib/data'
 import { expect, test } from '@playwright/test'
 
 test.describe('ユーザページ', () => {
   test.beforeAll(async () => {
     //レビューを投稿する
-    await createReviews('2020-01-01', process.env.TEST_ID!)
-    await createReviews('2021-01-01', process.env.USER_ID!)
+    const testUser = await createUser('test@a.aasfdas')
+    await createUniversity('fsda')
+    await createReviews('2020-01-01', testUser.id)
+    await createReviews('2021-01-01', testUser.id)
 
-    // reviewIdを取得する
+    // // reviewIdを取得する
     const reviewId = await fetchReviewId('2020-01-01')
 
-    // レビューにいいねする
+    // // レビューにいいねする
     await createLikes(Number(reviewId))
   })
 
