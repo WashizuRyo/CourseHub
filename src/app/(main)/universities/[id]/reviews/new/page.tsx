@@ -10,7 +10,7 @@ export default function ReviewNewPage({ params }: { params: { id: string } }) {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Review universityId={universityId} />;
+      <Review universityId={universityId} />
     </Suspense>
   )
 }
