@@ -140,13 +140,10 @@ export async function createUniversity(universityname: string) {
   }
 }
 
-export async function createUser(email: string) {
+export async function saveTestUser(data: { name: string; email: string; image: string; id: string }) {
   try {
     return await prisma.user.create({
-      data: {
-        name: 'testUser',
-        email,
-      },
+      data,
     })
   } catch (error) {
     console.error('Database Error', error)
