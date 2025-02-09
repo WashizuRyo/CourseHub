@@ -1,37 +1,23 @@
 import { prisma } from '@/lib/prisma'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import NextAuth from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
+import type { JWT, JWTDecodeParams, JWTEncodeParams } from 'next-auth/jwt'
 import Google from 'next-auth/providers/google'
 
-const shouldAddCredentials = process.env.NODE_ENV === 'development'
+const jwtBase64 = {
+  async encode(params: JWTEncodeParams<JWT>): Promise<string> {
+    return btoa(JSON.stringify(params.token))
+  },
+  async decode(params: JWTDecodeParams): Promise<JWT | null> {
+    if (!params.token) return {}
+    return JSON.parse(atob(params.token))
+  },
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [
-    Google,
-    ...(shouldAddCredentials
-      ? [
-          Credentials({
-            id: 'password',
-            name: 'Password',
-            credentials: {
-              password: { label: 'Password', type: 'password' },
-            },
-            authorize: (credentials) => {
-              if (credentials.password === 'password') {
-                return {
-                  email: 'bob@alice.com',
-                  name: 'Bob Alice',
-                  image: 'https://avatars.githubusercontent.com/u/67470890?s=200&v=4',
-                }
-              }
-              return null
-            },
-          }),
-        ]
-      : []),
-  ],
+  providers: [Google],
+  ...(process.env.APP_ENV === 'test' ? { jwt: jwtBase64 } : {}),
   session: { strategy: 'jwt' },
   callbacks: {
     jwt({ token, user }) {
