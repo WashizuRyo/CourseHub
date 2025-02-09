@@ -107,9 +107,14 @@ export function Form({
           <div>
             <p className='mb-1'>総合評価</p>
             <div className='flex '>
-              {stars.map((value, element) => (
-                <div key={element} onClick={() => handleClick(value)} className='hover: cursor-pointer'>
-                  {element >= rating ? (
+              {stars.map((value, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleClick(value)}
+                  className='hover: cursor-pointer'
+                  data-testid={`star-${index}`}
+                >
+                  {index >= rating ? (
                     <StarIcon className='size-12' />
                   ) : (
                     <StarIcon className='size-12 text-yellow-400' />
@@ -160,14 +165,20 @@ export function Form({
                   type='radio'
                   name='who'
                   value='anonymous'
-                  checked={review?.isAnonymous === true}
+                  defaultChecked={review?.isAnonymous === true}
                 />
                 <label htmlFor='anonymous' className='ml-2 rounded-3xl bg-gray-100 p-2 px-4 text-sm'>
                   匿名で投稿
                 </label>
               </div>
               <div>
-                <input id='username' type='radio' name='who' value='username' checked={review?.isAnonymous === false} />
+                <input
+                  id='username'
+                  type='radio'
+                  name='who'
+                  value='username'
+                  defaultChecked={review?.isAnonymous === false}
+                />
                 <label htmlFor='username' className='ml-2 rounded-3xl bg-green-500 p-2 px-4 text-sm text-white'>
                   {/* 長い場合は後ろを省略 */}
                   {userName?.slice(0, 20)}で投稿
