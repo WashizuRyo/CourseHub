@@ -1,4 +1,3 @@
-import { EditLink } from '@/components/review/edit-link'
 import { StarNumber } from '@/components/review/star-number'
 import DeleteDialog from '@/components/universities/delete-dialog'
 import Likes from '@/components/universities/likes'
@@ -6,6 +5,8 @@ import { DefaultUserAvatar } from '@/components/user/default-user-avatar'
 import { UserAvatar } from '@/components/user/user-avatar'
 import { DEFAULT_NAME } from '@/lib/constants'
 import type { ReviewWithLike } from '@/lib/definitions'
+import { PencilSquareIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 type Props = {
   review: ReviewWithLike
@@ -72,7 +73,13 @@ export const Review = ({ review, userId }: Props) => {
           {/* 編集と削除ページへのリンク */}
           {userId === review.createdBy && (
             <div className='mt-6 flex justify-end gap-2'>
-              <EditLink href={`/universities/${review.universityId}/reviews/${review.id}`} />
+              <div className='flex flex-col items-center'>
+                <div className='rounded-md border border-green-400 p-2 shadow-sm hover:bg-gray-100'>
+                  <Link href={`/universities/${review.universityId}/reviews/${review.id}`} aria-label='編集'>
+                    <PencilSquareIcon className='size-5 text-green-400' />
+                  </Link>
+                </div>
+              </div>
               <DeleteDialog universityId={review.universityId} evaluationId={review.id} query={review.className} />
             </div>
           )}
