@@ -81,64 +81,6 @@ export async function createReview(universityId: number, prevState: State, formD
   return await createReviewData({ formData: validatedFields.data, universityId, createdBy: session.user.id })
 }
 
-export async function updateReview(
-  evaluationId: number,
-  universityId: number,
-  accessPath: string,
-  prevState: State,
-  formData: FormData,
-): Promise<State> {
-  const session = await auth()
-  if (!session?.user?.id) {
-    throw new Error('ログインしてください')
-  }
-  const validatedFields = CreateAndUpdateReview.safeParse({
-    faculty: formData.get('faculty'),
-    className: formData.get('className'),
-    title: formData.get('title'),
-    star: formData.get('star'),
-    evaluation: formData.get('evaluation'),
-    who: formData.get('who'),
-    userId: formData.get('userId'),
-  })
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: '入力された値が正しくないです。レビュー作成に失敗しました。',
-    }
-  }
-
-  const { faculty, className, evaluation, who, star, title } = validatedFields.data
-  const date = new Date().toISOString().split('T')[0]
-  const newData = {
-    faculty,
-    date,
-    className,
-    title,
-    star,
-    evaluation,
-    universityId,
-    createdBy: session.user.id,
-    isAnonymous: who === 'anonymous',
-  }
-  try {
-    await prisma.reviews.upsert({
-      where: { id: evaluationId },
-      update: newData,
-      create: newData,
-    })
-  } catch (error) {
-    console.error(error)
-    return {
-      message: 'Database Error: Failed to Update Review',
-    }
-  }
-
-  revalidatePath(`/universities/${universityId}?classname=${encodeURIComponent(className)}`)
-  redirect(`/universities/${universityId}?classname=${encodeURIComponent(className)}`)
-}
-
 export async function deleteReview(evaluationId: number, id: number, query: string, accessPath: string) {
   const session = await auth()
   try {
@@ -161,31 +103,6 @@ export async function deleteReview(evaluationId: number, id: number, query: stri
   } else {
     revalidatePath(`/users/${session?.user?.id}/likes`)
     redirect(`/users/${session?.user?.id}/likes`)
-  }
-}
-
-export async function fetchLikes(reviewId: number, userId: string, state: boolean) {
-  if (!state) {
-    try {
-      await prisma.likes.delete({
-        where: { reviewId_userId: { reviewId, userId } },
-      })
-    } catch (error) {
-      console.error('Database Error', error)
-      throw new Error('Failed to fetch likes')
-    }
-    return
-  }
-
-  try {
-    await prisma.likes.upsert({
-      where: { reviewId_userId: { reviewId, userId } },
-      update: { reviewId, userId },
-      create: { reviewId, userId },
-    })
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to fetch likes')
   }
 }
 

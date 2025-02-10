@@ -66,7 +66,6 @@ export const Review = ({ review, userId }: Props) => {
           <div className='flex items-end'>
             <div className='flex flex-col'>
               <Likes reviewId={review.id} isLiked={review.isLiked} />
-              <span className='mt-1 text-sm'>いいね</span>
             </div>
           </div>
 

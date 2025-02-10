@@ -31,13 +31,11 @@ test.describe('EditReviewPage', () => {
     await page.getByTestId('star-2').click()
     await page.getByLabel('授業レビューを入力してください').fill('testEvaluation')
     await page.getByLabel('Sato').click()
-    await page.screenshot({ path: 'screenshot1.png', fullPage: true })
 
     await page.getByRole('button', { name: '送信' }).click()
     await page.waitForURL('/universities/111')
 
     await page.goto('/users/dummy1/reviews')
-    await page.screenshot({ path: 'screenshot.png', fullPage: true })
 
     expect(page.getByText('理学部')).toBeVisible()
     expect(page.getByText('testClassName')).toBeVisible()
