@@ -37,8 +37,6 @@ test.describe('DeleteReviewPage', () => {
     await page.getByTestId('deleteButton').click()
     await page.reload()
 
-    await page.screenshot({ path: 'screenshot3.png', fullPage: true })
-
     expect(page.getByText('投稿したレビューがありません')).toBeVisible()
   })
 })

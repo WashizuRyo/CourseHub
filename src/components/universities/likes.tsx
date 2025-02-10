@@ -1,25 +1,19 @@
 'use client'
 
-import { fetchLikes } from '@/lib/actions'
+import { removeLike, saveLike } from '@/entries/like'
 import { HeartIcon } from '@heroicons/react/24/solid'
 import clsx from 'clsx'
-import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 
 export default function Likes({ reviewId, isLiked }: { reviewId: number; isLiked: boolean }) {
-  const session = useSession()
-  const [state, setState] = useState(isLiked)
-  const userId = session?.data?.user?.id || ''
-
-  const createLikesWithReviewIdAndUserId = fetchLikes.bind(null, reviewId, userId, state)
-  const handleClick = () => {
-    setState(!state)
-  }
+  const [likeStatus, setLikeStatus] = useState(isLiked)
+  const like = saveLike.bind(null, reviewId)
+  const unlike = removeLike.bind(null, reviewId)
 
   return (
-    <form action={createLikesWithReviewIdAndUserId} className='size-[38px]'>
-      <button type='submit' onClick={handleClick}>
-        <HeartIcon className={clsx('size-10', state ? 'text-red-500' : 'text-gray-500')} />
+    <form action={likeStatus ? like : unlike}>
+      <button type='submit' onClick={() => setLikeStatus(!likeStatus)} data-testid='likeButton'>
+        <HeartIcon className={clsx('size-12', likeStatus ? 'text-red-500' : 'text-gray-500')} />
       </button>
     </form>
   )
