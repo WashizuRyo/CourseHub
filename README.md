@@ -76,7 +76,7 @@ https://coursehuber.vercel.app</h1><br>
     </tr>
     <tr>
       <td>E2E</td>
-      <td>Playwright</td>
+      <td>Playwright, Docker(postgreSQL)</td>
     </tr>
     <tr>
       <td>Auth</td>
@@ -84,7 +84,7 @@ https://coursehuber.vercel.app</h1><br>
     </tr>
     <tr>
       <td>Data Fetch</td>
-      <td>RSC, Tanstack Query</td>
+      <td>RSC</td>
     </tr>
     <tr>
       <td>Database</td>
