@@ -128,29 +128,6 @@ export async function fetchLikeByReviewIdAndUserId(reviewId: number, userId: str
   }
 }
 
-export async function createUniversity(universityname: string) {
-  try {
-    const data = await prisma.university.create({
-      data: { universityname, date: '2020-01-01' },
-    })
-    return data
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to create university')
-  }
-}
-
-export async function saveTestUser(data: { name: string; email: string; image: string; id: string }) {
-  try {
-    return await prisma.user.create({
-      data,
-    })
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to create user')
-  }
-}
-
 export async function createReviews(date: string, createdBy: string) {
   try {
     const data = await prisma.reviews.create({
