@@ -27,6 +27,7 @@ export default function DeleteDialog({
           type='button'
           onClick={handleShowModal}
           className='rounded-md border border-red-400 p-2 shadow-sm hover:bg-gray-100'
+          data-testid='modalOpenButton'
         >
           <TrashIcon className='size-5 text-red-400' />
         </button>
@@ -47,7 +48,7 @@ export default function DeleteDialog({
             <XMarkIcon className='size-6 text-green-400' />
           </button>
           <form action={deleteReviewByEvaluationId}>
-            <button className='rounded border border-red-400 p-2 hover:bg-gray-200'>
+            <button className='rounded border border-red-400 p-2 hover:bg-gray-200' data-testid='deleteButton'>
               <TrashIcon className='size-6 text-red-400' />
             </button>
           </form>
