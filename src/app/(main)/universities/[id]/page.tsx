@@ -21,7 +21,7 @@ export default async function Page({ params, searchParams }: { params: { id: str
 
 async function ReviewSearchPage({ universityId, searchParams }: { universityId: string; searchParams: searchParmas }) {
   const university = await fetchUniversityByUniversityId(Number(universityId))
-  const { className, faculty } = getQueryParams(searchParams)
+  const { className, faculty, currentPage } = getQueryParams(searchParams)
 
   if (!university) {
     notFound()
@@ -98,7 +98,7 @@ async function ReviewSearchPage({ universityId, searchParams }: { universityId: 
       {/* 講義名または学部名が入力または選択された場合 */}
       <section className='mt-4'>
         {className || faculty ? (
-          <Suspense key={className + faculty} fallback={<ReviewsSkeleton />}>
+          <Suspense key={className + faculty + currentPage} fallback={<ReviewsSkeleton />}>
             <ReviewsWrap searchParams={searchParams} />
           </Suspense>
         ) : (
