@@ -1,8 +1,8 @@
-import Breadcrumb from '@/components/Breadcrumb'
 import { Form as ReviewEditForm } from '@/components/review/Form'
-import Spinner from '@/components/Spinner'
 import NotAllowed from '@/components/universities/not-allowed'
-import { updateReviewFromForm } from '@/lib/actions'
+import Breadcrumb from '@/components/utils/Breadcrumb'
+import Spinner from '@/components/utils/Spinner'
+import { updateReview } from '@/entries/review'
 import fetchReview from '@/model/review'
 import { auth } from '@@/auth'
 import { notFound } from 'next/navigation'
@@ -27,7 +27,7 @@ async function Review({ universityId, reviewId: evaluationId }: { universityId: 
     return <NotAllowed />
   }
 
-  const handleSubmit = updateReviewFromForm.bind(null, review)
+  const handleSubmit = updateReview.bind(null, review)
 
   return (
     <>

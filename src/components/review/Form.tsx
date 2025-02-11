@@ -1,15 +1,15 @@
 'use client'
 
 import Submit from '@/components/universities/submit'
-import { type State } from '@/lib/actions'
 import type { OriginalReview } from '@/lib/definitions'
+import { ReviewFormState } from '@/type/review'
 import { StarIcon } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useFormState } from 'react-dom'
 
 const stars = [1, 2, 3, 4, 5]
-const initialState: State = {
+const initialState: ReviewFormState = {
   errors: {},
   message: null,
 }
@@ -23,7 +23,7 @@ export function Form({
   universityId: string
   userName: string | null | undefined
   review?: OriginalReview
-  onSubmit: (prevState: State, formData: FormData) => Promise<State>
+  onSubmit: (prevState: ReviewFormState, formData: FormData) => Promise<ReviewFormState>
 }) {
   const [state, formAction] = useFormState(onSubmit, initialState)
   const [rating, setRating] = useState(review?.star || 0)

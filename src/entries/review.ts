@@ -1,12 +1,19 @@
+'use server'
+
+import { OriginalReview } from '@/lib/definitions'
 import { attachUserReviewStatus } from '@/lib/functions'
 import {
+  createReview as createReviewData,
   fetchLikedReviews,
   fetchLikedReviewsCount,
   fetchReviews,
   fetchReviewsCount,
   fetchUserReviews,
   fetchUserReviewsCount,
+  updateReview as udpateReviewData,
 } from '@/model/review'
+import { ReviewFormState } from '@/type/review'
+import { ReviewDataSchema } from '@/type/review/schema'
 import { auth } from '@@/auth'
 
 export async function loadUserReviews({ userId, page }: { userId: string; page: number }) {
@@ -56,4 +63,66 @@ export async function loadReviews({
   const reviewsWithUserMetadata = attachUserReviewStatus(reviews, session.user.id)
 
   return { reviews: reviewsWithUserMetadata, count }
+}
+
+export async function createReview(
+  universityId: number,
+  prevState: ReviewFormState,
+  formData: FormData,
+): Promise<ReviewFormState> {
+  const session = await auth()
+  if (!session?.user?.id) {
+    throw new Error('ログインしてください')
+  }
+
+  const validatedFields = ReviewDataSchema.safeParse({
+    faculty: formData.get('faculty'),
+    className: formData.get('className'),
+    title: formData.get('title'),
+    star: formData.get('star'),
+    evaluation: formData.get('evaluation'),
+    who: formData.get('who'),
+  })
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors)
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: '入力された値が正しくありません。レビュー作成に失敗しました。',
+    }
+  }
+
+  return await createReviewData({ formData: validatedFields.data, universityId, createdBy: session.user.id })
+}
+
+export async function updateReview(
+  { universityId, id: reviewId, createdBy }: OriginalReview,
+  prevState: ReviewFormState,
+  formData: FormData,
+): Promise<ReviewFormState> {
+  const session = await auth()
+  if (!session?.user?.id) {
+    throw new Error('ログインしてください')
+  }
+
+  if (session.user.id !== createdBy) {
+    throw new Error('このレビューを更新する権限がありません')
+  }
+
+  const validatedFields = ReviewDataSchema.safeParse({
+    faculty: formData.get('faculty'),
+    className: formData.get('className'),
+    title: formData.get('title'),
+    star: formData.get('star'),
+    evaluation: formData.get('evaluation'),
+    who: formData.get('who'),
+  })
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: '入力された値が正しくないです。レビュー作成に失敗しました。',
+    }
+  }
+
+  return await udpateReviewData({ formData: validatedFields.data, universityId, reviewId })
 }

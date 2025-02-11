@@ -1,6 +1,4 @@
-'use client'
-
-import { singIn } from '@/lib/actions'
+import { singIn } from '@/lib/auth-utils'
 
 export default function SignIn() {
   return (
