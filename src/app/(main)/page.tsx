@@ -1,4 +1,4 @@
-import UniversitySearchBarSkeleton from '@/components/skeletons/university-search-bar-skeleton'
+import UniversitySearchBarSkeleton from '@/components/skeletons/UniversitySearchBarSkeleton'
 import UniversityLinkContainer from '@/components/universities/university-link'
 import UniversitySearchBar from '@/components/universities/UniversitySearchBar'
 import '@/components/utils/global.css'
