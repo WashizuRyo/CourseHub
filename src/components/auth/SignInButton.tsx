@@ -1,5 +1,3 @@
-'use client'
-
 import { singIn } from '@/lib/actions'
 
 export default function SignIn() {

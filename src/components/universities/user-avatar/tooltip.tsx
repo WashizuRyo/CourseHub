@@ -2,8 +2,8 @@ import { ArrowRightStartOnRectangleIcon, ArrowUpCircleIcon, UserIcon } from '@he
 import type { Session } from 'next-auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import SignIn from '../../signIn/signin-button'
-import SignOut from '../../signOut/signout-button'
+import SignIn from '../../auth/SignInButton'
+import SignOut from '../../auth/SignOutButton'
 
 export default function Tooltip({ session }: { session: Session | null }) {
   return (
