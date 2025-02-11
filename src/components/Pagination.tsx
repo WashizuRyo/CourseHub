@@ -20,49 +20,51 @@ export default function Pagination({ hitCount }: { hitCount: number }) {
   }
 
   return (
-    <div className='flex justify-center gap-3'>
-      {currentPage == 1 && totalPage == 1 && (
-        <>
-          <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
-          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
-          <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
-        </>
-      )}
+    <div className='mt-6 text-center'>
+      <div className='flex justify-center gap-3'>
+        {currentPage == 1 && totalPage == 1 && (
+          <>
+            <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+            <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+            <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+          </>
+        )}
 
-      {/* 現在のページが１の時のページネーションのUI */}
-      {currentPage == 1 && totalPage != 1 && (
-        <>
-          <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
-          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
-          <Link href={createURL(currentPage + 1)}>
-            <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
-          </Link>
-        </>
-      )}
+        {/* 現在のページが１の時のページネーションのUI */}
+        {currentPage == 1 && totalPage != 1 && (
+          <>
+            <ArrowLeftIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+            <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+            <Link href={createURL(currentPage + 1)}>
+              <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
+            </Link>
+          </>
+        )}
 
-      {/* 現在のページが1より大きい、かつ、トータルページ未満のときのページネーションUI */}
-      {currentPage > 1 && currentPage < totalPage && (
-        <>
-          <Link href={createURL(currentPage - 1)}>
-            <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1' />
-          </Link>
-          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
-          <Link href={createURL(currentPage + 1)}>
-            <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1' />
-          </Link>
-        </>
-      )}
+        {/* 現在のページが1より大きい、かつ、トータルページ未満のときのページネーションUI */}
+        {currentPage > 1 && currentPage < totalPage && (
+          <>
+            <Link href={createURL(currentPage - 1)}>
+              <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1' />
+            </Link>
+            <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+            <Link href={createURL(currentPage + 1)}>
+              <ArrowRightIcon className='size-9 rounded border border-gray-200 p-1' />
+            </Link>
+          </>
+        )}
 
-      {/* 現在のページがトータルページのときのページネーションUI */}
-      {currentPage == totalPage && totalPage != 1 && (
-        <>
-          <Link href={createURL(currentPage - 1)}>
-            <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
-          </Link>
-          <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
-          <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
-        </>
-      )}
+        {/* 現在のページがトータルページのときのページネーションUI */}
+        {currentPage == totalPage && totalPage != 1 && (
+          <>
+            <Link href={createURL(currentPage - 1)}>
+              <ArrowLeftIcon className='size-9 rounded border border-gray-200 p-1 text-black' />
+            </Link>
+            <PagenationNumber currentPage={currentPage} totalPage={totalPage} createURL={createURL} />
+            <ArrowRightIcon className='size-9 rounded border border-gray-300 p-1 text-gray-300' />
+          </>
+        )}
+      </div>
     </div>
   )
 }

@@ -1,7 +1,8 @@
 import type { ReviewData } from '@/lib/actions'
 import { PAGE_SIZE } from '@/lib/constants'
-import type { Review, ReviewWithLike } from '@/lib/definitions'
+import type { Review, ReviewWithIsLiked } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
+import type { Reviews } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
@@ -82,7 +83,7 @@ export async function fetchLikedReviews({
 }: {
   userId: string
   currentPage: number
-}): Promise<ReviewWithLike[]> {
+}): Promise<ReviewWithIsLiked[]> {
   const reviews = await prisma.reviews.findMany({
     where: {
       likes: {
@@ -125,4 +126,93 @@ export async function fetchUserReviewsCount({ userId }: { userId: string }) {
   return await prisma.reviews.count({
     where: { createdBy: userId },
   })
+}
+
+export async function fetchReviewsByUniversityId(universityId: number) {
+  try {
+    const data = await prisma.reviews.findMany({
+      where: { universityId },
+    })
+    return data
+  } catch (error) {
+    console.error('Database Error', error)
+    throw new Error('Failed to fetch reviews')
+  }
+}
+
+export async function fetchReviewsByFaculty({
+  page,
+  sort,
+  faculty,
+}: {
+  page: number
+  sort: 'asc' | 'desc'
+  faculty: string
+}) {
+  try {
+    return await prisma.reviews.findMany({
+      skip: PAGE_SIZE * (page - 1),
+      take: PAGE_SIZE,
+      where: { faculty },
+      orderBy: { date: sort },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            likes: true,
+          },
+        },
+        likes: true,
+      },
+    })
+  } catch (error) {
+    console.error('Database Error', error)
+    throw new Error('Failed to fetch reviews')
+  }
+}
+
+export async function fetchReviews({
+  page,
+  sort,
+  field,
+  value,
+}: {
+  page: number
+  sort: 'asc' | 'desc'
+  field: keyof Reviews
+  value: string
+}) {
+  try {
+    return await prisma.reviews.findMany({
+      skip: PAGE_SIZE * (page - 1),
+      take: PAGE_SIZE,
+      where: { [field]: value },
+      orderBy: { date: sort },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            likes: true,
+          },
+        },
+        likes: true,
+      },
+    })
+  } catch (error) {
+    console.error('Database Error', error)
+    throw new Error('Failed to fetch reviews')
+  }
+}
+
+export async function fetchReviewsCount({ field, value }: { field: keyof Reviews; value: string }) {
+  try {
+    return await prisma.reviews.count({
+      where: { [field]: value },
+    })
+  } catch (error) {
+    console.error('Database Error', error)
+    throw new Error('Failed to fetch review count')
+  }
 }

@@ -1,33 +1,25 @@
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { XCircleIcon } from '@heroicons/react/24/outline'
 
-export default function NotFound({
-  query,
-  faculty,
-}: {
-  query: string;
-  faculty?: string;
-}) {
+export default function NotFound({ query, faculty }: { query: string; faculty?: string }) {
   if (faculty) {
     return (
       <div>
-        <div className="mb-4 flex justify-center">
-          <XCircleIcon className="size-10 text-gray-200" />
+        <div className='mb-4 flex justify-center'>
+          <XCircleIcon className='size-10 text-gray-200' />
         </div>
-        <p className="text-center text-xl">
-          選択された学部のレビューはまだありません。
-        </p>
+        <p className='text-center text-xl'>選択された学部のレビューはまだありません。</p>
       </div>
-    );
+    )
   }
 
   return (
     <div>
-      <div className="mb-4 flex justify-center">
-        <XCircleIcon className="size-10 text-gray-200" />
+      <div className='mb-4 flex justify-center'>
+        <XCircleIcon className='size-10 text-gray-200' />
       </div>
-      <p className="text-center text-xl">
+      <p className='text-center text-xl'>
         見つかりませんでした：&quot;<b>{query}</b>&quot;
       </p>
     </div>
-  );
+  )
 }

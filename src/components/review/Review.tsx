@@ -4,16 +4,11 @@ import Likes from '@/components/universities/likes'
 import { DefaultUserAvatar } from '@/components/user/default-user-avatar'
 import { UserAvatar } from '@/components/user/user-avatar'
 import { DEFAULT_NAME } from '@/lib/constants'
-import type { ReviewWithLike } from '@/lib/definitions'
+import type { ReviewWithMetadata } from '@/lib/definitions'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
-type Props = {
-  review: ReviewWithLike
-  userId: string | undefined
-}
-
-export const Review = ({ review, userId }: Props) => {
+export const Review = ({ review }: { review: ReviewWithMetadata }) => {
   return (
     <div key={review.id} className='p-1'>
       <div className='rounded-md bg-white p-2'>
@@ -70,7 +65,7 @@ export const Review = ({ review, userId }: Props) => {
           </div>
 
           {/* 編集と削除ページへのリンク */}
-          {userId === review.createdBy && (
+          {review.isAuthor && (
             <div className='mt-6 flex justify-end gap-2'>
               <div className='flex flex-col items-center'>
                 <div className='rounded-md border border-green-400 p-2 shadow-sm hover:bg-gray-100'>
