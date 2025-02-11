@@ -1,6 +1,6 @@
 'use server'
 
-import { attachUserReviewStatus } from '@/lib/functions'
+import { addIsAuthor, attachUserReviewStatus } from '@/lib/functions'
 import {
   createReview as createReviewData,
   deleteReview as deleteReviewData,
@@ -31,7 +31,7 @@ export async function loadLikedReviews({ userId, page }: { userId: string; page:
     fetchLikedReviews({ userId, currentPage: page }),
     fetchLikedReviewsCount({ userId }),
   ])
-  const reviewsWithUserMetadata = attachUserReviewStatus(reviews, userId)
+  const reviewsWithUserMetadata = addIsAuthor(reviews, userId)
 
   return { reviews: reviewsWithUserMetadata, count }
 }
