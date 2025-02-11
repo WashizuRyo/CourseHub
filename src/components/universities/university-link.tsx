@@ -1,7 +1,7 @@
 import { fetchUniversityByName } from '@/lib/data'
 import { BuildingLibraryIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import NotFound from './not-found'
+import NotFound from '../utils/NotFound'
 
 export default async function UniversityLinkContainer({ universityName }: { universityName: string }) {
   // 大学が存在するかチェック

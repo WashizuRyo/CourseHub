@@ -1,8 +1,8 @@
 import DeleteDialog from '@/components/review/DeleteDialog'
+import Likes from '@/components/review/Likes'
 import { Star } from '@/components/review/Star'
-import Likes from '@/components/universities/likes'
-import { DefaultUserAvatar } from '@/components/user/default-user-avatar'
-import { UserAvatar } from '@/components/user/user-avatar'
+import { DefaultUserAvatar } from '@/components/user/DefaultUserAvatar'
+import { UserImage } from '@/components/user/UserImage'
 import { DEFAULT_NAME } from '@/lib/constants'
 import type { ReviewWithMetadata } from '@/lib/definitions'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
@@ -20,7 +20,7 @@ export const Review = ({ review }: { review: ReviewWithMetadata }) => {
             </>
           ) : (
             <>
-              <UserAvatar imageUrl={review.user.image} />
+              <UserImage imageUrl={review.user.image} />
               <span className='ml-2 flex items-center break-all text-xl'>{review.user.name || DEFAULT_NAME}</span>
             </>
           )}

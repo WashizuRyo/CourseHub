@@ -1,6 +1,6 @@
 'use client'
 
-import Submit from '@/components/universities/submit'
+import SubmitButton from '@/components/utils/SubmitButton'
 import type { OriginalReview } from '@/lib/definitions'
 import { ReviewFormState } from '@/type/review'
 import { StarIcon } from '@heroicons/react/24/solid'
@@ -203,7 +203,7 @@ export function Form({
         <Link href={`/universities/${universityId}`} className='rounded-xl bg-gray-100 p-3 hover:bg-gray-200'>
           キャンセル
         </Link>
-        <Submit />
+        <SubmitButton />
       </div>
     </form>
   )

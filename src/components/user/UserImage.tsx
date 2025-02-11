@@ -5,7 +5,7 @@ type Props = {
   imageUrl: string | null
 }
 
-export const UserAvatar = ({ imageUrl }: Props) => {
+export const UserImage = ({ imageUrl }: Props) => {
   return (
     <>
       {imageUrl ? (

@@ -1,6 +1,6 @@
 import { useFormStatus } from 'react-dom'
 
-export default function Submit() {
+export default function SubmitButton() {
   const status = useFormStatus()
   return (
     <button type='submit' disabled={status.pending} className='rounded-xl bg-blue-600 p-3 text-white hover:bg-blue-500'>

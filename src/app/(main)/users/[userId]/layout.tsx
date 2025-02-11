@@ -1,4 +1,4 @@
-import ReviewTabs from '@/components/universities/userpage/review-selector'
+import ReviewTabs from '@/components/review/ReviewTabs'
 import { auth } from '@@/auth'
 import { UserIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'

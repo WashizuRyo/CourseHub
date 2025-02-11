@@ -1,6 +1,6 @@
 import { Form as ReviewEditForm } from '@/components/review/Form'
-import NotAllowed from '@/components/universities/not-allowed'
 import Breadcrumb from '@/components/utils/Breadcrumb'
+import NotAllowed from '@/components/utils/NotAllowed'
 import Spinner from '@/components/utils/Spinner'
 import { updateReview } from '@/entries/review'
 import fetchReview from '@/model/review'
