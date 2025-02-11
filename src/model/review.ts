@@ -1,7 +1,7 @@
-import type { ReviewData } from '@/lib/actions'
 import { PAGE_SIZE } from '@/lib/constants'
 import type { Review, ReviewWithIsLiked } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
+import { ReviewData } from '@/type/review'
 import type { Reviews } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
