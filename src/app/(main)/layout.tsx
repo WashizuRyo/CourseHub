@@ -10,9 +10,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await auth()
   return (
     <html>
-      <head>
-        <title>{session?.user?.name}</title>
-      </head>
       <body>
         <header className={`${inter.className} antialiased`}>
           <div className='flex justify-between bg-slate-100 shadow'>
