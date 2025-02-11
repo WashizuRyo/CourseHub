@@ -1,9 +1,7 @@
-import UniversitySearchBarSkeleton from '@/components/skeletons/UniversitySearchBarSkeleton'
-import UniversityLinkContainer from '@/components/universities/university-link'
+import UniversityLink from '@/components/universities/UniversityLink'
 import UniversitySearchBar from '@/components/universities/UniversitySearchBar'
 import '@/components/utils/global.css'
 import { notosans } from '@/fonts'
-import { Suspense } from 'react'
 export default async function Page({
   searchParams,
 }: {
@@ -38,19 +36,14 @@ export default async function Page({
         </div>
       </section>
 
-      {/* 大学名検索欄 */}
       <section className='mb-12 h-96 p-7'>
         <div className='flex justify-center'>
           <UniversitySearchBar />
         </div>
         <div className='mt-6 text-center'>
-          {/* 大学名が入力された場合 */}
           {universityName ? (
-            <Suspense key={universityName} fallback={<UniversitySearchBarSkeleton />}>
-              <UniversityLinkContainer universityName={universityName} />
-            </Suspense>
+            <UniversityLink universityName={universityName} />
           ) : (
-            // 大学名が入力されていない場合
             <p className={`${notosans.className} text-xl text-gray-500`}>
               大学名を入力してください(Aichiと入力してください)
             </p>

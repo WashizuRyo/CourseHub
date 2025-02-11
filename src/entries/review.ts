@@ -1,6 +1,5 @@
 'use server'
 
-import { OriginalReview } from '@/lib/definitions'
 import { attachUserReviewStatus } from '@/lib/functions'
 import {
   createReview as createReviewData,
@@ -10,15 +9,18 @@ import {
   fetchReviews,
   fetchReviewsCount,
   fetchUserReviews,
-  fetchUserReviewsCount,
   updateReview as udpateReviewData,
 } from '@/model/review'
 import { ReviewFormState } from '@/type/review'
 import { ReviewDataSchema } from '@/type/review/schema'
 import { auth } from '@@/auth'
+import { Reviews } from '@prisma/client'
 
 export async function loadUserReviews({ userId, page }: { userId: string; page: number }) {
-  const [reviews, count] = await Promise.all([fetchUserReviews({ userId, page }), fetchUserReviewsCount({ userId })])
+  const [reviews, count] = await Promise.all([
+    fetchUserReviews({ userId, page }),
+    fetchReviewsCount({ field: 'createdBy', value: userId }),
+  ])
   const reviewsWithUserMetadata = attachUserReviewStatus(reviews, userId)
 
   return { reviews: reviewsWithUserMetadata, count }
@@ -96,7 +98,7 @@ export async function createReview(
 }
 
 export async function updateReview(
-  { universityId, id: reviewId, createdBy }: OriginalReview,
+  { universityId, id: reviewId, createdBy }: Reviews,
   prevState: ReviewFormState,
   formData: FormData,
 ): Promise<ReviewFormState> {

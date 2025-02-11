@@ -1,9 +1,8 @@
 import { DEFAULT_SORT, PAGE_SIZE } from '@/lib/constants'
-import type { Review, ReviewWithMetadata, searchParmas } from '@/lib/definitions'
+import { searchParmas } from '@/type/common'
+import { Review, ReviewWithMetadata } from '@/type/review'
 
 export function getTotalPage(pageCount: number) {
-  if (pageCount <= 0) return 0
-  //　PAZE_SIZEで割り切れる場合と割り切れない場合でページ数を変更
   return pageCount % PAGE_SIZE === 0 ? pageCount / PAGE_SIZE : Math.floor(pageCount / PAGE_SIZE) + 1
 }
 

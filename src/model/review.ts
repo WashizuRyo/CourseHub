@@ -1,7 +1,6 @@
 import { PAGE_SIZE } from '@/lib/constants'
-import type { Review, ReviewWithIsLiked } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
-import { ReviewData } from '@/type/review'
+import { Review, ReviewData, ReviewWithIsLiked } from '@/type/review'
 import type { Reviews } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -122,50 +121,12 @@ export async function fetchUserReviews({ userId, page = 1 }: { userId: string; p
   return reviews
 }
 
-export async function fetchUserReviewsCount({ userId }: { userId: string }) {
-  return await prisma.reviews.count({
-    where: { createdBy: userId },
-  })
-}
-
 export async function fetchReviewsByUniversityId(universityId: number) {
   try {
     const data = await prisma.reviews.findMany({
       where: { universityId },
     })
     return data
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to fetch reviews')
-  }
-}
-
-export async function fetchReviewsByFaculty({
-  page,
-  sort,
-  faculty,
-}: {
-  page: number
-  sort: 'asc' | 'desc'
-  faculty: string
-}) {
-  try {
-    return await prisma.reviews.findMany({
-      skip: PAGE_SIZE * (page - 1),
-      take: PAGE_SIZE,
-      where: { faculty },
-      orderBy: { date: sort },
-      include: {
-        user: {
-          select: {
-            name: true,
-            image: true,
-            likes: true,
-          },
-        },
-        likes: true,
-      },
-    })
   } catch (error) {
     console.error('Database Error', error)
     throw new Error('Failed to fetch reviews')
@@ -182,7 +143,7 @@ export async function fetchReviews({
   sort: 'asc' | 'desc'
   field: keyof Reviews
   value: string
-}) {
+}): Promise<Review[]> {
   try {
     return await prisma.reviews.findMany({
       skip: PAGE_SIZE * (page - 1),
