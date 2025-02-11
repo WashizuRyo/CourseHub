@@ -1,5 +1,5 @@
 import UserAvatar from '@/components//universities/user-avatar/user-avatar'
-import '@/components/global.css'
+import '@/components/utils/global.css'
 import { inter, lusitana } from '@/fonts'
 import { auth } from '@@/auth'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'

@@ -1,7 +1,7 @@
-import '@/components/global.css'
 import UniversitySearchBarSkeleton from '@/components/skeletons/university-search-bar-skeleton'
 import UniversityLinkContainer from '@/components/universities/university-link'
 import UniversitySearchBar from '@/components/universities/UniversitySearchBar'
+import '@/components/utils/global.css'
 import { notosans } from '@/fonts'
 import { Suspense } from 'react'
 export default async function Page({
