@@ -25,18 +25,6 @@ export async function fetchUniversityByName(universityName: string) {
   }
 }
 
-export async function fetchUniversityByUniversityId(id: number) {
-  try {
-    const data = await prisma.university.findUnique({
-      where: { universityId: id },
-    })
-    return data
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to fetch university')
-  }
-}
-
 export async function fetchReviewsByUniversityId(universityId: number) {
   try {
     const data = await prisma.reviews.findMany({
@@ -52,8 +40,8 @@ export async function fetchReviewsByUniversityId(universityId: number) {
 export async function fetchReviewsByClassNameOrFaculty(
   className: string,
   page: number,
-  sort?: 'asc' | 'desc',
-  faculty?: string,
+  sort: 'asc' | 'desc',
+  faculty: string,
 ) {
   try {
     const data = await prisma.reviews.findMany({

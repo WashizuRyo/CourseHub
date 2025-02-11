@@ -1,6 +1,6 @@
-import { inter, lusitana } from '@/components//fonts'
 import UserAvatar from '@/components//universities/user-avatar/user-avatar'
 import '@/components/global.css'
+import { inter, lusitana } from '@/fonts'
 import { auth } from '@@/auth'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
 import { SessionProvider } from 'next-auth/react'

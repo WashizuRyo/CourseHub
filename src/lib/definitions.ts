@@ -26,8 +26,14 @@ export type OriginalReview = {
   isAnonymous: boolean
 }
 
-export type ReviewWithLike = Review & {
-  user: User
+export type ReviewWithMetadata = Review & {
+  // user: User
+  isLiked: boolean
+  isAuthor: boolean
+}
+
+export type ReviewWithIsLiked = Review & {
+  // user: User
   isLiked: boolean
 }
 
@@ -37,12 +43,12 @@ export type User = {
 }
 
 export type likedReviewsAndCount = {
-  likedReviewByUserIdWithIsLikedTrue: ReviewWithLike[]
+  likedReviewByUserIdWithIsLikedTrue: ReviewWithMetadata[]
   likedReviewCountByUserId: number
 }
 
 export type ReviewsAndCount = {
-  reviewsByUserId: ReviewWithLike[]
+  reviewsByUserId: ReviewWithMetadata[]
   reviewCountByUserId: number
 }
 
@@ -59,8 +65,8 @@ export type University = {
 } | null
 
 export type searchParmas = {
-  className?: string
-  page: string
-  sort?: 'asc' | 'desc'
-  faculty?: string
+  className: string
+  page: number
+  sort: 'asc' | 'desc'
+  faculty: string
 }

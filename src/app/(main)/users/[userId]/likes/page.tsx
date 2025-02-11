@@ -1,5 +1,5 @@
+import ReviewList from '@/components/review/ReviewList'
 import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
-import ReviewTemplate from '@/components/universities/review-template'
 import { loadLikedReviews } from '@/entries/review'
 import { auth } from '@@/auth'
 import { Suspense } from 'react'
@@ -37,5 +37,5 @@ async function Reviews({ userId, page }: { userId: string; page: number }) {
     return <div className='m-4 text-center text-xl'>いいねをするとレビューが表示されます</div>
   }
 
-  return <ReviewTemplate userId={userId} reviews={reviews} hitCount={count} />
+  return <ReviewList reviews={reviews} hitCount={count} />
 }

@@ -1,6 +1,5 @@
-import { DEFAULT_CLASS_NAME, DEFAULT_FACULTY_NAME, DEFAULT_SORT, PAGE_SIZE } from '@/lib/constants'
-import type { Review, ReviewWithLike, searchParmas } from '@/lib/definitions'
-import type { Session } from 'next-auth'
+import { DEFAULT_SORT, PAGE_SIZE } from '@/lib/constants'
+import type { Review, ReviewWithMetadata, searchParmas } from '@/lib/definitions'
 
 export function getTotalPage(pageCount: number) {
   if (pageCount <= 0) return 0
@@ -9,24 +8,18 @@ export function getTotalPage(pageCount: number) {
 }
 
 export function getQueryParams(searchParams: searchParmas) {
-  // QueryParamsを取得
-  const className = searchParams.className || DEFAULT_CLASS_NAME
+  const className = searchParams.className
   const currentPage = Number(searchParams.page)
   const sort = searchParams.sort || DEFAULT_SORT
-  const faculty = searchParams.faculty || DEFAULT_FACULTY_NAME
+  const faculty = searchParams.faculty
 
   return { className, currentPage, sort, faculty }
 }
 
-export function getAddedIsLikedFieldToReviews(reviews: Review[], session: Session | null): ReviewWithLike[] {
-  const reviewsAddedIsLiked = reviews.map((review) => {
-    // レビューをいいねした人の中にsession?.user?.idがあったらtrueを返す
-    // booleanがわかればいいのでmapではなくsomeを使用
-    const isLiked = review.likes?.some((like) => like.userId === session?.user?.id) || false
-
-    // 新しいオブジェクトを返す
-    return { ...review, isLiked }
-  })
-
-  return reviewsAddedIsLiked
+export function attachUserReviewStatus(reviews: Review[], userId: string): ReviewWithMetadata[] {
+  return reviews.map((review) => ({
+    ...review,
+    isLiked: review.likes?.some((like) => like.userId === userId) || false,
+    isAuthor: review.createdBy === userId,
+  }))
 }

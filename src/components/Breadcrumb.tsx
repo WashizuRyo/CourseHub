@@ -1,4 +1,4 @@
-import { notosans } from '@/components/fonts'
+import { notosans } from '@/fonts'
 import clsx from 'clsx'
 import Link from 'next/link'
 
