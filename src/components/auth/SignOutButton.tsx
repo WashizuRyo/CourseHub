@@ -1,5 +1,5 @@
 'use client'
-import { singOut } from '@/lib/actions'
+import { singOut } from '@/lib/auth-utils'
 
 export default function SignOut() {
   return (
