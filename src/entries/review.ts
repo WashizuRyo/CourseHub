@@ -10,7 +10,6 @@ import {
   fetchReviews,
   fetchReviewsCount,
   fetchUserReviews,
-  fetchUserReviewsCount,
   updateReview as udpateReviewData,
 } from '@/model/review'
 import { ReviewFormState } from '@/type/review'
@@ -18,7 +17,10 @@ import { ReviewDataSchema } from '@/type/review/schema'
 import { auth } from '@@/auth'
 
 export async function loadUserReviews({ userId, page }: { userId: string; page: number }) {
-  const [reviews, count] = await Promise.all([fetchUserReviews({ userId, page }), fetchUserReviewsCount({ userId })])
+  const [reviews, count] = await Promise.all([
+    fetchUserReviews({ userId, page }),
+    fetchReviewsCount({ field: 'createdBy', value: userId }),
+  ])
   const reviewsWithUserMetadata = attachUserReviewStatus(reviews, userId)
 
   return { reviews: reviewsWithUserMetadata, count }

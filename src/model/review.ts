@@ -122,12 +122,6 @@ export async function fetchUserReviews({ userId, page = 1 }: { userId: string; p
   return reviews
 }
 
-export async function fetchUserReviewsCount({ userId }: { userId: string }) {
-  return await prisma.reviews.count({
-    where: { createdBy: userId },
-  })
-}
-
 export async function fetchReviewsByUniversityId(universityId: number) {
   try {
     const data = await prisma.reviews.findMany({
