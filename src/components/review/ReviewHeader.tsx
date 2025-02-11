@@ -1,4 +1,4 @@
-import Breadcrumb from '@/components/Breadcrumb'
+import Breadcrumb from '@/components/utils/Breadcrumb'
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 

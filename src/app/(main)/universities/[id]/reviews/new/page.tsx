@@ -1,7 +1,7 @@
-import Breadcrumb from '@/components/Breadcrumb'
 import { Form as ReviewNewForm } from '@/components/review/Form'
-import Spinner from '@/components/Spinner'
-import { createReview } from '@/lib/actions'
+import Breadcrumb from '@/components/utils/Breadcrumb'
+import Spinner from '@/components/utils/Spinner'
+import { createReview } from '@/entries/review'
 import { auth } from '@@/auth'
 import { Suspense } from 'react'
 

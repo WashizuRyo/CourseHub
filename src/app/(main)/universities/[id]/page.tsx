@@ -1,7 +1,7 @@
 import ReviewHeader from '@/components/review/ReviewHeader'
 import ReviewSearch from '@/components/review/ReviewSearch'
 import Reviews from '@/components/review/ReviewsPage'
-import Spinner from '@/components/Spinner'
+import Spinner from '@/components/utils/Spinner'
 import type { searchParmas } from '@/lib/definitions'
 import { fetchUniversity } from '@/model/university'
 import { notFound } from 'next/navigation'
