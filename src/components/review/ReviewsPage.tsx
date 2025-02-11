@@ -4,7 +4,7 @@ import { loadReviews } from '@/entries/review'
 import type { searchParmas } from '@/lib/definitions'
 import { getQueryParams } from '@/lib/functions'
 import { Suspense } from 'react'
-import NotFound from '../universities/not-found'
+import NotFound from '../utils/NotFound'
 
 export default function Reviews({ searchParams }: { searchParams: searchParmas }) {
   if (Object.keys(searchParams).length === 0) {

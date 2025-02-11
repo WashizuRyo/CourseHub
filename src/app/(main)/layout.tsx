@@ -1,28 +1,28 @@
-import UserAvatar from '@/components//universities/user-avatar/user-avatar'
+import SessionUserAvatar from '@/components/user/SessionUserAvatar'
 import '@/components/utils/global.css'
 import { inter, lusitana } from '@/fonts'
-import { auth } from '@@/auth'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
 import { SessionProvider } from 'next-auth/react'
 import Link from 'next/link'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth()
   return (
     <html>
       <body>
-        <header className={`${inter.className} antialiased`}>
-          <div className='flex justify-between bg-slate-100 shadow'>
-            <Link href='/' className='ml-2 flex items-center'>
-              <div className={`${lusitana.className} flex items-center`}>
-                <AcademicCapIcon className='size-12' />
-                <p className='ml-3 text-3xl'>CourseHub</p>
-              </div>
-            </Link>
-            <UserAvatar session={session} />
-          </div>
-        </header>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider>
+          <header className={`${inter.className} antialiased`}>
+            <div className='flex justify-between bg-slate-100 shadow'>
+              <Link href='/' className='ml-2 flex items-center'>
+                <div className={`${lusitana.className} flex items-center`}>
+                  <AcademicCapIcon className='size-12' />
+                  <p className='ml-3 text-3xl'>CourseHub</p>
+                </div>
+              </Link>
+              <SessionUserAvatar />
+            </div>
+          </header>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   )
