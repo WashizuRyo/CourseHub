@@ -140,38 +140,6 @@ export async function fetchReviewsByUniversityId(universityId: number) {
   }
 }
 
-export async function fetchReviewsByFaculty({
-  page,
-  sort,
-  faculty,
-}: {
-  page: number
-  sort: 'asc' | 'desc'
-  faculty: string
-}) {
-  try {
-    return await prisma.reviews.findMany({
-      skip: PAGE_SIZE * (page - 1),
-      take: PAGE_SIZE,
-      where: { faculty },
-      orderBy: { date: sort },
-      include: {
-        user: {
-          select: {
-            name: true,
-            image: true,
-            likes: true,
-          },
-        },
-        likes: true,
-      },
-    })
-  } catch (error) {
-    console.error('Database Error', error)
-    throw new Error('Failed to fetch reviews')
-  }
-}
-
 export async function fetchReviews({
   page,
   sort,
