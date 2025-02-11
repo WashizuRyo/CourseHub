@@ -1,7 +1,8 @@
 import { StarIcon } from '@heroicons/react/24/solid'
 
-export const StarNumber = ({ starNumber }: { starNumber: number }) => {
-  const stars = Array.from({ length: 5 }, (_, i) => i + 1)
+const stars = [1, 2, 3, 4, 5]
+
+export const Star = ({ starNumber }: { starNumber: number }) => {
   return (
     <>
       {stars.map((value, index) => (
