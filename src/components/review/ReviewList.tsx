@@ -1,5 +1,5 @@
 import Pagination from '@/components/Pagination'
-import { Review } from '@/components/review/Review1'
+import { Review } from '@/components/review/Review'
 import type { ReviewWithMetadata } from '@/lib/definitions'
 
 export default function ReviewList({ reviews, hitCount }: { reviews: ReviewWithMetadata[]; hitCount: number }) {
