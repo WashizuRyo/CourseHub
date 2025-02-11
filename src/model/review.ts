@@ -216,3 +216,17 @@ export async function fetchReviewsCount({ field, value }: { field: keyof Reviews
     throw new Error('Failed to fetch review count')
   }
 }
+
+export async function deleteReview({ reviewId, userId }: { reviewId: number; userId: string }) {
+  try {
+    await prisma.reviews.delete({
+      where: { id: reviewId },
+    })
+  } catch (error) {
+    console.error(error)
+    throw new Error('Database Error: Failed to Delete Review')
+  }
+
+  revalidatePath(`/users/${userId}/reviews`)
+  redirect(`/users/${userId}/reviews`)
+}

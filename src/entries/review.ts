@@ -4,6 +4,7 @@ import { OriginalReview } from '@/lib/definitions'
 import { attachUserReviewStatus } from '@/lib/functions'
 import {
   createReview as createReviewData,
+  deleteReview as deleteReviewData,
   fetchLikedReviews,
   fetchLikedReviewsCount,
   fetchReviews,
@@ -125,4 +126,13 @@ export async function updateReview(
   }
 
   return await udpateReviewData({ formData: validatedFields.data, universityId, reviewId })
+}
+
+export async function deleteReview({ reviewId }: { reviewId: number }) {
+  const session = await auth()
+  if (!session?.user?.id) {
+    throw new Error('ログインしてください')
+  }
+
+  await deleteReviewData({ reviewId, userId: session.user.id })
 }
