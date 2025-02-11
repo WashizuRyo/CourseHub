@@ -4,7 +4,7 @@ import { Star } from '@/components/review/Star'
 import { DefaultUserAvatar } from '@/components/user/DefaultUserAvatar'
 import { UserImage } from '@/components/user/UserImage'
 import { DEFAULT_NAME } from '@/lib/constants'
-import type { ReviewWithMetadata } from '@/lib/definitions'
+import { ReviewWithMetadata } from '@/type/review'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 

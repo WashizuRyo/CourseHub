@@ -1,8 +1,8 @@
 import ReviewList from '@/components/review/ReviewList'
 import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
 import { loadReviews } from '@/entries/review'
-import type { searchParmas } from '@/lib/definitions'
 import { getQueryParams } from '@/lib/functions'
+import { searchParmas } from '@/type/common'
 import { Suspense } from 'react'
 import NotFound from '../utils/NotFound'
 

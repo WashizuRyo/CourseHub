@@ -1,9 +1,9 @@
 'use client'
 
 import SubmitButton from '@/components/utils/SubmitButton'
-import type { OriginalReview } from '@/lib/definitions'
 import { ReviewFormState } from '@/type/review'
 import { StarIcon } from '@heroicons/react/24/solid'
+import { Reviews } from '@prisma/client'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useFormState } from 'react-dom'
@@ -22,7 +22,7 @@ export function Form({
 }: {
   universityId: string
   userName: string | null | undefined
-  review?: OriginalReview
+  review?: Reviews
   onSubmit: (prevState: ReviewFormState, formData: FormData) => Promise<ReviewFormState>
 }) {
   const [state, formAction] = useFormState(onSubmit, initialState)

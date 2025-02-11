@@ -1,7 +1,6 @@
 import { PAGE_SIZE } from '@/lib/constants'
-import type { Review, ReviewWithIsLiked } from '@/lib/definitions'
 import { prisma } from '@/lib/prisma'
-import { ReviewData } from '@/type/review'
+import { Review, ReviewData, ReviewWithIsLiked } from '@/type/review'
 import type { Reviews } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -144,7 +143,7 @@ export async function fetchReviews({
   sort: 'asc' | 'desc'
   field: keyof Reviews
   value: string
-}) {
+}): Promise<Review[]> {
   try {
     return await prisma.reviews.findMany({
       skip: PAGE_SIZE * (page - 1),
