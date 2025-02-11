@@ -14,6 +14,14 @@ export default async function LikedReviewsPage({
   const { userId } = params
   const page = searchParams.page ? Number(searchParams.page) : 1
 
+  return (
+    <Suspense key={page} fallback={<ReviewsSkeleton />}>
+      <Reviews userId={userId} page={page} />
+    </Suspense>
+  )
+}
+
+async function Reviews({ userId, page }: { userId: string; page: number }) {
   const session = await auth()
   const sessionUserId = session?.user?.id
   if (!sessionUserId) {
@@ -23,14 +31,6 @@ export default async function LikedReviewsPage({
     return <div className='mt-3 text-center text-3xl font-bold'>権限がありません</div>
   }
 
-  return (
-    <Suspense key={page} fallback={<ReviewsSkeleton />}>
-      <Reviews userId={userId} page={page} />
-    </Suspense>
-  )
-}
-
-async function Reviews({ userId, page }: { userId: string; page: number }) {
   const { reviews, count } = await loadLikedReviews({ userId, page })
 
   if (count === 0) {
