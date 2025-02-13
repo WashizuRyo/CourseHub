@@ -104,3 +104,7 @@ https://coursehuber.vercel.app</h1><br>
     </tr>
   </tbody>
 </table>
+
+# データベース構造
+![image](https://github.com/user-attachments/assets/4de00294-f971-4fc5-a6ca-62c0ce0708fa)
+
