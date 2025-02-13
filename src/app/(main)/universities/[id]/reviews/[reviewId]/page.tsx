@@ -5,8 +5,13 @@ import Spinner from '@/components/utils/Spinner'
 import { updateReview } from '@/entries/review'
 import fetchReview from '@/model/review'
 import { auth } from '@@/auth'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+  title: 'レビュー編集',
+}
 
 export default async function ReviewEditPage({ params }: { params: { reviewId: string; id: string } }) {
   return (

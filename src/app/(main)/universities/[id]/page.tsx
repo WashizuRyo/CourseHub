@@ -4,8 +4,13 @@ import Reviews from '@/components/review/ReviewsPage'
 import Spinner from '@/components/utils/Spinner'
 import { fetchUniversity } from '@/model/university'
 import { searchParmas } from '@/type/common'
+import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+  title: 'レビュー検索',
+}
 
 export default async function ReviewPage({
   params,

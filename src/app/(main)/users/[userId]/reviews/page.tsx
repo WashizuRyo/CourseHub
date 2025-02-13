@@ -2,7 +2,12 @@ import ReviewList from '@/components/review/ReviewList'
 import ReviewsSkeleton from '@/components/skeletons/ReviewsSkeleton'
 import { loadUserReviews } from '@/entries/review'
 import { auth } from '@@/auth'
+import { Metadata } from 'next'
 import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+  title: '投稿したレビュー',
+}
 
 export default async function ReviewsPage({
   params,

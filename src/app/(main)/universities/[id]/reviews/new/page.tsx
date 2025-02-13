@@ -3,7 +3,12 @@ import Breadcrumb from '@/components/utils/Breadcrumb'
 import Spinner from '@/components/utils/Spinner'
 import { createReview } from '@/entries/review'
 import { auth } from '@@/auth'
+import { Metadata } from 'next'
 import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+  title: 'レビュー新規作成',
+}
 
 export default function ReviewNewPage({ params }: { params: { id: string } }) {
   const { id: universityId } = params

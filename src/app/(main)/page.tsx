@@ -2,6 +2,11 @@ import UniversityLink from '@/components/universities/UniversityLink'
 import UniversitySearchBar from '@/components/universities/UniversitySearchBar'
 import '@/components/utils/global.css'
 import { notosans } from '@/fonts'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'CourseHub',
+}
 export default async function Page({
   searchParams,
 }: {

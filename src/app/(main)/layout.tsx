@@ -2,8 +2,17 @@ import SessionUserAvatar from '@/components/user/SessionUserAvatar'
 import '@/components/utils/global.css'
 import { inter, lusitana } from '@/fonts'
 import { AcademicCapIcon } from '@heroicons/react/24/outline'
+import { Metadata } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | CourseHub',
+    default: 'CourseHub',
+  },
+  description: 'CourseHub is a platform for students to find and share course reviews.',
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
